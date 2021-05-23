@@ -1,27 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, StatusBar, Platform, View } from 'react-native';
+import TopBar from './Appbar.js';
+import Content from './Content.js'
+import BotNav from './BottomNavigation.js';
 
 export default function App() {
-  const myString = "Hello, World!"
+  const paddingValue = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+
   return (
-    <View style={{ borderColor: "black", borderWidth: 1 }}>
-      <View style={{ backgroundColor: "blue", height: 50, width: 50 }}>
-        <Text>This is my first React Native App!</Text>
-        <StatusBar style="auto" />
+    <SafeAreaView style={[styles.main, { paddingTop: paddingValue }]}>
+      <View>
+        <TopBar />
       </View>
-      <View style={{ backgroundColor: "red", height: 50, width: 50 }}>
-        <Text>{myString}</Text>
+      <View>
+        <Content />
       </View>
-    </View>
+      <View>
+        <BotNav />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  main: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: 'space-between',
+  }
+})
