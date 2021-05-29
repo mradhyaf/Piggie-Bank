@@ -6,8 +6,7 @@ import Price from './Price';
 const MyComponent = ({ item }) => (
   <List.Item
     title={item.title}
-    description={item.category}
-    right={Price}
+    description={item.price}
   />
 );
 

@@ -8,7 +8,7 @@ export default (props) => {
       <FlatList
         data={props.history}
         renderItem={ExpenseHistoryItem}
-        keyExtractor={(item => item.title)}
+        keyExtractor={(item => item.id)}
       />
     </View>
   )
