@@ -1,23 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView, StatusBar, Platform, View } from 'react-native';
-import TopBar from './Appbar.js';
-import Content from './Content.js'
-import BotNav from './BottomNavigation.js';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
+import ExpensesScreen from './src/ExpensesScreen';
 
 export default function App() {
   const paddingValue = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
 
   return (
     <SafeAreaView style={[styles.main, { paddingTop: paddingValue }]}>
-      <View>
-        <TopBar />
-      </View>
-      <View>
-        <Content />
-      </View>
-      <View>
-        <BotNav />
-      </View>
+      <ExpensesScreen />
     </SafeAreaView>
   );
 }
