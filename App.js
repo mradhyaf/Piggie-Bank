@@ -1,20 +1,21 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
-import ExpensesScreen from './src/ExpensesScreen';
+import ExpensesScreen from './Screens/ExpensesScreen';
+import LoginScreen from './Screens/LoginScreen';
+import SignUp from './Screens/SignUp';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 export default function App() {
-  const paddingValue = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
-
   return (
-    <SafeAreaView style={[styles.main, { paddingTop: paddingValue }]}>
-      <ExpensesScreen />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Expenses" component={ExpensesScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    justifyContent: 'space-between',
-  }
-})
+const Stack = createStackNavigator();

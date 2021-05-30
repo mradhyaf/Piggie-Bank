@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import CategoryInput from './components/CategoryInput';
-import DateInput from './components/DateInput';
-import ExpenseHistory from './components/ExpenseHistory'
-import ItemNameInput from './components/ItemNameInput';
-import PriceInput from "./components/PriceInput";
-import SubmitButton from './components/SubmitButton';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
+import CategoryInput from '../src/components/CategoryInput';
+import DateInput from '../src/components/DateInput';
+import ExpenseHistory from '../src/components/ExpenseHistory'
+import ItemNameInput from '../src/components/ItemNameInput';
+import PriceInput from "../src/components/PriceInput";
+import SubmitButton from '../src/components/SubmitButton';
 
 
 export default function ExpensesScreen() {
@@ -23,14 +23,14 @@ export default function ExpensesScreen() {
   }
 
   return (
-    <View>
+    <SafeAreaView style={[styles.main, { paddingTop: paddingValue }]}>
       <ItemNameInput itemName={itemName} setItemName={setItemName} />
       <PriceInput price={price} setPrice={setPrice} /> 
       {/* <CategoryInput category={category} setCategory={setCategory} /> */}
       {/* <DateInput date={date} setDate={setDate} /> */}
       <SubmitButton onSubmit={onSubmit} />
       <ExpenseHistory history={history} />
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -48,3 +48,12 @@ const DATA = [
     price: 14,
   }
 ]
+
+const paddingValue = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: 'space-between',
+  }
+})
