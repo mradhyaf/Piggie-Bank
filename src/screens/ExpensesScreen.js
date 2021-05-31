@@ -1,15 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
+import { isSignedIn, signOut } from '../../api/auth';
 import ExpenseHistory from '../components/ExpenseHistory';
 import SubmitButton from '../components/SubmitButton';
 
 
-export default function ExpensesScreen() {
+export default function ExpensesScreen({ navigation }) {
   const [item, setItem] = React.useState('');
   const [price, setPrice] = React.useState(0);
   const [history, setHistory] = React.useState(DATA);
   const itemRef = useRef();
   const priceRef = useRef();
+
+  const handleSignOut = () => {
+    console.log('SIGN OUT pressed');
+    signOut(() => console.log('SIGNED OUT'), console.error);
+    navigation.navigate('Login')
+  }
 
   const handleSubmit = () => {
     const newExpense = { title: item, price: price }
@@ -39,6 +46,10 @@ export default function ExpensesScreen() {
       </View> 
       <SubmitButton onPress={handleSubmit} />
       <ExpenseHistory history={history} />
+      <Button
+         title="SIGN OUT"
+         onPress={handleSignOut}
+        />    
     </SafeAreaView>
   )
 }
