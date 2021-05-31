@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
       <Text>login</Text>
       <TextInput
           style={[styles.input, { backgroundColor: 'green' }]}
-          placeholder={'Username'}
+          placeholder={'Email'}
           // ref={emailRef}
           value={email}
           onChangeText={setEmail}
@@ -41,12 +41,12 @@ export default function LoginScreen({ navigation }) {
          title="LOG IN"
          onPress={handleSignIn}
         />      
-      <Button
+      {/* <Button
          title="Go to Expenses"
          onPress={() => navigation.navigate('Expenses')}
-       />
+       /> */}
       <Button
-        title="Go to SignUp"
+        title="CREATE AN ACCOUNT"
         onPress={() => navigation.navigate('SignUp')}
       />
     </SafeAreaView>
