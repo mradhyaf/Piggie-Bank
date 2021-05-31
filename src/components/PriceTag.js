@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default () => {
+export default ({ value }) => {
   return (
     <View>
       <Text>SGD </Text>
-      <Text>0</Text>
+      <Text>{value}</Text>
     </View>
   )
 }

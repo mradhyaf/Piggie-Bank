@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
-import ExpensesScreen from './src/ExpensesScreen';
+import ExpensesScreen from './src/screens/ExpensesScreen';
 
 export default function App() {
   const paddingValue = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
