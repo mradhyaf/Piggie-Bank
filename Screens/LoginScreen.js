@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 
 export default function LoginScreen({navigation}) {
   return (
