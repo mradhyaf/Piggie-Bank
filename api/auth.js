@@ -3,7 +3,7 @@ import firebase from "./firebase";
 const auth = firebase.auth();
 
 export const signIn = ({ email, password }, onError) => {
-  auth.signInWithEmailAndPassword(email, password)
+  auth.signInWithEmailAndPassword(email, password)git
   .then((userCredential) => {
     const user = userCredential.user;
     return user;
