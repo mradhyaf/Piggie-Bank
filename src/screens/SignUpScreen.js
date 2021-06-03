@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingValue: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   input: {
     height: 100,
