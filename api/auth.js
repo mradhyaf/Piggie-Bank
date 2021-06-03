@@ -11,6 +11,14 @@ export const signIn = async ({ email, password }, onSuccess, onError) => {
   }
 }
 
+export const signUp = async ({ email, password }, onSuccess, onError) => {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    return onSuccess(userCredential.user);
+  } catch (error) {
+    return onError(error);
+  }
+}
 
 export const signOut = async (onSuccess, onError) => {
   try {
