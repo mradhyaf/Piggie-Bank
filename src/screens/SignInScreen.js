@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
-    signIn(userDetails, console.log, console.error);
+    signIn(userDetails, () => navigation.navigate("Expenses"), alert);
     console.log('Sign In pressed');
     console.log(currentUser().uid);
     console.log("Wrong Credentials");  
@@ -43,6 +43,9 @@ export default function LoginScreen({ navigation }) {
         </Button>      
         <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
           CREATE AN ACCOUNT
+        </Button>
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.navigate('Reset')}>
+          RESET PASSWORD
         </Button>
       </View>
     </SafeAreaView>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { getCurrentUserId, isSignedIn, signIn, signUp } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
@@ -8,15 +9,9 @@ export default function SignUp({ navigation }) {
 
   const handleSignUp = () => {
     const userDetails = { email: email, password: password };
-    signUp(userDetails, console.error);
-    signIn(userDetails, console.error);
+    signUp(userDetails, () => navigation.navigate("Expenses"), alert);
     console.log('Sign Up pressed');
     console.log(getCurrentUserId());
-    if(isSignedIn()) {
-      navigation.navigate("Expenses")
-     } else {
-      console.log("Try Again or Try Logging in from Log in screen");
-     }   
   }
 
   return (
@@ -61,6 +56,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 100,
-    width: 400,
+    width: 300,
   }
 })

@@ -43,9 +43,9 @@ export default function ExpensesScreen({ navigation }) {
           ref={priceRef}
           onChangeText={setPrice}
         />        
-      </View> 
-      <SubmitButton onPress={handleSubmit} />
+      </View>
       <ExpenseHistory history={history} />
+      <SubmitButton onPress={handleSubmit} />
       <Button
          title="SIGN OUT"
          onPress={handleSignOut}
@@ -60,10 +60,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input : {
-    flex: 1,
     justifyContent: 'space-around',
     backgroundColor: 'red',
-    padding: 20
+    padding: 20,
   },
 })
 
