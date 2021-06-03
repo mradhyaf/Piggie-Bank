@@ -32,11 +32,11 @@ export default ({ history }) => {
 const styles = StyleSheet.create({
   list: {
     backgroundColor: 'red',
-    padding: 50
+    padding: 20
   },
   item: {
     backgroundColor: 'blue',
-    padding: 20
+    padding: 50
   },
   title: {
     backgroundColor: 'green'

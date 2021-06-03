@@ -1,22 +1,20 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { getCurrentUserId, isSignedIn, signIn, signUp } from '../../api/auth';
+import { resetEmail } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
 
-  const handleSignUp = () => {
-    const userDetails = { email: email, password: password };
-    signUp(userDetails, () => navigation.navigate("Expenses"), alert);
-    console.log('Sign Up pressed');
-    console.log(getCurrentUserId());
+  const sendReset = () => {
+    const userDetails = { email: email };
+    resetEmail(userDetails);
+    console.log('Reset mail sent');
   }
 
   return (
     <SafeAreaView style={styles.main}>
-      <Text>Sign Up</Text>
+      <Text>Reset</Text>
       <TextInput
           style={[styles.input, { backgroundColor: 'green' }]}
           placeholder={'Email'}
@@ -24,21 +22,10 @@ export default function SignUp({ navigation }) {
           value={email}
           onChangeText={setEmail}
       />
-      <TextInput
-        style={[styles.input, { backgroundColor: 'yellow' }]}
-        placeholder={'Password'}
-        // ref={passwordRef}
-        value={password}
-        onChangeText={setPassword}
-      />
       <Button
-         title="SIGN UP"
-         onPress={handleSignUp}
-        />      
-      {/* <Button
-         title="Go to Expenses"
-         onPress={() => navigation.navigate('Expenses')}
-       /> */}
+         title="SEND RESET EMAIL"
+         onPress={sendReset}
+        />
       <Button
         title="LOGIN PAGE"
         onPress={() => navigation.navigate('Login')}
