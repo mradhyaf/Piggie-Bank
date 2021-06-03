@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button, TextInput } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
+import { Button, Headline, TextInput } from 'react-native-paper';
 import { signIn, getCurrentUserId, isSignedIn } from '../../api/auth';
 
 export default function LoginScreen({ navigation }) {
@@ -10,7 +11,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
-    signIn(userDetails, console.error);
+    signIn(userDetails, console.log, console.error);
     console.log('Sign In pressed');
     console.log(getCurrentUserId());
     if(isSignedIn()) {
@@ -22,33 +23,33 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.main}>
-      <Text>login</Text>
-      <TextInput
-          style={[styles.input, { backgroundColor: 'green' }]}
-          placeholder={'Email'}
-          // ref={emailRef}
-          value={email}
-          onChangeText={setEmail}
-      />
-      <TextInput
-        style={[styles.input, { backgroundColor: 'yellow' }]}
-        placeholder={'Password'}
-        // ref={passwordRef}
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button
-         title="LOG IN"
-         onPress={handleSignIn}
-        />      
-      {/* <Button
-         title="Go to Expenses"
-         onPress={() => navigation.navigate('Expenses')}
-       /> */}
-      <Button
-        title="CREATE AN ACCOUNT"
-        onPress={() => navigation.navigate('SignUp')}
-      />
+      <View>
+        <Headline>Get insights from your monthly expenses</Headline>
+      </View>
+      <View>
+        <TextInput
+            mode={'outlined'}
+            style={styles.input}
+            placeholder={'Email'}
+            // ref={emailRef}
+            value={email}
+            onChangeText={setEmail}
+        />
+        <TextInput
+          mode={'outlined'}
+          style={styles.input}
+          placeholder={'Password'}
+          // ref={passwordRef}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
+          LOG IN
+        </Button>      
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+          CREATE AN ACCOUNT
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -56,12 +57,18 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    paddingValue: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   input: {
-    height: 100,
-    width: 400,
+    flex: 1,
+    justifyContent: 'space-around',
+    padding: 5
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'space-around',
+    padding: 5
   }
 })
