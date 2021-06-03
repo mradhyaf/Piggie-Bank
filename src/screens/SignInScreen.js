@@ -7,6 +7,7 @@ import { signIn, isSignedIn, currentUser } from '../../api/auth';
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
@@ -37,6 +38,8 @@ export default function LoginScreen({ navigation }) {
           // ref={passwordRef}
           value={password}
           onChangeText={setPassword}
+          secureTextEntry={true}
+          right={<TextInput.Icon name="eye" />}
         />
         <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
           LOG IN

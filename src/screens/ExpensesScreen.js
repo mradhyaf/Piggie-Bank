@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import { isSignedIn, signOut } from '../../api/auth';
 import ExpenseHistory from '../components/ExpenseHistory';
 import SubmitButton from '../components/SubmitButton';
@@ -15,7 +16,6 @@ export default function ExpensesScreen({ navigation }) {
   const handleSignOut = () => {
     console.log('SIGN OUT pressed');
     signOut(() => console.log('SIGNED OUT'), console.error);
-    navigation.navigate('Login')
   }
 
   const handleSubmit = () => {
@@ -27,16 +27,14 @@ export default function ExpensesScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container} >
-      <View>
-        <TextInput 
+    <View>
+      <View style={styles.inputs}>
+        <TextInput
           style={styles.input}
           placeholder={'Item'}
           ref={itemRef}
           onChangeText={setItem}
-        />
-      </View>
-      <View>
+          />
         <TextInput
           style={styles.input}
           placeholder={'Price'}
@@ -45,25 +43,41 @@ export default function ExpensesScreen({ navigation }) {
         />        
       </View>
       <ExpenseHistory history={history} />
-      <SubmitButton onPress={handleSubmit} />
-      <Button
-         title="SIGN OUT"
-         onPress={handleSignOut}
-        />    
-    </SafeAreaView>
+      <View style={styles.buttons}>
+        <Button
+          style={styles.button}
+          mode={'outlined'}
+          onPress={handleSubmit}
+          >SUBMIT</Button>
+        <Button
+          style={styles.button}
+          mode={'outlined'}
+          onPress={handleSignOut}
+          >SIGN OUT</Button>
+      </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  input : {
-    justifyContent: 'space-around',
-    backgroundColor: 'red',
-    padding: 20,
+  inputs : {
+    margin: 10,
   },
+  input: {
+    margin: 5
+  },
+  buttons: {
+    flexDirection: 'row' ,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button: {
+    margin: 5,
+  }
 })
 
 const DATA = [

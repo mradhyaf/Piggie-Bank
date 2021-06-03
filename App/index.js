@@ -10,7 +10,7 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        {currentUser() ? <AuthStack /> : <FeatureStack />}
+        <AuthStack />
       </NavigationContainer>
     </PaperProvider>
   );

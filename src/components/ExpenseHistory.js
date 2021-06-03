@@ -5,9 +5,6 @@ import PriceTag from './PriceTag';
 
 export default ({ history }) => {
   const renderItem = ({ item }) => (
-    // <View style={styles.item}>
-    //   <Text style={styles.title}>{item.title}</Text>
-    // </View>
     <List.Item
     style={styles.item}
     title={item.title}
@@ -35,8 +32,8 @@ const styles = StyleSheet.create({
     padding: 20
   },
   item: {
-    backgroundColor: 'blue',
-    padding: 50
+    margin: 5,
+    borderColor: 'black'
   },
   title: {
     backgroundColor: 'green'
