@@ -1,12 +1,12 @@
 import firebase from "./firebase";
 
-const auth = firebase.auth();
+export const auth = firebase.auth();
 
-export const currentUser = auth.onAuthStateChanged((user) => {
+export const setOnAuthStateChanged = (onSignedIn, onSignedOut) => auth.onAuthStateChanged((user) => {
   if (user) {
-    return user.uid;
+    return onSignedIn(user);
   } else {
-    return null;
+    return onSignedOut();
   }
 });
 
@@ -48,7 +48,5 @@ export const resetEmail = ({email}) => {
         alert(error.message);
         });
     }
-
-export const isSignedIn = () => auth.currentUser ? true : false;
 
 export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;

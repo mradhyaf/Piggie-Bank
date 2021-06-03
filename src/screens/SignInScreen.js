@@ -12,9 +12,6 @@ export default function LoginScreen({ navigation }) {
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
     signIn(userDetails, () => navigation.navigate("Expenses"), alert);
-    console.log('Sign In pressed');
-    console.log(currentUser().uid);
-    console.log("Wrong Credentials");  
   }
 
   return (
