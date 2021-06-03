@@ -1,24 +1,19 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
 import { Button, Headline, TextInput } from 'react-native-paper';
-import { signIn, getCurrentUserId, isSignedIn } from '../../api/auth';
+
+import { signIn, isSignedIn, currentUser } from '../../api/auth';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  // const emailRef = React.useRef('');
-  // const passwordRef = React.useRef('');
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
     signIn(userDetails, console.log, console.error);
     console.log('Sign In pressed');
-    console.log(getCurrentUserId());
-    if(isSignedIn()) {
-      navigation.navigate("Expenses")
-     } else {
-      console.log("Wrong Credentials");
-     }   
+    console.log(currentUser().uid);
+    console.log("Wrong Credentials");  
   }
 
   return (
@@ -46,7 +41,7 @@ export default function LoginScreen({ navigation }) {
         <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
           LOG IN
         </Button>      
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
           CREATE AN ACCOUNT
         </Button>
       </View>
@@ -64,11 +59,11 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     justifyContent: 'space-around',
-    padding: 5
+    margin: 1
   },
   button: {
     flex: 1,
     justifyContent: 'space-around',
-    padding: 5
+    margin: 1
   }
 })

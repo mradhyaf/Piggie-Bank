@@ -2,6 +2,14 @@ import firebase from "./firebase";
 
 const auth = firebase.auth();
 
+export const currentUser = auth.onAuthStateChanged((user) => {
+  if (user) {
+    return user.uid;
+  } else {
+    return null;
+  }
+});
+
 export const signIn = async ({ email, password }, onSuccess, onError) => {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
@@ -30,5 +38,3 @@ export const signOut = async (onSuccess, onError) => {
 }
 
 export const isSignedIn = () => auth.currentUser ? true : false;
-
-export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;
