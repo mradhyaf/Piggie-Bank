@@ -6,12 +6,11 @@ import PriceTag from './PriceTag';
 export default ({ history }) => {
   const renderItem = ({ item }) => (
     <List.Item
-    style={styles.item}
-    title={item.title}
-    description={item.description}
-    // right={props => <List.Icon {...props} icon="folder" />}
-    right={() => <PriceTag value={item.price} />}
-  />
+      style={styles.item}
+      title={item.title}
+      description={item.description}
+      right={() => <PriceTag value={item.price} />}
+    />
   );
   
   return (
@@ -28,8 +27,7 @@ export default ({ history }) => {
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: 'red',
-    padding: 20
+    margin: 20
   },
   item: {
     margin: 5,
