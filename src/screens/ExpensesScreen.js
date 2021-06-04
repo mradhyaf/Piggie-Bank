@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
-import { signOut } from '../../api/auth';
+import { DATA } from "@env";
+import { isSignedIn, signOut } from '../../api/auth';
 import ExpenseHistory from '../components/ExpenseHistory';
+import SubmitButton from '../components/SubmitButton';
 
 
 export default function ExpensesScreen({ navigation }) {
@@ -12,6 +14,10 @@ export default function ExpensesScreen({ navigation }) {
   const [history, setHistory] = useState();
   const itemRef = useRef();
   const priceRef = useRef();
+
+  useEffect(() => {
+    setHistory(DATA);
+  }, []);
 
   const handleSignOut = () => {
     console.log('SIGN OUT pressed');
