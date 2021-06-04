@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { resetEmail } from '../../api/auth';
+import { resetEmail, sendPasswordResetEmail } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
 
-  const sendReset = () => {
-    const userDetails = { email: email };
-    resetEmail(userDetails);
-    console.log('Reset mail sent');
+  const handleReset = () => {
+    sendPasswordResetEmail({ email }, 
+      () => alert('Recovery email sent!') , 
+      () => alert('Try again'));
   }
 
   return (
@@ -24,11 +24,11 @@ export default function SignUp({ navigation }) {
       />
       <Button
          title="SEND RESET EMAIL"
-         onPress={sendReset}
+         onPress={handleReset}
         />
       <Button
         title="LOGIN PAGE"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.push('SignIn')}
       />
     </SafeAreaView>
   );

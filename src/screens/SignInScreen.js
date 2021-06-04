@@ -1,13 +1,12 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, Text, View } from 'react-native';
 import { Button, Headline, TextInput } from 'react-native-paper';
 
-import { signIn, isSignedIn, currentUser } from '../../api/auth';
+import { signIn } from '../../api/auth';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
@@ -44,7 +43,7 @@ export default function LoginScreen({ navigation }) {
         <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
           CREATE AN ACCOUNT
         </Button>
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.navigate('Reset')}>
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('Reset')}>
           RESET PASSWORD
         </Button>
       </View>

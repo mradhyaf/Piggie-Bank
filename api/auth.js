@@ -37,16 +37,13 @@ export const signOut = async (onSuccess, onError) => {
   }
 }
 
-export const resetEmail = ({email}) => {
-    auth.sendPasswordResetEmail(
-        email, null)
-        .then(function() {
-        // Password reset email sent.
-        })
-        .catch(function(error) {
-        // Error occurred. Inspect error.code.
-        alert(error.message);
-        });
-    }
+export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
+  try {
+    auth.sendPasswordResetEmail(email);
+    return onSuccess();
+  } catch {
+    return onError();
+  }
+}
 
 export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;

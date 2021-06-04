@@ -23,10 +23,6 @@ export default function App() {
 
   setOnAuthStateChanged((user) => setUserId(user.uid), () => setUserId(null));
 
-  // useEffect(() => {
-  //   setUserId(getCurrentUserId());
-  // }, [getCurrentUserId()])
-
   return (
     <PaperProvider>
       <NavigationContainer>
