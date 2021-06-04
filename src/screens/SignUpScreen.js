@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
-
-import { signUp } from '../../api/auth';
+import { getCurrentUserId, isSignedIn, signIn, signUp } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -10,7 +9,9 @@ export default function SignUp({ navigation }) {
 
   const handleSignUp = () => {
     const userDetails = { email: email, password: password };
-    signUp(userDetails, () => alert('Successfully Signed Up'), alert);
+    signUp(userDetails, () => navigation.navigate("Expenses"), alert);
+    console.log('Sign Up pressed');
+    console.log(getCurrentUserId());
   }
 
   return (
@@ -40,7 +41,7 @@ export default function SignUp({ navigation }) {
        /> */}
       <Button
         title="LOG IN"
-        onPress={() => navigation.push('SignIn')}
+        onPress={() => navigation.navigate('SignIn')}
       />
     </SafeAreaView>
   );

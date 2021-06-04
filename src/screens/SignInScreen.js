@@ -7,65 +7,57 @@ import { signIn } from '../../api/auth';
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
-    signIn(userDetails, () => alert("Successfully logged in"), alert);
+    signIn(userDetails, () => navigation.navigate("Expenses"), alert);
   }
 
   return (
-    // <SafeAreaView style={styles.main}>
-    //   <View style={styles.headline}>
-    //     <Headline>Get insights from your monthly expenses</Headline>
-    //   </View>
-    //   <View style={styles.inputs}>
-    //     <TextInput
-    //         mode={'outlined'}
-    //         style={styles.input}
-    //         placeholder={'Email'}
-    //         value={email}
-    //         onChangeText={setEmail}
-    //     />
-    //     <TextInput
-    //       mode={'outlined'}
-    //       style={styles.input}
-    //       placeholder={'Password'}
-    //       value={password}
-    //       onChangeText={setPassword}
-    //       secureTextEntry={true}
-    //     />
-    //   </View>
-    //   <View style={styles.buttons}>
-    //     <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
-    //       LOG IN
-    //     </Button>      
-    //     <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
-    //       CREATE AN ACCOUNT
-    //     </Button>
-    //     <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('Reset')}>
-    //       RESET PASSWORD
-    //     </Button>
-    //   </View>
-    // </SafeAreaView>
-    <Text>Hello</Text>
+    <SafeAreaView style={styles.main}>
+      <View>
+        <Headline>Get insights from your monthly expenses</Headline>
+      </View>
+      <View>
+        <TextInput
+            mode={'outlined'}
+            style={styles.input}
+            placeholder={'Email'}
+            // ref={emailRef}
+            value={email}
+            onChangeText={setEmail}
+        />
+        <TextInput
+          mode={'outlined'}
+          style={styles.input}
+          placeholder={'Password'}
+          // ref={passwordRef}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+          right={<TextInput.Icon name="eye" />}
+        />
+        <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
+          LOG IN
+        </Button>      
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
+          CREATE AN ACCOUNT
+        </Button>
+        <Button mode={'contained'} style={styles.button} onPress={() => navigation.navigate('Reset')}>
+          RESET PASSWORD
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  headline: {
-    flex: 1,
-  },
-  inputs: {
-    flex: 4,
-  },
-  buttons: {
-    flex: 4,
   },
   input: {
     flex: 1,
@@ -75,6 +67,6 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'space-around',
-    margin: 5
+    margin: 1
   }
 })
