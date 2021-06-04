@@ -15,7 +15,7 @@ export const signIn = async ({ email, password }, onSuccess, onError) => {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     return onSuccess(userCredential.user);
   } catch (error) {
-    onError(error.message);
+    return onError(error);
   }
 }
 
@@ -24,7 +24,7 @@ export const signUp = async ({ email, password }, onSuccess, onError) => {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
     return onSuccess(userCredential.user);
   } catch (error) {
-    onError(error.message);
+    return onError(error);
   }
 }
 
@@ -33,20 +33,17 @@ export const signOut = async (onSuccess, onError) => {
     await auth.signOut();
     return onSuccess();
   } catch (error) {
-    onError(error.message);
+    return onError(error);
   }
 }
 
-export const resetEmail = ({email}) => {
-    auth.sendPasswordResetEmail(
-        email, null)
-        .then(function() {
-        // Password reset email sent.
-        })
-        .catch(function(error) {
-        // Error occurred. Inspect error.code.
-        alert(error.message);
-        });
-    }
+export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
+  try {
+    await auth.sendPasswordResetEmail(email);
+    return onSuccess();
+  } catch (error) {
+    return onError(error);
+  }
+}
 
 export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;

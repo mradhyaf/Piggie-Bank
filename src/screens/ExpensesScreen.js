@@ -1,17 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+
+import { DATA } from "@env";
 import { isSignedIn, signOut } from '../../api/auth';
 import ExpenseHistory from '../components/ExpenseHistory';
 import SubmitButton from '../components/SubmitButton';
 
 
 export default function ExpensesScreen({ navigation }) {
-  const [item, setItem] = React.useState('');
-  const [price, setPrice] = React.useState(0);
-  const [history, setHistory] = React.useState(DATA);
+  const [item, setItem] = useState('');
+  const [price, setPrice] = useState(0);
+  const [history, setHistory] = useState();
   const itemRef = useRef();
   const priceRef = useRef();
+
+  useEffect(() => {
+    setHistory(DATA);
+  }, []);
 
   const handleSignOut = () => {
     console.log('SIGN OUT pressed');
@@ -27,7 +33,7 @@ export default function ExpensesScreen({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.main}>
       <View style={styles.inputs}>
         <TextInput
           style={styles.input}
@@ -60,7 +66,7 @@ export default function ExpensesScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  main: {
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -79,18 +85,3 @@ const styles = StyleSheet.create({
     margin: 5,
   }
 })
-
-const DATA = [
-  {
-    title: "1kg chicken",
-    price: 12,
-  },
-  {
-    title: "1.8l detergent",
-    price: 15,
-  },
-  {
-    title: "bucket ice cream",
-    price: 14,
-  }
-]
