@@ -41,7 +41,7 @@ export default function SignUp({ navigation }) {
        /> */}
       <Button
         title="LOG IN"
-        onPress={() => navigation.navigate('SignIn')}
+        onPress={() => navigation.push('SignIn')}
       />
     </SafeAreaView>
   );

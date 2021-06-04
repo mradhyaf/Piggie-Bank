@@ -1,12 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-<<<<<<< HEAD
-import { isSignedIn, signOut } from '../../api/auth';
-=======
 
 import { signOut } from '../../api/auth';
->>>>>>> parent of b9f2c52... Revert "Delete redundant components"
 import ExpenseHistory from '../components/ExpenseHistory';
 
 
