@@ -1,43 +1,49 @@
 import firebase from "./firebase";
 
-const auth = firebase.auth();
+export const auth = firebase.auth();
 
-export const signIn = ({ email, password }, onError) => {
-  auth.signInWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    return user;
-  })
-  .catch((error) => {
-    // var errorCode = error.code;
-    // var errorMessage = error.message;
-    return onError(error);
-  });
-}
-export const signUp = ({ email, password }, onError) => {
-  auth.createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    // Signed in 
-    var user = userCredential.user;
-    return user;
-  })
-  .catch((error) => {
-    // var errorCode = error.code;
-    // var errorMessage = error.message;
-    return onError(error);
-  });
+export const setOnAuthStateChanged = (onSignedIn, onSignedOut) => auth.onAuthStateChanged((user) => {
+  if (user) {
+    return onSignedIn(user);
+  } else {
+    return onSignedOut();
+  }
+});
+
+export const signIn = async ({ email, password }, onSuccess, onError) => {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    return onSuccess(userCredential.user);
+  } catch (error) {
+    onError(error.message);
+  }
 }
 
-export const signOut = (onSuccess, onError) => {
-  auth.signOut()
-  .then(() => {
+export const signUp = async ({ email, password }, onSuccess, onError) => {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    return onSuccess(userCredential.user);
+  } catch (error) {
+    onError(error.message);
+  }
+}
+
+export const signOut = async (onSuccess, onError) => {
+  try {
+    await auth.signOut();
     return onSuccess();
-  })
-  .catch((error) =>{
-    return onError(error);
-  })
+  } catch (error) {
+    onError(error.message);
+  }
 }
 
-export const isSignedIn = () => auth.currentUser ? true : false;
+export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
+  try {
+    auth.sendPasswordResetEmail(email);
+    return onSuccess();
+  } catch {
+    return onError();
+  }
+}
 
 export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;
