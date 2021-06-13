@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
 import { signOut } from '../../api/auth';
-import ExpenseHistory from '../components/ExpenseHistory';
+import ExpenseList from '../components/ExpenseList';
 
 
 export default function ExpensesScreen({ navigation }) {
