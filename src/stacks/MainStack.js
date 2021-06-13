@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
 
 export default () => {
   return (
-    <Stack.Navigator initialRouteName="Expenses" headerMode="none">
-      <Stack.Screen name="Expenses" component={ExpensesScreen} />
+    <Stack.Navigator initialRouteName="Expenses">
+      <Stack.Screen name="Expenses" component={ExpensesScreen} options={{headerLeft: null}}/>
     </Stack.Navigator>
   )
 }

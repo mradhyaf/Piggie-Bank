@@ -39,7 +39,7 @@ export const signOut = async (onSuccess, onError) => {
 
 export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
   try {
-    await auth.sendPasswordResetEmail(email);
+    auth.sendPasswordResetEmail(email);
     return onSuccess();
   } catch {
     return onError();

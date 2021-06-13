@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { getCurrentUserId, isSignedIn, signIn, signUp } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [visible, setVisible] = React.useState(true);
 
   const handleSignUp = () => {
     const userDetails = { email: email, password: password };
@@ -15,39 +14,35 @@ export default function SignUp({ navigation }) {
     console.log(getCurrentUserId());
   }
 
-  const secureText =() => {
-      visible ?  setVisible(false) : setVisible(true);
-  }
-
   return (
     <SafeAreaView style={styles.main}>
-      <View>
-        <Text>Sign Up Page</Text>
-        <TextInput
-          mode={'outlined'}
-          style={styles.input}
+      <Text>Sign Up</Text>
+      <TextInput
+          style={[styles.input, { backgroundColor: 'green' }]}
           placeholder={'Email'}
           // ref={emailRef}
           value={email}
           onChangeText={setEmail}
-        />
-        <TextInput
-          mode={'outlined'}
-          style={styles.input}
-          placeholder={'Password'}
-          // ref={passwordRef}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={visible}
-          right={<TextInput.Icon name="eye" onPress={secureText}/>}
-        />
-        <Button mode={'contained'} style={styles.button} onPress={handleSignUp}>
-          SIGN UP
-        </Button>
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignIn')}>
-          LOGIN PAGE
-        </Button>
-      </View>
+      />
+      <TextInput
+        style={[styles.input, { backgroundColor: 'yellow' }]}
+        placeholder={'Password'}
+        // ref={passwordRef}
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button
+         title="SIGN UP"
+         onPress={handleSignUp}
+        />      
+      {/* <Button
+         title="Go to Expenses"
+         onPress={() => navigation.navigate('Expenses')}
+       /> */}
+      <Button
+        title="LOG IN"
+        onPress={() => navigation.push('SignIn')}
+      />
     </SafeAreaView>
   );
 }
@@ -55,18 +50,12 @@ export default function SignUp({ navigation }) {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   input: {
-    justifyContent: 'space-around',
-    flex: 1,
-    margin: 1
-  },
-  button: {
-    justifyContent: 'space-around',
-    flex: 1,
-    margin: 1
+    height: 100,
+    width: 300,
   }
 })
