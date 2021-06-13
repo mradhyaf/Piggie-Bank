@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { resetEmail, sendPasswordResetEmail } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
@@ -14,22 +14,23 @@ export default function SignUp({ navigation }) {
 
   return (
     <SafeAreaView style={styles.main}>
-      <Text>Reset</Text>
-      <TextInput
-          style={[styles.input, { backgroundColor: 'green' }]}
+      <View>
+        <Text>Reset</Text>
+        <TextInput
+          mode={'outlined'}
+          style={styles.input}
           placeholder={'Email'}
           // ref={emailRef}
           value={email}
           onChangeText={setEmail}
-      />
-      <Button
-         title="SEND RESET EMAIL"
-         onPress={handleReset}
         />
-      <Button
-        title="LOGIN PAGE"
-        onPress={() => navigation.push('SignIn')}
-      />
+        <Button mode={'contained'} style={styles.input} onPress={handleReset}>
+          SEND RESET EMAIL
+        </Button>
+        <Button mode={'contained'} style={styles.input}  onPress={() => navigation.push('SignIn')}>
+          LOGIN PAGE
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
     padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   input: {
-    height: 100,
-    width: 300,
+    justifyContent: 'space-around',
+    flex: 1,
+    margin: 1
   }
 })
