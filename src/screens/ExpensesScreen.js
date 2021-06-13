@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
 import { signOut } from '../../api/auth';
@@ -27,7 +27,7 @@ export default function ExpensesScreen({ navigation }) {
   }
 
   return (
-    <View>
+    <ScrollView>
       <View style={styles.inputs}>
         <TextInput
           style={styles.input}
@@ -55,7 +55,7 @@ export default function ExpensesScreen({ navigation }) {
           onPress={handleSignOut}
           >SIGN OUT</Button>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

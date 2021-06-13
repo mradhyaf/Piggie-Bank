@@ -14,14 +14,14 @@ export default ({ history }) => {
   );
   
   return (
-    <ScrollView>
+    <View>
       <FlatList
         style={styles.list}
         data={history}
         renderItem={renderItem}
         keyExtractor={item => item.title}
       />
-    </ScrollView>
+    </View>
   )
 }
 
