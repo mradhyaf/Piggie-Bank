@@ -42,7 +42,7 @@ export default function ExpensesScreen({ navigation }) {
           onChangeText={setPrice}
         />        
       </View>
-      <ExpenseHistory history={history} />
+      <ExpenseList history={history} />
       <View style={styles.buttons}>
         <Button
           style={styles.button}
