@@ -1,29 +1,52 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
-import { signOut } from '../../api/auth';
-import ExpenseHistory from '../components/ExpenseHistory';
+import { signOut, getUid } from '../../api/auth';
+import ExpenseList from '../components/ExpenseList';
+import { createExpense, deleteExpense, readExpense } from "../../api/expenses";
 
 
 export default function ExpensesScreen({ navigation }) {
-  const [item, setItem] = React.useState('');
-  const [price, setPrice] = React.useState(0);
-  const [history, setHistory] = React.useState(DATA);
-  const itemRef = useRef();
-  const priceRef = useRef();
+  const [item, setItem] = useState('');
+  const [price, setPrice] = useState('');
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    readExpense(getUid(),
+      (expenses) => expenses ? setHistory(Object.values(expenses)) : null,
+      console.error
+    );
+  }, [])
 
   const handleSignOut = () => {
     console.log('SIGN OUT pressed');
     signOut(() => console.log('SIGNED OUT'), console.error);
   }
 
-  const handleSubmit = () => {
-    const newExpense = { title: item, price: price }
-    const newHistory = history.slice();
-    newHistory.push(newExpense);
+  const handleDelete = (expenseKey) => {
+    deleteExpense(getUid(), expenseKey,
+      () => console.log('Expense deleted'),
+      console.error
+    )
+    const newHistory = history.slice().filter(expense => expense.key != expenseKey)
     setHistory(newHistory);
-    console.log("submit pressed");
+  }
+
+  const handleSubmit = () => {
+    const newExpense = {
+      title: item,
+      price: price,
+      date: Date()
+    }
+    const newHistory = history.slice();
+    createExpense(
+      getUid(),
+      newExpense,
+      (expense) => newHistory.push(expense),
+      console.error
+    );
+    setHistory(newHistory);
   }
 
   return (
@@ -32,17 +55,17 @@ export default function ExpensesScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder={'Item'}
-          ref={itemRef}
-          onChangeText={setItem}
+          value={item}
+          onChangeText={(item) => setItem(item)}
           />
         <TextInput
           style={styles.input}
           placeholder={'Price'}
-          ref={priceRef}
-          onChangeText={setPrice}
+          value={price}
+          onChangeText={(price) => setPrice(price)}
         />        
       </View>
-      <ExpenseHistory history={history} />
+      <ExpenseList data={history} handleDelete={handleDelete} />
       <View style={styles.buttons}>
         <Button
           style={styles.button}
@@ -79,18 +102,3 @@ const styles = StyleSheet.create({
     margin: 5,
   }
 })
-
-const DATA = [
-  {
-    title: "1kg chicken",
-    price: 12,
-  },
-  {
-    title: "1.8l detergent",
-    price: 15,
-  },
-  {
-    title: "bucket ice cream",
-    price: 14,
-  }
-]
