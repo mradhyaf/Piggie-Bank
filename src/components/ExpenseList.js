@@ -12,7 +12,7 @@ export default ({ data, handleDelete }) => {
       right={() =>
       <View style={{flexDirection: 'row'}}>
         <PriceTag value={item.price} />
-            <Button icon={'trash-can-outline'} onPress={() => console.log('pressed')} />
+            <Button icon={'trash-can-outline'} onPress={() => handleDelete(item.key)} />
       </View>}
     />
   );
