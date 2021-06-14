@@ -1,15 +1,15 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react'
 import { View, Text } from 'react-native'
 
 import ExpensesScreen from '../screens/ExpensesScreen';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default () => {
   return (
-    <Stack.Navigator initialRouteName="Expenses">
-      <Stack.Screen name="Expenses" component={ExpensesScreen} options={{headerLeft: null}}/>
-    </Stack.Navigator>
+    <Drawer.Navigator initialRouteName="Expenses">
+      <Drawer.Screen name="Expenses" component={ExpensesScreen} />
+    </Drawer.Navigator>
   )
 }
