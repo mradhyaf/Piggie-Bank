@@ -1,6 +1,6 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, TextInput, AppBar } from 'react-native-paper';
+import { Button, TextInput, Appbar } from 'react-native-paper';
 
 import { signOut, getUid } from '../../api/auth';
 import ExpenseList from '../components/ExpenseList';
@@ -51,6 +51,15 @@ export default function ExpensesScreen({ navigation }) {
 
   return (
     <ScrollView>
+      <Appbar>
+      <Appbar.Action
+        icon="dots-vertical"
+        onPress={() => navigation.openDrawer()}
+      />
+      <Appbar.Content
+        title="Expenses"
+      />
+      </Appbar>
       <View style={styles.inputs}>
         <TextInput
           style={styles.input}
