@@ -7,10 +7,15 @@ import { signIn } from '../../api/auth';
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [visible, setVisible] = React.useState(true);
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
     signIn(userDetails, () => navigation.navigate("Expenses"), alert);
+  }
+
+  const secureText =() => {
+    visible ?  setVisible(false) : setVisible(true);
   }
 
   return (
@@ -34,8 +39,8 @@ export default function LoginScreen({ navigation }) {
           // ref={passwordRef}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry={true}
-          right={<TextInput.Icon name="eye" />}
+          secureTextEntry={visible}
+          right={<TextInput.Icon name="eye" onPress={secureText}/>}
         />
         <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
           LOG IN

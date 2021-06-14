@@ -1,6 +1,6 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, AppBar } from 'react-native-paper';
 
 import { signOut, getUid } from '../../api/auth';
 import ExpenseList from '../components/ExpenseList';
