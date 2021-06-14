@@ -46,4 +46,4 @@ export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
   }
 }
 
-export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;
+export const getUid = () => auth.currentUser ? auth.currentUser.uid : null;

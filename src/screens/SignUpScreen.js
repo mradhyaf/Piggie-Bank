@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { getCurrentUserId, isSignedIn, signIn, signUp } from '../../api/auth';
+import { signUp } from '../../api/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -11,7 +11,6 @@ export default function SignUp({ navigation }) {
     const userDetails = { email: email, password: password };
     signUp(userDetails, () => navigation.navigate("Expenses"), alert);
     console.log('Sign Up pressed');
-    console.log(getCurrentUserId());
   }
 
   return (
