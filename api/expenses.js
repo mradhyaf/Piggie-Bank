@@ -1,32 +1,46 @@
 import firebase from "./firebase";
 
 const db = firebase.database();
+const expensesRef = db.ref(`expenses`);
 
-const newExpense = (id, title, price, date) => { id, title, price, date };
-
-export const createExpense = async ({ title, price }, onSuccess, onError) => {
+export const createExpense = async (uid, { title, price, date }, onSuccess, onError) => {
   try {
-    const expense = db.ref(`expenses`).push();
-    await expense.set(newExpense(expense.key, title, price, new Date()));
-    return onSuccess(expense);
+    const expense = expensesRef.child(uid).push()
+    const newExpense = {
+      key: expense.key,
+      title: title,
+      price: price,
+      date: date
+    }
+    await expense.set(newExpense);
+    return onSuccess(newExpense);
   } catch (error) {
     return onError(error);
   }
 }
 
-export const deleteExpense = async ({ expenseId }, onSuccess, onError) => {
+export const readExpense = async (uid, onSuccess, onError) => {
   try {
-    await db.ref(`expenses/${expenseId}`).remove();
+    const snapshot = await expensesRef.child(uid).get();
+    return onSuccess(snapshot.val());
+  } catch (error) {
+    return onError(error);
+  }
+}
+
+export const updateExpense = async (uid, updates, onSuccess, onError) => {
+  try {
+    await expensesRef.child(uid).update(updates);
     return onSuccess();
   } catch (error) {
     return onError(error);
   }
 }
 
-export const getExpenses = async (onError) => {
+export const deleteExpense = async (uid, expenseKey, onSuccess, onError) => {
   try {
-    const expenses = (await db.ref(`expenses`).get()).val();
-    return expenses;
+    await expensesRef.child(uid).child(expenseKey).remove();
+    return onSuccess();
   } catch (error) {
     return onError(error);
   }

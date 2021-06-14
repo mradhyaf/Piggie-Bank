@@ -3,7 +3,7 @@ import { FlatList, Text, View, StyleSheet, Item, ScrollView} from 'react-native'
 import { List, Button } from 'react-native-paper';
 import PriceTag from './PriceTag';
 
-export default ({ history }) => {
+export default ({ data, handleDelete }) => {
   const renderItem = ({ item }) => (
     <List.Item
       style={styles.item}
@@ -21,7 +21,7 @@ export default ({ history }) => {
     <View>
       <FlatList
         style={styles.list}
-        data={history}
+        data={data}
         renderItem={renderItem}
       />
     </View>
