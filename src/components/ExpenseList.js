@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, Text, View, StyleSheet, Item, ScrollView } from 'react-native';
-import { List } from 'react-native-paper';
+import { FlatList, Text, View, StyleSheet, Item, ScrollView} from 'react-native';
+import { List, Button } from 'react-native-paper';
 import PriceTag from './PriceTag';
 
 export default ({ history }) => {
@@ -9,7 +9,11 @@ export default ({ history }) => {
       style={styles.item}
       title={item.title}
       description={item.description}
-      right={() => <PriceTag value={item.price} />}
+      right={() =>
+      <View style={{flexDirection: 'row'}}>
+        <PriceTag value={item.price} />
+            <Button icon={'trash-can-outline'} onPress={() => console.log('pressed')} />
+      </View>}
     />
   );
   
@@ -19,7 +23,6 @@ export default ({ history }) => {
         style={styles.list}
         data={history}
         renderItem={renderItem}
-        keyExtractor={item => item.title}
       />
     </View>
   )
@@ -28,12 +31,5 @@ export default ({ history }) => {
 const styles = StyleSheet.create({
   list: {
     margin: 20
-  },
-  item: {
-    margin: 5,
-    borderColor: 'black'
-  },
-  title: {
-    backgroundColor: 'green'
   }
 })
