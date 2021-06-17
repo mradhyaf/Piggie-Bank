@@ -10,7 +10,8 @@ export const createExpense = async (uid, { title, price, date }, onSuccess, onEr
       key: expense.key,
       title: title,
       price: price,
-      date: date
+      date: date,
+      category: 1
     }
     await expense.set(newExpense);
     return onSuccess(newExpense);

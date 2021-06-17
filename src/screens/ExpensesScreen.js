@@ -37,16 +37,16 @@ export default function ExpensesScreen({ navigation }) {
     const newExpense = {
       title: item,
       price: price,
-      date: Date()
+      date: Date(),
+      category: 1
     }
     const newHistory = history.slice();
     createExpense(
       getUid(),
       newExpense,
-      (expense) => newHistory.push(expense),
+      (expense) => { newHistory.push(expense); setHistory(newHistory); },
       console.error
     );
-    setHistory(newHistory);
   }
 
   return (

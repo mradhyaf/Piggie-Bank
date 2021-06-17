@@ -1,9 +1,12 @@
 import React from 'react';
 import { FlatList, Text, View, StyleSheet, Item, ScrollView} from 'react-native';
-import { List, Button } from 'react-native-paper';
+import { List, Button, Paragraph, Dialog, Portal} from 'react-native-paper';
 import PriceTag from './PriceTag';
 
 export default ({ data, handleDelete }) => {
+  const [visible, setVisible] = React.useState(false);
+  const [item, setItem] = React.useState('');
+
   const renderItem = ({ item }) => (
     <List.Item
       style={styles.item}
@@ -12,18 +15,71 @@ export default ({ data, handleDelete }) => {
       right={() =>
       <View style={{flexDirection: 'row'}}>
         <PriceTag value={item.price} />
-            <Button icon={'trash-can-outline'} onPress={() => handleDelete(item.key)} />
+        <Button icon={'trash-can-outline'} onPress={() => { setVisible(true); setItem(item); }} />
       </View>}
     />
   );
   
   return (
     <View>
-      <FlatList
-        style={styles.list}
-        data={data}
-        renderItem={renderItem}
-      />
+      <List.AccordionGroup>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='1'
+          id='1'
+          right={() => <PriceTag value={1}/>}>
+          <FlatList
+            style={styles.list}
+            data={data}
+            renderItem={renderItem}
+          />
+         </List.Accordion>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='2'
+          id='2'
+          right={() => <PriceTag value={2}/>}>
+          <FlatList
+            style={styles.list}
+            data={data}
+            renderItem={renderItem}
+          />
+         </List.Accordion>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='3'
+          id='3'
+          right={() => <PriceTag value={3}/>}>
+          <FlatList
+            style={styles.list}
+            data={data}
+            renderItem={renderItem}
+          />
+         </List.Accordion>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='4'
+          id='4'
+          right={() => <PriceTag value={4}/>}>
+          <FlatList
+            style={styles.list}
+            data={data}
+            renderItem={renderItem}
+          />
+         </List.Accordion>
+      </List.AccordionGroup>
+      <Portal>
+        <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
+          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>'Are you sure you want to delete?'</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => { setVisible(false); handleDelete(item.key); }}>Yes</Button>
+            <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   )
 }
