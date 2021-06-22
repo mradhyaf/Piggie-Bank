@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  history: []
+}
+
 export const expensesSlice = createSlice({
   name: 'expenses',
-  initialState: [],
+  initialState,
   reducers: {
-    update: (state, action) => [...state, ...action.payload],
-    remove: (state, action) => state.filter(expense => expense.key !== action.payload),
+    update: (state, action) => [...state.history, ...action.payload],
+    remove: (state, action) => state.history.filter(expense => expense.key !== action.payload),
   }
 });
 
 export const { update, remove } = expensesSlice.actions;
 
-export const selectExpenses = (state) => state.expenses;
+export const selectExpenses = (state) => state.expenses.history;
 
 export default expensesSlice.reducer;
