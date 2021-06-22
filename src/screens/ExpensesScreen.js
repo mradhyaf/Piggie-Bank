@@ -7,7 +7,6 @@ import { signOut, getUid } from '../../api/auth';
 import ExpenseList from '../components/ExpenseList';
 import { createExpense, deleteExpense, readExpense } from "../../api/expenses";
 
-
 export default function ExpensesScreen({ navigation }) {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');

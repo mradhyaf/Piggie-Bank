@@ -80,6 +80,7 @@ export default ({ data, handleDelete }) => {
             renderItem={renderItem}
           />
         </List.Accordion>
+        <Divider />
         <List.Accordion
           left={() => <List.Icon icon='folder' />}
           title='5'
@@ -91,6 +92,7 @@ export default ({ data, handleDelete }) => {
             renderItem={renderItem}
           />
         </List.Accordion>
+        <Divider />
         <List.Accordion
           left={() => <List.Icon icon='folder' />}
           title='6'
