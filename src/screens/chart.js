@@ -1,5 +1,6 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
+import { Appbar } from 'react-native-paper';
 import { Bar } from 'react-chartjs-2';
 
 const rand = () => Math.floor(Math.random() * 255);
@@ -55,6 +56,15 @@ export default function Chart({ navigation }) {
 
   return (
     <ScrollView>
+      <Appbar>
+        <Appbar.Action
+          icon="dots-vertical"
+          onPress={() => navigation.openDrawer()}
+        />
+        <Appbar.Content
+          title="Expenses"
+        />
+      </Appbar>
       <Bar data={data} options={options} />
     </ScrollView>
   )
