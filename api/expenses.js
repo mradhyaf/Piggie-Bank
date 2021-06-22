@@ -3,7 +3,7 @@ import firebase from "./firebase";
 const db = firebase.database();
 const expensesRef = db.ref(`expenses`);
 
-export const createExpense = async (uid, { title, price, date }, onSuccess, onError) => {
+export const createExpense = async (uid, { title, price, date, category }, onSuccess, onError) => {
   try {
     const expense = expensesRef.child(uid).push()
     const newExpense = {
@@ -11,7 +11,7 @@ export const createExpense = async (uid, { title, price, date }, onSuccess, onEr
       title: title,
       price: price,
       date: date,
-      category: 1
+      category: category
     }
     await expense.set(newExpense);
     return onSuccess(newExpense);

@@ -8,6 +8,12 @@ export default ({ data, handleDelete }) => {
   const [item, setItem] = React.useState('');
 
   const reducer = (accumulator, data) => accumulator + Number(data.price);
+  const c1 = data.filter(expense => expense.category === "1");
+  const c2 = data.filter(expense => expense.category === "2");
+  const c3 = data.filter(expense => expense.category === "3");
+  const c4 = data.filter(expense => expense.category === "4");
+  const c5 = data.filter(expense => expense.category === "5");
+  const c6 = data.filter(expense => expense.category === "6");
   const renderItem = ({ item }) => (
     <View>
       <List.Item
@@ -31,10 +37,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='1'
           id='1'
-          right={() => <PriceTag value={data.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c1.reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={data}
+            data={c1}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -43,10 +49,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='2'
           id='2'
-          right={() => <PriceTag value={2}/>}>
+          right={() => <PriceTag value={c2.reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={data}
+            data={c2}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -55,10 +61,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='3'
           id='3'
-          right={() => <PriceTag value={3}/>}>
+          right={() => <PriceTag value={c3.reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={data}
+            data={c3}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -67,10 +73,32 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='4'
           id='4'
-          right={() => <PriceTag value={4}/>}>
+          right={() => <PriceTag value={c4.reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={data}
+            data={c4}
+            renderItem={renderItem}
+          />
+        </List.Accordion>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='5'
+          id='5'
+          right={() => <PriceTag value={c5.reduce(reducer, 0)}/>}>
+          <FlatList
+            style={styles.list}
+            data={c5}
+            renderItem={renderItem}
+          />
+        </List.Accordion>
+        <List.Accordion
+          left={() => <List.Icon icon='folder' />}
+          title='6'
+          id='6'
+          right={() => <PriceTag value={c6.reduce(reducer, 0)}/>}>
+          <FlatList
+            style={styles.list}
+            data={c6}
             renderItem={renderItem}
           />
         </List.Accordion>

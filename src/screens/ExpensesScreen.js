@@ -12,7 +12,7 @@ export default function ExpensesScreen({ navigation }) {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [history, setHistory] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState('1');
 
   useEffect(() => {
     readExpense(getUid(),
@@ -40,7 +40,7 @@ export default function ExpensesScreen({ navigation }) {
       title: item,
       price: price,
       date: Date(),
-      category: 1
+      category: selectedCategory
     }
     const newHistory = history.slice();
     createExpense(
