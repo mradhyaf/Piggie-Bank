@@ -1,7 +1,8 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, TextInput, Appbar } from 'react-native-paper';
+import { Button, TextInput, Appbar, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from "react-redux";
+import {Picker} from '@react-native-picker/picker';
 
 import { update, remove, selectExpenses } from '../store/expensesSlice';
 import { signOut, getUid } from '../../api/auth';
@@ -13,7 +14,7 @@ export default function ExpensesScreen({ navigation }) {
   const dispatch = useDispatch();
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  // const [history, setHistory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('1');
 
   useEffect(() => {
     readExpense(getUid(),
@@ -42,7 +43,8 @@ export default function ExpensesScreen({ navigation }) {
     const newExpense = {
       title: item,
       price: price,
-      date: Date()
+      date: Date(),
+      category: selectedCategory
     }
     // const newHistory = history.slice();
     createExpense(
@@ -66,6 +68,20 @@ export default function ExpensesScreen({ navigation }) {
       />
       </Appbar>
       <View style={styles.inputs}>
+        <Text>Category</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedCategory(itemValue)
+          }>
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+          <Picker.Item label="6" value="6" />
+        </Picker>
         <TextInput
           style={styles.input}
           placeholder={'Item'}
@@ -77,14 +93,15 @@ export default function ExpensesScreen({ navigation }) {
           placeholder={'Price'}
           value={price}
           onChangeText={(price) => setPrice(price)}
-        />        
+        />
       </View>
       <ExpenseList data={expenses} handleDelete={handleDelete} />
       <View style={styles.buttons}>
         <Button
           style={styles.button}
           mode={'outlined'}
-          onPress={handleSubmit}
+          onPress={() => isNaN(Number(price)) || price === '' ? alert('Invalid. Enter a number for price instead')
+          : item === '' ? alert('Please enter a name for the item') : handleSubmit() }
           >SUBMIT</Button>
         <Button
           style={styles.button}
@@ -114,5 +131,8 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 5,
+  },
+  picker: {
+    backgroundColor: '#e3e1e1'
   }
 })
