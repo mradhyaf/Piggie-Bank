@@ -40,7 +40,7 @@ export const updateExpense = async (uid, updates, onSuccess, onError) => {
 export const deleteExpense = async (uid, expenseKey, onSuccess, onError) => {
   try {
     await expensesRef.child(uid).child(expenseKey).remove();
-    return onSuccess();
+    return onSuccess(expenseKey);
   } catch (error) {
     return onError(error);
   }
