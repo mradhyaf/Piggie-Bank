@@ -1,21 +1,24 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, TextInput, Appbar, Text } from 'react-native-paper';
+import { useDispatch, useSelector } from "react-redux";
 import {Picker} from '@react-native-picker/picker';
 
+import { update, remove, selectExpenses } from '../store/expensesSlice';
 import { signOut, getUid } from '../../api/auth';
 import ExpenseList from '../components/ExpenseList';
 import { createExpense, deleteExpense, readExpense } from "../../api/expenses";
 
 export default function ExpensesScreen({ navigation }) {
+  const expenses = useSelector(selectExpenses)
+  const dispatch = useDispatch();
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  const [history, setHistory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('1');
 
   useEffect(() => {
     readExpense(getUid(),
-      (expenses) => expenses ? setHistory(Object.values(expenses)) : null,
+      (expenses) => expenses ? dispatch(update(Object.values(expenses))) : null,
       console.error
     );
   }, [])
@@ -26,12 +29,14 @@ export default function ExpensesScreen({ navigation }) {
   }
 
   const handleDelete = (expenseKey) => {
-    deleteExpense(getUid(), expenseKey,
-      () => console.log('Expense deleted'),
+    deleteExpense(
+      getUid(), 
+      expenseKey,
+      (key) => dispatch(remove(key)),
       console.error
     )
-    const newHistory = history.slice().filter(expense => expense.key != expenseKey)
-    setHistory(newHistory);
+    // const newHistory = history.slice().filter(expense => expense.key != expenseKey)
+    // setHistory(newHistory);
   }
 
   const handleSubmit = () => {
@@ -41,13 +46,14 @@ export default function ExpensesScreen({ navigation }) {
       date: Date(),
       category: selectedCategory
     }
-    const newHistory = history.slice();
+    // const newHistory = history.slice();
     createExpense(
       getUid(),
       newExpense,
-      (expense) => { newHistory.push(expense); setHistory(newHistory); },
+      (expense) => dispatch(update([expense])),
       console.error
     );
+    // setHistory(newHistory);
   }
 
   return (
@@ -89,7 +95,7 @@ export default function ExpensesScreen({ navigation }) {
           onChangeText={(price) => setPrice(price)}
         />
       </View>
-      <ExpenseList data={history} handleDelete={handleDelete} />
+      <ExpenseList data={expenses} handleDelete={handleDelete} />
       <View style={styles.buttons}>
         <Button
           style={styles.button}

@@ -8,12 +8,18 @@ export default ({ data, handleDelete }) => {
   const [item, setItem] = React.useState('');
 
   const reducer = (accumulator, data) => accumulator + Number(data.price);
-  const c1 = data.filter(expense => expense.category === "1");
-  const c2 = data.filter(expense => expense.category === "2");
-  const c3 = data.filter(expense => expense.category === "3");
-  const c4 = data.filter(expense => expense.category === "4");
-  const c5 = data.filter(expense => expense.category === "5");
-  const c6 = data.filter(expense => expense.category === "6");
+  const c1 = [];
+  // const c1 = data.filter(expense => expense === "1");
+  const c2 = [];
+  // const c2 = data.filter(expense => expense === "2");
+  const c3 = [];
+  // const c3 = data.filter(expense => expense === "3");
+  const c4 = [];
+  // const c4 = data.filter(expense => expense === "4");
+  const c5 = [];
+  // const c5 = data.filter(expense => expense === "5");
+  const c6 = [];
+  // const c6 = data.filter(expense => expense === "6");
   const renderItem = ({ item }) => (
     <View>
       <List.Item
