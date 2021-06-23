@@ -4,10 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as StoreProvider } from 'react-redux';
 
-import { getCurrentUserId, setOnAuthStateChanged } from '../api/auth';
-import AuthStack from '../src/stacks/AuthStack';
-import MainStack from '../src/stacks/MainStack';
-import { store } from '../src/store'
+import { getCurrentUserId, setOnAuthStateChanged } from './api/auth';
+import AuthStack from './src/stacks/AuthStack';
+import MainStack from './src/stacks/MainStack';
+import { store } from './src/store'
 
 const RootStack = createStackNavigator();
 const RootStackComponent = ({ userId }) => (
