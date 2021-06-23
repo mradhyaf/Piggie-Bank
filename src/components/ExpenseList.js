@@ -6,20 +6,10 @@ import PriceTag from './PriceTag';
 export default ({ data, handleDelete }) => {
   const [visible, setVisible] = React.useState(false);
   const [item, setItem] = React.useState('');
+  console.log(data);
 
   const reducer = (accumulator, data) => accumulator + Number(data.price);
-  const c1 = [];
-  // const c1 = data.filter(expense => expense === "1");
-  const c2 = [];
-  // const c2 = data.filter(expense => expense === "2");
-  const c3 = [];
-  // const c3 = data.filter(expense => expense === "3");
-  const c4 = [];
-  // const c4 = data.filter(expense => expense === "4");
-  const c5 = [];
-  // const c5 = data.filter(expense => expense === "5");
-  const c6 = [];
-  // const c6 = data.filter(expense => expense === "6");
+  const c = (category) => data.filter(expense => expense.category === category);
   const renderItem = ({ item }) => (
     <View>
       <List.Item
@@ -43,10 +33,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='1'
           id='1'
-          right={() => <PriceTag value={c1.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("1").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c1}
+            data={c("1")}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -55,10 +45,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='2'
           id='2'
-          right={() => <PriceTag value={c2.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("2").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c2}
+            data={c("2")}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -67,10 +57,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='3'
           id='3'
-          right={() => <PriceTag value={c3.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("3").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c3}
+            data={c("3")}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -79,10 +69,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='4'
           id='4'
-          right={() => <PriceTag value={c4.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("4").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c4}
+            data={c("4")}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -91,10 +81,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='5'
           id='5'
-          right={() => <PriceTag value={c5.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("5").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c5}
+            data={c("5")}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -103,10 +93,10 @@ export default ({ data, handleDelete }) => {
           left={() => <List.Icon icon='folder' />}
           title='6'
           id='6'
-          right={() => <PriceTag value={c6.reduce(reducer, 0)}/>}>
+          right={() => <PriceTag value={c("6").reduce(reducer, 0)}/>}>
           <FlatList
             style={styles.list}
-            data={c6}
+            data={c("6")}
             renderItem={renderItem}
           />
         </List.Accordion>
