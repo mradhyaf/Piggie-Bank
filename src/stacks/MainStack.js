@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 
 import ExpensesScreen from '../screens/ExpensesScreen';
-import SummaryScreen from '../screens/SummaryScreen';
+import StatisticsScreen from '../screens/StatisticsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -11,7 +11,7 @@ export default () => {
   return (
     <Drawer.Navigator initialRouteName="Expenses">
       <Drawer.Screen name="Expenses" component={ExpensesScreen} />
-      <Drawer.Screen name="Charts" component={SummaryScreen} />
+      <Drawer.Screen name="Statistics" component={StatisticsScreen} />
     </Drawer.Navigator>
   )
 }
