@@ -6,7 +6,6 @@ import PriceTag from './PriceTag';
 export default ({ data, handleDelete }) => {
   const [visible, setVisible] = React.useState(false);
   const [item, setItem] = React.useState('');
-  console.log(data);
 
   const reducer = (accumulator, data) => accumulator + Number(data.price);
   const c = (category) => data.filter(expense => expense.category === category);
@@ -102,16 +101,6 @@ export default ({ data, handleDelete }) => {
         </List.Accordion>
       </List.AccordionGroup>
       <Portal>
-        <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
-          <Dialog.Title>Alert</Dialog.Title>
-          <Dialog.Content>
-            <Paragraph>'Are you sure you want to delete?'</Paragraph>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => { setVisible(false); handleDelete(item.key); }}>Yes</Button>
-            <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
-          </Dialog.Actions>
-        </Dialog>
         <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
           <Dialog.Title>Alert</Dialog.Title>
           <Dialog.Content>

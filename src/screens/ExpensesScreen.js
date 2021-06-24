@@ -1,8 +1,9 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, TextInput, Appbar, Text } from 'react-native-paper';
+import { Button, TextInput, Appbar, Text, Portal } from 'react-native-paper';
 import { useDispatch, useSelector } from "react-redux";
 import {Picker} from '@react-native-picker/picker';
+import DateTimePickerModal from '@react-native-community/datetimepicker';
 
 import { update, remove, selectExpenses } from '../store/expensesSlice';
 import { signOut, getUid } from '../../api/auth';
@@ -15,6 +16,21 @@ export default function ExpensesScreen({ navigation }) {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('1');
+  const [date, setDate] = React.useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+  };
+
 
   useEffect(() => {
     readExpense(getUid(),
@@ -67,6 +83,19 @@ export default function ExpensesScreen({ navigation }) {
         title="Expenses"
       />
       </Appbar>
+      <Button
+        style={styles.button}
+        mode={'outlined'}
+        onPress={showDatePicker}
+        >Choose Date</Button>
+      <View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+      </View>
       <View style={styles.inputs}>
         <Text>Category</Text>
         <Picker
