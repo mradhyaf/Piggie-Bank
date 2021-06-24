@@ -1,25 +1,46 @@
-import React from 'react';
-import { FlatList, Text, View, StyleSheet, Item, ScrollView} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, View, StyleSheet, ScrollView} from 'react-native';
 import { List, Button, Paragraph, Dialog, Portal, Divider} from 'react-native-paper';
+import { readExpense } from '../../api/expenses';
 import PriceTag from './PriceTag';
 
-export default ({ data, handleDelete }) => {
+export default () => {
+  const [expenses, setExpenses] = useState([]);
   const [visible, setVisible] = React.useState(false);
-  const [item, setItem] = React.useState('');
 
-  const reducer = (accumulator, data) => accumulator + Number(data.price);
-  const c1 = [];
-  // const c1 = data.filter(expense => expense === "1");
-  const c2 = [];
-  // const c2 = data.filter(expense => expense === "2");
-  const c3 = [];
-  // const c3 = data.filter(expense => expense === "3");
-  const c4 = [];
-  // const c4 = data.filter(expense => expense === "4");
-  const c5 = [];
-  // const c5 = data.filter(expense => expense === "5");
-  const c6 = [];
-  // const c6 = data.filter(expense => expense === "6");
+  useEffect(() => {
+    readExpense(
+      val => {if (val) setExpenses(Object.values(val))},
+      console.error
+    )
+  }, [])
+
+  const categories = ['1', '2', '3', '4', '5', '6'];
+  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + data.price, 0);
+  const getCategory = (data, category) => data.filter(el => el.category === category);
+  
+  const handleDelete = (expenseKey) => {
+    deleteExpense(
+      expenseKey,
+      () => console.log("Deleted expense"),
+      console.error
+    )
+  }
+  
+  const categoryList = (category, data) => (
+    <List.Accordion
+      left={() => <List.Icon icon='folder' />}
+      title={category}
+      id={category}
+      right={() => <PriceTag value={totalPrice(data)}/>}>
+      <FlatList
+        style={styles.list}
+        data={data}
+        renderItem={renderItem}
+      />
+    </List.Accordion>
+  )
+
   const renderItem = ({ item }) => (
     <View>
       <List.Item
@@ -29,7 +50,7 @@ export default ({ data, handleDelete }) => {
         right={() =>
         <View style={{flexDirection: 'row'}}>
           <PriceTag value={item.price} />
-          <Button icon={'trash-can-outline'} onPress={() => { setVisible(true); setItem(item); }} />
+          <Button icon={'trash-can-outline'} onPress={() => handleDelete(item.key)} />
         </View>}
       />
       <Divider />
@@ -37,79 +58,11 @@ export default ({ data, handleDelete }) => {
   );
   
   return (
-    <View>
+    <ScrollView>
       <List.AccordionGroup>
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='1'
-          id='1'
-          right={() => <PriceTag value={c1.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c1}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='2'
-          id='2'
-          right={() => <PriceTag value={c2.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c2}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='3'
-          id='3'
-          right={() => <PriceTag value={c3.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c3}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='4'
-          id='4'
-          right={() => <PriceTag value={c4.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c4}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='5'
-          id='5'
-          right={() => <PriceTag value={c5.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c5}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          left={() => <List.Icon icon='folder' />}
-          title='6'
-          id='6'
-          right={() => <PriceTag value={c6.reduce(reducer, 0)}/>}>
-          <FlatList
-            style={styles.list}
-            data={c6}
-            renderItem={renderItem}
-          />
-        </List.Accordion>
+        {categories.map((category) => {
+          return categoryList(category, getCategory(expenses, category))
+        })}
       </List.AccordionGroup>
       <Portal>
         <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
@@ -133,7 +86,7 @@ export default ({ data, handleDelete }) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-    </View>
+    </ScrollView>
   )
 }
 

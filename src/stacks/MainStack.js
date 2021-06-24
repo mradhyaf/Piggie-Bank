@@ -1,17 +1,27 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
-import { View, Text } from 'react-native'
 
 import ExpensesScreen from '../screens/ExpensesScreen';
+import HomeScreen from '../screens/HomeScreen';
+import OptionsScreen from '../screens/OptionsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
+import ScreenWrapper from '../components/Screen';
 
-const Drawer = createDrawerNavigator();
+const BottomTab = createBottomTabNavigator();
+
+const screens =[
+  {name: "Home", component: HomeScreen},
+  {name: "Expenses", component: ExpensesScreen},
+  {name: "Statistics", component: StatisticsScreen},
+  {name: "Options", component: OptionsScreen},
+]
 
 export default () => {
   return (
-    <Drawer.Navigator initialRouteName="Expenses">
-      <Drawer.Screen name="Expenses" component={ExpensesScreen} />
-      <Drawer.Screen name="Statistics" component={StatisticsScreen} />
-    </Drawer.Navigator>
+    <BottomTab.Navigator initialRouteName="Home">
+      {screens.map(scr => (
+        <BottomTab.Screen name={scr.name} component={ScreenWrapper(scr.component)} />
+      ))}
+    </BottomTab.Navigator>
   )
 }

@@ -4,17 +4,21 @@ import React from 'react'
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import PasswordResetScreen from '../screens/PasswordResetScreen';
-import LoadingScreen from '../screens/LoadingScreen';
 
 const Stack = createStackNavigator();
 
+const screens =[
+  {name: "SignIn", component: SignInScreen},
+  {name: "SignUp", component: SignUpScreen},
+  {name: "Reset", component: PasswordResetScreen},
+]
+
 export default () => {
   return (
-    <Stack.Navigator initialRouteName="Loading" headerMode="none" >
-      <Stack.Screen name="Loading" component={LoadingScreen} />
-      <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="Reset" component={PasswordResetScreen} />
+    <Stack.Navigator initialRouteName="SignIn" headerMode="none" >
+      {screens.map(scr => (
+        <Stack.Screen name={scr.name} component={scr.component} />
+      ))}
     </Stack.Navigator>
   )
 }
