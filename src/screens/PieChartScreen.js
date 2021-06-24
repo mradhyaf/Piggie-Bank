@@ -1,7 +1,7 @@
 import React, {  useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import { Pie } from 'react-chartjs-2';
+import { PieChart } from 'react-native-chart-kit';
 import { useSelector } from "react-redux";
 import { selectExpenses } from '../store/expensesSlice';
 
@@ -60,7 +60,6 @@ export default function Chart({ navigation }) {
           title="Pie Chart"
         />
       </Appbar>
-      <Pie data={data} options={options} />
     </ScrollView>
   )
 }

@@ -1,9 +1,9 @@
 import React, {  useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native';
 import { Button, TextInput, Appbar, Text, Portal } from 'react-native-paper';
 import { useDispatch, useSelector } from "react-redux";
 import {Picker} from '@react-native-picker/picker';
-import DateTimePickerModal from '@react-native-community/datetimepicker';
+//import DateTimePickerModal from '@react-native-community/datetimepicker';
 
 import { update, remove, selectExpenses } from '../store/expensesSlice';
 import { signOut, getUid } from '../../api/auth';
@@ -16,10 +16,10 @@ export default function ExpensesScreen({ navigation }) {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('1');
-  const [date, setDate] = React.useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  //const [date, setDate] = React.useState('');
+  //const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const showDatePicker = () => {
+  /*const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
 
@@ -29,8 +29,20 @@ export default function ExpensesScreen({ navigation }) {
 
   const handleConfirm = (date) => {
     hideDatePicker();
-  };
-
+  };*/
+     /*<Button
+        style={styles.button}
+        mode={'outlined'}
+        onPress={showDatePicker}
+        >Choose Date</Button>
+      <View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+      </View>*/
 
   useEffect(() => {
     readExpense(getUid(),
@@ -74,28 +86,17 @@ export default function ExpensesScreen({ navigation }) {
 
   return (
     <ScrollView>
-      <Appbar>
-      <Appbar.Action
-        icon="dots-vertical"
-        onPress={() => navigation.openDrawer()}
-      />
-      <Appbar.Content
-        title="Expenses"
-      />
-      </Appbar>
-      <Button
-        style={styles.button}
-        mode={'outlined'}
-        onPress={showDatePicker}
-        >Choose Date</Button>
-      <View>
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-      </View>
+      <SafeAreaView>
+        <Appbar>
+          <Appbar.Action
+            icon="dots-vertical"
+            onPress={() => navigation.openDrawer()}
+          />
+          <Appbar.Content
+            title="Expenses"
+          />
+        </Appbar>
+      </SafeAreaView>
       <View style={styles.inputs}>
         <Text>Category</Text>
         <Picker
