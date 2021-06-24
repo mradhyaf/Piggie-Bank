@@ -1,11 +1,13 @@
+import { getCurrentUserId } from "./auth";
 import firebase from "./firebase";
 
 const db = firebase.database();
 const expensesRef = db.ref(`expenses`);
 
-export const createExpense = async (uid, { title, price, date, category }, onSuccess, onError) => {
+export const createExpense = async ({ title, price, date, category }, onSuccess, onError) => {
   try {
-    const expense = expensesRef.child(uid).push()
+    const uid = getCurrentUserId();
+    const expense = expensesRef.child(uid).push();
     const newExpense = {
       key: expense.key,
       title: title,
@@ -20,8 +22,9 @@ export const createExpense = async (uid, { title, price, date, category }, onSuc
   }
 }
 
-export const readExpense = async (uid, onSuccess, onError) => {
+export const readExpense = async (onSuccess, onError) => {
   try {
+    const uid = getCurrentUserId();
     const snapshot = await expensesRef.child(uid).get();
     return onSuccess(snapshot.val());
   } catch (error) {
@@ -29,8 +32,9 @@ export const readExpense = async (uid, onSuccess, onError) => {
   }
 }
 
-export const updateExpense = async (uid, updates, onSuccess, onError) => {
+export const updateExpense = async (updates, onSuccess, onError) => {
   try {
+    const uid = getCurrentUserId();
     await expensesRef.child(uid).update(updates);
     return onSuccess();
   } catch (error) {
@@ -38,8 +42,9 @@ export const updateExpense = async (uid, updates, onSuccess, onError) => {
   }
 }
 
-export const deleteExpense = async (uid, expenseKey, onSuccess, onError) => {
+export const deleteExpense = async (expenseKey, onSuccess, onError) => {
   try {
+    const uid = getCurrentUserId();
     await expensesRef.child(uid).child(expenseKey).remove();
     return onSuccess(expenseKey);
   } catch (error) {

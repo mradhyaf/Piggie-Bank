@@ -1,5 +1,5 @@
 import React, {  useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import { Bar } from 'react-chartjs-2';
 
@@ -55,18 +55,9 @@ export default function Chart({ navigation }) {
   }, []);
 
   return (
-    <ScrollView>
-      <Appbar>
-        <Appbar.Action
-          icon="dots-vertical"
-          onPress={() => navigation.openDrawer()}
-        />
-        <Appbar.Content
-          title="Expenses"
-        />
-      </Appbar>
+    <View>
       <Bar data={data} options={options} />
-    </ScrollView>
+    </View>
   )
 }
 
