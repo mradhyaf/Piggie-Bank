@@ -1,27 +1,66 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ExpensesScreen from '../screens/ExpensesScreen';
 import HomeScreen from '../screens/HomeScreen';
-import OptionsScreen from '../screens/OptionsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
-import ScreenWrapper from '../components/Screen';
 
-const BottomTab = createBottomTabNavigator();
-
-const screens =[
-  {name: "Home", component: HomeScreen},
-  {name: "Expenses", component: ExpensesScreen},
-  {name: "Statistics", component: StatisticsScreen},
-  {name: "Options", component: OptionsScreen},
-]
+const Tab = createBottomTabNavigator();
 
 export default () => {
   return (
-    <BottomTab.Navigator initialRouteName="Home">
-      {screens.map(scr => (
-        <BottomTab.Screen name={scr.name} component={ScreenWrapper(scr.component)} />
-      ))}
-    </BottomTab.Navigator>
+    <Tab.Navigator
+      initialRouteName="Home" 
+      tabBarOptions ={{
+        labelPosition: 'below-icon'
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Icon name='home' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Expenses"
+        component={ExpensesScreen}
+        options={{
+          title: "Expenses",
+          tabBarLabel: "Expenses",
+          tabBarIcon: ({ color }) => (
+            <Icon name='money-bill-wave' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Statistics"
+        component={StatisticsScreen}
+        options={{
+          title: "Statistics",
+          tabBarLabel: "Statistics",
+          tabBarIcon: ({ color }) => (
+            <Icon name='chart-line' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: "Settings",
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => (
+            <Icon name='sliders-h' color={color} size={24} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   )
 }

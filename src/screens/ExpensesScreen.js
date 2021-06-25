@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import ExpenseList from '../components/ExpenseList';
 import AddExpenseForm from '../components/AddExpenseForm';
+import Screen from '../components/Screen';
 
 export default function ExpensesScreen({ navigation }) {
   return (
-    <View>
+    <Screen title="Expenses">
       <AddExpenseForm />
       <ExpenseList />
-      <Button onPress={() => navigation.navigate('Home')}>DRAWER</Button>
-    </View>
+    </Screen>
   )
 }

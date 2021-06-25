@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import AuthStack from './stacks/AuthStack';
 import MainStack from './stacks/MainStack';
 import LoadingScreen from './screens/LoadingScreen';
-import { selectCurrentUser, selectIsLoading, signIn, signOut } from './store/authSlice';
+import { selectAuthorized, selectIsLoading, signIn, signOut } from './store/authSlice';
 import { addAuthListener } from '../api/auth';
 
 export default function Navigation () {
-  const currentUser = useSelector(selectCurrentUser);
+  const authorized = useSelector(selectAuthorized);
   const isLoading = useSelector(selectIsLoading)
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ export default function Navigation () {
   }
   return (
     <NavigationContainer>
-      {currentUser ? (
+      {authorized ? (
         <MainStack />
       ) : (
         <AuthStack />
