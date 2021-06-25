@@ -34,15 +34,13 @@ export default () => {
       title={category}
       id={category}
       right={() => <PriceTag value={totalPrice(data)}/>}>
-      <FlatList
-        style={styles.list}
-        data={data}
-        renderItem={renderItem}
-      />
+      {data.map((expense) => {
+        return renderItem(expense);
+      })}
     </List.Accordion>
   )
 
-  const renderItem = ({ item }) => (
+  const renderItem = (item) => (
     <View>
       <List.Item
         style={styles.item}
