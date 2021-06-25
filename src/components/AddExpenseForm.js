@@ -1,13 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput, Button } from 'react-native-paper';
 import { createExpense } from '../../api/expenses';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddExpenseForm() {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('1');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const dateMY = (date) => date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+  const [dateString, setDateString] = useState('Date: ' + dateMY(new Date()));
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (event, selectedDate) => {
+    hideDatePicker();
+    const currDate = selectedDate || date;
+    const newDate = 'Date: ' + dateMY(currDate);
+    setDate(currDate);
+    console.log(currDate);
+    setDateString(newDate);
+  };
   
   const onPriceChanged = (text) => {
     setPrice(text.replace(/[^0-9.]/g, ''));
@@ -17,7 +39,7 @@ export default function AddExpenseForm() {
     const newExpense = {
       title: item,
       price: price,
-      date: Date(),
+      date: date,
       category: selectedCategory
     }
     createExpense(
@@ -30,6 +52,15 @@ export default function AddExpenseForm() {
   return (
     <View>
       <View style={styles.inputs}>
+        <Button style={styles.button}
+          mode={'outlined'}
+          onPress={() => showDatePicker()}
+          >{dateString}</Button>
+        {isDatePickerVisible && (<DateTimePicker
+          mode="date"
+          value={date}
+          onChange={handleConfirm}
+        />)}
         <Text>Category</Text>
         <Picker
           style={styles.picker}
@@ -62,8 +93,7 @@ export default function AddExpenseForm() {
         <Button
           style={styles.button}
           mode={'outlined'}
-          onPress={() => isNaN(Number(price)) || price === '' ? alert('Invalid. Enter a number for price instead')
-          : item === '' ? alert('Please enter a name for the item') : handleSubmit() }
+          onPress={() => item === '' ? alert('Please enter a name for the item') : handleSubmit() }
           >SUBMIT</Button>
       </View>
     </View>

@@ -44,9 +44,3 @@ export default function StatisticsScreen({ navigation }) {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
