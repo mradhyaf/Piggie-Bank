@@ -7,9 +7,7 @@ import { createExpense } from '../../api/expenses';
 export default function AddExpenseForm() {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('1');
-
-  const categories = [1, 2, 3, 4, 5, 6];
+  const [selectedCategory, setSelectedCategory] = useState('1');
   
   const onPriceChanged = (text) => {
     setPrice(text.replace(/[^0-9.]/g, ''));
@@ -20,7 +18,7 @@ export default function AddExpenseForm() {
       title: item,
       price: price,
       date: Date(),
-      category: category
+      category: selectedCategory
     }
     createExpense(
       newExpense,
@@ -32,7 +30,20 @@ export default function AddExpenseForm() {
   return (
     <View>
       <View style={styles.inputs}>
-        <Text>new picker later</Text>
+        <Text>Category</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedCategory(itemValue)
+          }>
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+          <Picker.Item label="6" value="6" />
+        </Picker>
         <TextInput
           style={styles.input}
           placeholder={'Item'}

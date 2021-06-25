@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet, ScrollView} from 'react-native';
 import { List, Button, Paragraph, Dialog, Portal, Divider} from 'react-native-paper';
-import { readExpense } from '../../api/expenses';
+import { readExpense,deleteExpense } from '../../api/expenses';
 import PriceTag from './PriceTag';
 
 export default () => {
@@ -17,7 +17,7 @@ export default () => {
   }, [])
 
   const categories = ['1', '2', '3', '4', '5', '6'];
-  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + data.price, 0);
+  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + Number(data.price), 0);
   const getCategory = (data, category) => data.filter(el => el.category === category);
 
   const handleDelete = (expenseKey) => {

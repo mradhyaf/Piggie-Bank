@@ -40,7 +40,7 @@ export default function StatisticsScreen({ navigation }) {
                                                chartConfig={chartConfig}
                                                verticalLabelRotation={30}/>
       </SafeAreaView>
-    <Screen>
+    </Screen>
   )
 }
 
