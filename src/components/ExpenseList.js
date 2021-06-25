@@ -64,7 +64,7 @@ export default () => {
           return categoryList(category, getCategory(expenses, category))
         })}
       </List.AccordionGroup>
-      <Portal>
+      {/* <Portal>
         <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
           <Dialog.Title>Alert</Dialog.Title>
           <Dialog.Content>
@@ -85,7 +85,7 @@ export default () => {
             <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
           </Dialog.Actions>
         </Dialog>
-      </Portal>
+      </Portal> */}
     </ScrollView>
   )
 }

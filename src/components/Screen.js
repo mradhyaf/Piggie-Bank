@@ -1,23 +1,23 @@
 import React from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-export function Screen({ children }) {
+export default function Screen({ children, title }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Appbar>
       <Appbar.Content
-        title="Expenses"
+        title={title}
       />
       </Appbar>
-      <ScrollView>
-        {children}
+      <ScrollView style={styles.content}>
+          {children}
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default function ScreenWrapper(Component) {
+export function ScreenWrapper(Component) {
   return function WrappedComponent(props) {
     return (
       <Screen>
@@ -26,3 +26,14 @@ export default function ScreenWrapper(Component) {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    margin: '5%',
+  }
+})

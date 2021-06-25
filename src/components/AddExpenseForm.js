@@ -32,17 +32,7 @@ export default function AddExpenseForm() {
   return (
     <View>
       <View style={styles.inputs}>
-        <Text>Category</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={category}
-          onValueChange={(itemValue, itemIndex) =>
-            setCategory(itemValue)
-          }>
-          {categories.map((category) => (
-            <Picker.Item label={category} value={category} />
-          ))}
-        </Picker>
+        <Text>new picker later</Text>
         <TextInput
           style={styles.input}
           placeholder={'Item'}
