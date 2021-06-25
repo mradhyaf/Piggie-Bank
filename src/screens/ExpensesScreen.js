@@ -1,5 +1,5 @@
 import React, {  useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView,StatusBar, Platform } from 'react-native';
 import { Button, TextInput, Appbar, Text, Portal } from 'react-native-paper';
 import { useDispatch, useSelector } from "react-redux";
 import {Picker} from '@react-native-picker/picker';
@@ -86,7 +86,7 @@ export default function ExpensesScreen({ navigation }) {
 
   return (
     <ScrollView>
-      <SafeAreaView>
+      <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0}}>
         <Appbar>
           <Appbar.Action
             icon="dots-vertical"

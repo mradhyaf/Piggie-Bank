@@ -36,6 +36,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("1")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -48,6 +49,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("2")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -60,6 +62,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("3")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -72,6 +75,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("4")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -84,6 +88,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("5")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
@@ -96,6 +101,7 @@ export default ({ data, handleDelete }) => {
           <FlatList
             style={styles.list}
             data={c("6")}
+            key={data.key}
             renderItem={renderItem}
           />
         </List.Accordion>
