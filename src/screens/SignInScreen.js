@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
 import { Button, Headline, TextInput } from 'react-native-paper';
 
 import { signIn } from '../../api/auth';
@@ -11,11 +11,11 @@ export default function LoginScreen({ navigation }) {
 
   const handleSignIn = () => {
     const userDetails = { email: email, password: password };
-    signIn(userDetails, () => navigation.navigate("Expenses"), alert);
+    signIn(userDetails, console.log, alert);
   }
 
   const secureText =() => {
-    visible ?  setVisible(false) : setVisible(true);
+    visible ? setVisible(false) : setVisible(true);
   }
 
   return (
@@ -28,7 +28,6 @@ export default function LoginScreen({ navigation }) {
             mode={'outlined'}
             style={styles.input}
             placeholder={'Email'}
-            // ref={emailRef}
             value={email}
             onChangeText={setEmail}
         />
@@ -36,7 +35,6 @@ export default function LoginScreen({ navigation }) {
           mode={'outlined'}
           style={styles.input}
           placeholder={'Password'}
-          // ref={passwordRef}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={visible}

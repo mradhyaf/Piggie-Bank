@@ -1,19 +1,66 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
-import { View, Text } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ExpensesScreen from '../screens/ExpensesScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
-import PieChartScreen from '../screens/PieChartScreen';
 
-const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 export default () => {
   return (
-    <Drawer.Navigator initialRouteName="Expenses">
-      <Drawer.Screen name="Expenses" component={ExpensesScreen} />
-      <Drawer.Screen name="Bar Chart" component={StatisticsScreen} />
-      <Drawer.Screen name="Pie Chart" component={PieChartScreen} />
-    </Drawer.Navigator>
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions ={{
+        labelPosition: 'below-icon'
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Icon name='home' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Expenses"
+        component={ExpensesScreen}
+        options={{
+          title: "Expenses",
+          tabBarLabel: "Expenses",
+          tabBarIcon: ({ color }) => (
+            <Icon name='money-bill-wave' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Statistics"
+        component={StatisticsScreen}
+        options={{
+          title: "Statistics",
+          tabBarLabel: "Statistics",
+          tabBarIcon: ({ color }) => (
+            <Icon name='chart-line' color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: "Settings",
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => (
+            <Icon name='sliders-h' color={color} size={24} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   )
 }

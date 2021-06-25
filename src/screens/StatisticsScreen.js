@@ -1,12 +1,13 @@
 import React, {  useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, ScrollView, View, SafeAreaView } from 'react-native';
 import { Appbar } from 'react-native-paper';
+import Screen from '../components/Screen';
 import { BarChart } from 'react-native-chart-kit';
 import { useSelector } from "react-redux";
 import { selectExpenses } from '../store/expensesSlice';
 import { Dimensions} from 'react-native';
 
-export default function Chart({ navigation }) {
+export default function StatisticsScreen({ navigation }) {
   const screenWidth = Dimensions.get('window').width
   const expenses = useSelector(selectExpenses);
   const reducer = (accumulator, data) => accumulator + Number(data.price);
@@ -31,24 +32,15 @@ export default function Chart({ navigation }) {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <Appbar>
-          <Appbar.Action
-            icon="dots-vertical"
-            onPress={() => navigation.openDrawer()}
-          />
-          <Appbar.Content
-            title="Bar Chart"
-          />
-        </Appbar>
+    <Screen title="Statistics">
+      <SafeAreaView>
         <BarChart data={data} yAxisLabel="$"   width={screenWidth}
                                                height={220}
                                                yAxisLabel="$"
                                                chartConfig={chartConfig}
                                                verticalLabelRotation={30}/>
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    <Screen>
   )
 }
 
