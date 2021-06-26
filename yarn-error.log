@@ -1,30 +1,29 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\muraf\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native @react-native-picker-select
+  D:\node.exe C:\Users\J\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native-community/datetimepicker@3.2.0
 
 PATH: 
-  C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;c:\WINDOWS\System32\WBem;C:\Program Files\MATLAB\R2020b\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\muraf\AppData\Local\Microsoft\WindowsApps;C:\Users\muraf\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\muraf\AppData\Roaming\npm
+  C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;D:\matlab\bin;c:\WINDOWS\System32\WBem;C:\Program Files\Git\cmd;D:\;C:\ProgramData\chocolatey\bin;C:\Users\J\AppData\Local\Microsoft\WindowsApps;D:\Git\bin\;D:\Git\cmd\;C:\Users\J\AppData\Roaming\npm
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  14.17.1
+  14.17.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@react-native-picker-select: Request "https://registry.yarnpkg.com/@react-native-picker-select" returned a 405
-      at Request.params.callback [as _callback] (C:\Users\muraf\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66997:18)
-      at Request.self.callback (C:\Users\muraf\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
-      at Request.emit (events.js:375:28)
-      at Request.<anonymous> (C:\Users\muraf\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
-      at Request.emit (events.js:375:28)
-      at IncomingMessage.<anonymous> (C:\Users\muraf\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
-      at Object.onceWrapper (events.js:481:28)
-      at IncomingMessage.emit (events.js:387:35)
-      at endReadableNT (internal/streams/readable.js:1317:12)
-      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+  Error: https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\J\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141289:19)
+      at Object.onceWrapper (events.js:482:28)
+      at ClientRequest.emit (events.js:376:20)
+      at TLSSocket.emitRequestTimeout (_http_client.js:790:9)
+      at Object.onceWrapper (events.js:482:28)
+      at TLSSocket.emit (events.js:388:22)
+      at TLSSocket.Socket._onTimeout (net.js:483:8)
+      at listOnTimeout (internal/timers.js:555:17)
+      at processTimers (internal/timers.js:498:7)
 
 npm manifest: 
   {
@@ -38,9 +37,9 @@ npm manifest:
     },
     "dependencies": {
       "@react-native-async-storage/async-storage": "^1.13.0",
+      "@react-native-community/datetimepicker": "^3.5.2",
       "@react-native-community/masked-view": "0.1.10",
       "@react-native-picker/picker": "^1.16.1",
-      "@react-navigation/bottom-tabs": "^5.11.11",
       "@react-navigation/drawer": "^5.12.5",
       "@react-navigation/native": "^5.9.4",
       "@react-navigation/stack": "^5.14.5",
@@ -58,6 +57,7 @@ npm manifest:
       "react-native-chart-kit": "^6.11.0",
       "react-native-dotenv": "^2.5.5",
       "react-native-gesture-handler": "~1.10.2",
+      "react-native-modal-datetime-picker": "^10.0.0",
       "react-native-paper": "^4.9.0",
       "react-native-reanimated": "~2.1.0",
       "react-native-safe-area-context": "3.2.0",
@@ -877,6 +877,7 @@ Lockfile:
     integrity sha512-Nx054zovz6IIRWEB49RDRuXGI4Gy0GMgqG0cII9L3MxqgXz/+rgII+RU58qpo4g7tNEx1jG7rRVH4ihZoP4esQ==
     dependencies:
       "@babel/helper-plugin-utils" "^7.14.5"
+<<<<<<< HEAD
   
   "@babel/plugin-transform-object-assign@^7.0.0":
     version "7.14.5"
@@ -885,6 +886,16 @@ Lockfile:
     dependencies:
       "@babel/helper-plugin-utils" "^7.14.5"
   
+=======
+  
+  "@babel/plugin-transform-object-assign@^7.0.0":
+    version "7.14.5"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.14.5.tgz#62537d54b6d85de04f4df48bfdba2eebff17b760"
+    integrity sha512-lvhjk4UN9xJJYB1mI5KC0/o1D5EcJXdbhVe+4fSk08D6ZN+iuAIs7LJC+71h8av9Ew4+uRq9452v9R93SFmQlQ==
+    dependencies:
+      "@babel/helper-plugin-utils" "^7.14.5"
+  
+>>>>>>> e15f19a3238aa40de4ebb541544dc29a35868b84
   "@babel/plugin-transform-object-assign@^7.10.4":
     version "7.12.13"
     resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.12.13.tgz#d9b9200a69e03403a813e44a933ad9f4bddfd050"
@@ -2605,6 +2616,13 @@ Lockfile:
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
   
+  "@react-native-community/datetimepicker@^3.5.2":
+    version "3.5.2"
+    resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-3.5.2.tgz#8e6feb30f2620e5abdf565d5fe74c0c04edcf6ae"
+    integrity sha512-TWRuAtr/DnrEcRewqvXMLea2oB+YF+SbtuYLHguALLxNJQLl/RFB7aTNZeF+OoH75zKFqtXECXV1/uxQUpA+sg==
+    dependencies:
+      invariant "^2.2.4"
+  
   "@react-native-community/masked-view@0.1.10":
     version "0.1.10"
     resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
@@ -2615,6 +2633,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.16.1.tgz#cc5d05b0d651445afa519c67824d8af3e43fa10c"
     integrity sha512-sk07ARwL0cMXwkXsqcxyprL/KiEVD0xRFXFqznTnZs1YXqwxEqz6GiGtq2vQlK64CzXDpHX8gw1QQz47abBY1Q==
   
+<<<<<<< HEAD
   "@react-navigation/bottom-tabs@^5.11.11":
     version "5.11.11"
     resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.11.11.tgz#ad4dfee4316522d8c05b5a8ad460f597bddb9e3c"
@@ -2623,6 +2642,8 @@ Lockfile:
       color "^3.1.3"
       react-native-iphone-x-helper "^1.3.0"
   
+=======
+>>>>>>> e15f19a3238aa40de4ebb541544dc29a35868b84
   "@react-navigation/core@^5.15.3":
     version "5.15.3"
     resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.15.3.tgz#dce7090bf3ea0d302993d742c706825e495b812e"
@@ -11060,6 +11081,13 @@ Lockfile:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
     integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+  
+  react-native-modal-datetime-picker@^10.0.0:
+    version "10.0.0"
+    resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-10.0.0.tgz#1a424c0ed277ab76621542af4efa4f357ed2a740"
+    integrity sha512-uKi1K3nUWJ1UWssLsDt8s7KpfFFlZ0MaP91wf3rFG07woscVu70m1Db0f1v6s3YY01UW+q+8ZD+Y2Hp3o+UCvQ==
+    dependencies:
+      prop-types "^15.7.2"
   
   react-native-paper@^4.9.0:
     version "4.9.0"
