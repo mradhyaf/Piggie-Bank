@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 export default () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home" 
+      initialRouteName="Home"
       tabBarOptions ={{
         labelPosition: 'below-icon'
       }}

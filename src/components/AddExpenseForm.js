@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput, Button } from 'react-native-paper';
 import { createExpense } from '../../api/expenses';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddExpenseForm() {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('1');
+  const [selectedCategory, setSelectedCategory] = useState('1');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const dateMY = (date) => date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+  const [dateString, setDateString] = useState('Date: ' + dateMY(new Date()));
 
-  const categories = [1, 2, 3, 4, 5, 6];
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (event, selectedDate) => {
+    hideDatePicker();
+    const currDate = selectedDate || date;
+    const newDate = 'Date: ' + dateMY(currDate);
+    setDate(currDate);
+    console.log(currDate);
+    setDateString(newDate);
+  };
   
   const onPriceChanged = (text) => {
     setPrice(text.replace(/[^0-9.]/g, ''));
@@ -19,8 +39,8 @@ export default function AddExpenseForm() {
     const newExpense = {
       title: item,
       price: price,
-      date: Date(),
-      category: category
+      date: date,
+      category: selectedCategory
     }
     createExpense(
       newExpense,
@@ -32,7 +52,29 @@ export default function AddExpenseForm() {
   return (
     <View>
       <View style={styles.inputs}>
-        <Text>new picker later</Text>
+        <Button style={styles.button}
+          mode={'outlined'}
+          onPress={() => showDatePicker()}
+          >{dateString}</Button>
+        {isDatePickerVisible && (<DateTimePicker
+          mode="date"
+          value={date}
+          onChange={handleConfirm}
+        />)}
+        <Text>Category</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedCategory(itemValue)
+          }>
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+          <Picker.Item label="6" value="6" />
+        </Picker>
         <TextInput
           style={styles.input}
           placeholder={'Item'}
@@ -51,8 +93,7 @@ export default function AddExpenseForm() {
         <Button
           style={styles.button}
           mode={'outlined'}
-          onPress={() => isNaN(Number(price)) || price === '' ? alert('Invalid. Enter a number for price instead')
-          : item === '' ? alert('Please enter a name for the item') : handleSubmit() }
+          onPress={() => item === '' ? alert('Please enter a name for the item') : handleSubmit() }
           >SUBMIT</Button>
       </View>
     </View>

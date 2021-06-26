@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, View, StatusBar, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 export default function Screen({ children, title }) {

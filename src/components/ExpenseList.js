@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet, ScrollView} from 'react-native';
 import { List, Button, Paragraph, Dialog, Portal, Divider} from 'react-native-paper';
-import { readExpense } from '../../api/expenses';
+import { readExpense,deleteExpense } from '../../api/expenses';
 import PriceTag from './PriceTag';
 
 export default () => {
   const [expenses, setExpenses] = useState([]);
   const [visible, setVisible] = React.useState(false);
+  const [item, setItem] = React.useState('');
 
   useEffect(() => {
     readExpense(
@@ -16,9 +17,9 @@ export default () => {
   }, [])
 
   const categories = ['1', '2', '3', '4', '5', '6'];
-  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + data.price, 0);
+  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + Number(data.price), 0);
   const getCategory = (data, category) => data.filter(el => el.category === category);
-  
+
   const handleDelete = (expenseKey) => {
     deleteExpense(
       expenseKey,
@@ -26,22 +27,20 @@ export default () => {
       console.error
     )
   }
-  
+
   const categoryList = (category, data) => (
     <List.Accordion
       left={() => <List.Icon icon='folder' />}
       title={category}
       id={category}
       right={() => <PriceTag value={totalPrice(data)}/>}>
-      <FlatList
-        style={styles.list}
-        data={data}
-        renderItem={renderItem}
-      />
+      {data.map((expense) => {
+        return renderItem(expense);
+      })}
     </List.Accordion>
   )
 
-  const renderItem = ({ item }) => (
+  const renderItem = (item) => (
     <View>
       <List.Item
         style={styles.item}
@@ -64,7 +63,7 @@ export default () => {
           return categoryList(category, getCategory(expenses, category))
         })}
       </List.AccordionGroup>
-      {/* <Portal>
+      <Portal>
         <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
           <Dialog.Title>Alert</Dialog.Title>
           <Dialog.Content>
@@ -75,17 +74,7 @@ export default () => {
             <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
           </Dialog.Actions>
         </Dialog>
-        <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
-          <Dialog.Title>Alert</Dialog.Title>
-          <Dialog.Content>
-            <Paragraph>'Are you sure you want to delete?'</Paragraph>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => { setVisible(false); handleDelete(item.key); }}>Yes</Button>
-            <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal> */}
+      </Portal>
     </ScrollView>
   )
 }
