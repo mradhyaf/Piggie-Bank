@@ -3,11 +3,12 @@ import { StyleSheet, ScrollView, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import { Bar } from 'react-chartjs-2';
 import Screen from '../components/Screen';
+import PieChart from '../components/PieChart';
 
 export default function StatisticsScreen({ navigation }) {
   return (
     <Screen title="Statistics">
-      
+      <PieChart />
     </Screen>
   )
 }

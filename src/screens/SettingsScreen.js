@@ -1,16 +1,20 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Button } from 'react-native-paper'
-import { signOut } from '../../api/auth'
+import { useDispatch } from 'react-redux'
+
 import Screen from '../components/Screen'
+import { signOut } from '../store/userSlice'
 
 export default function OptionsScreen({ navigation }) {
+  const dispatch = useDispatch();
+
   const handleSignOut = () => {
-    signOut(console.log, console.log);
+    dispatch(signOut());
   }
 
   return (
-    <Screen title="Settings">
+    <Screen title="Settings" enableAppbar="true">
       <Button
         onPress={handleSignOut}
       >LOG OUT</Button>

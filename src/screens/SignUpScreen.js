@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text} from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Text, TextInput, Button, Headline } from 'react-native-paper';
+
 import { signUp } from '../../api/auth';
+import Screen from '../components/Screen';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -10,8 +12,7 @@ export default function SignUp({ navigation }) {
 
   const handleSignUp = () => {
     const userDetails = { email: email, password: password };
-    signUp(userDetails, () => navigation.navigate("Expenses"), alert);
-    console.log('Sign Up pressed');
+    signUp(userDetails, console.log, alert);
   }
 
   const secureText =() => {
@@ -19,53 +20,75 @@ export default function SignUp({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.main}>
-      <View>
-        <Text>Sign Up Page</Text>
+    <Screen style={styles.container}>
+      <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
+      <View style={styles.form}>
         <TextInput
-          mode={'outlined'}
-          style={styles.input}
-          placeholder={'Email'}
-          // ref={emailRef}
-          value={email}
-          onChangeText={setEmail}
+            style={styles.input}
+            placeholder={'Email'}
+            textContentType={'emailAddress'}
+            value={email}
+            onChangeText={setEmail}
         />
         <TextInput
-          mode={'outlined'}
           style={styles.input}
           placeholder={'Password'}
-          // ref={passwordRef}
+          textContentType={'password'}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={visible}
-          right={<TextInput.Icon name="eye" onPress={secureText}/>}
+          right={<TextInput.Icon style={styles.eyecon} name="eye" onPress={secureText}/>}
         />
-        <Button mode={'contained'} style={styles.button} onPress={handleSignUp}>
+        <Button style={styles.button} contentStyle={styles.buttonContent} labelStyle={styles.buttonLabel} mode={'contained'} onPress={handleSignUp} compact={true}>
           SIGN UP
         </Button>
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignIn')}>
-          LOGIN PAGE
-        </Button>
       </View>
-    </SafeAreaView>
+      <Text style={styles.bottomText}>
+        Already have an account? <Text style={styles.signUp} onPress={() => navigation.push('SignIn')}>Sign In</Text>
+      </Text>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  main: {
-    flex: 1,
+  container: {
     justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  headline: {
+    flex: 6
+  },
+  form: {
+    flex: 16,
+    paddingHorizontal: '10%',
   },
   input: {
-    justifyContent: 'space-around',
-    flex: 1,
-    margin: 1
+    marginVertical: '1.5%',
+    height: 56,
+  },
+  reset: {
+    color: '#3498db',
+    textAlign: 'right',
+    margin: '2%'
   },
   button: {
-    justifyContent: 'space-around',
-    flex: 1,
-    margin: 1
+    justifyContent: 'center',
+    marginHorizontal: '10%',
+    marginVertical: '3%',
+    borderRadius: 28,
+  },
+  buttonContent: {
+    height: 56,
+  },
+  buttonLabel: {
+    paddingHorizontal: '20%',
+    paddingVertical: '0%',
+  },
+  bottomText: {
+    flex: 2,
+    textAlign: 'center',
+  },
+  signUp: {
+    fontWeight: 'bold',
+    color: '#3498db',
   }
 })

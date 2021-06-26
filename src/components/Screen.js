@@ -1,18 +1,20 @@
 import React from 'react'
-import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, View, StatusBar, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
-export default function Screen({ children, title }) {
+export default function Screen({ children, title, enableAppbar, style, ...props }) {
   return (
     <SafeAreaView style={styles.container}>
-      <Appbar>
-      <Appbar.Content
-        title={title}
-      />
-      </Appbar>
-      <ScrollView style={styles.content}>
+      {enableAppbar && (
+        <Appbar>
+        <Appbar.Content
+          title={title}
+        />
+        </Appbar>
+      )}
+      <View style={[styles.content, style]} {...props}>
           {children}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }

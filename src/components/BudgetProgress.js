@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
-import { Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
+import NumericInput from './NumericInput';
 
 export default function BudgetProgress() {
-  const budget = 1000 ;
+  const [budget, setBudget] = useState(1000);
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
@@ -30,6 +31,15 @@ export default function BudgetProgress() {
         chartConfig={chartConfig}
         hideLegend={true}
       />
+      <View>
+      <NumericInput
+        placeholder={'Budget'}
+        value={budget}
+        onChangeText={(budget) => setBudget(budget)}
+      />
+      <Button
+      >Set Budget</Button>
+      </View>
     </View>
   )
 }

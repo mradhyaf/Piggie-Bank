@@ -2,58 +2,45 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput, Button } from 'react-native-paper';
-import { createExpense } from '../../api/expenses';
+import { useDispatch } from 'react-redux';
+
+import newExpense from '../functions/newExpense';
+import NumericInput from './NumericInput';
+import categories from '../../assets/categories'
+import { update } from '../store/expensesSlice';
 
 export default function AddExpenseForm() {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('1');
-
-  const categories = [1, 2, 3, 4, 5, 6];
-  
-  const onPriceChanged = (text) => {
-    setPrice(text.replace(/[^0-9.]/g, ''));
-  }
+  const [category, setCategory] = useState(categories[0]);
+  const dispatch = useDispatch()
 
   const handleSubmit = () => {
-    const newExpense = {
-      title: item,
-      price: price,
-      date: Date(),
-      category: category
-    }
-    createExpense(
-      newExpense,
-      console.log,
-      console.error
-    );
+    const expense = newExpense(item, price, Date(), category);
+    dispatch(update([expense]));
   }
 
   return (
     <View>
-      <View style={styles.inputs}>
+      <View>
         <Text>new picker later</Text>
         <TextInput
-          style={styles.input}
           placeholder={'Item'}
           value={item}
           onChangeText={(item) => setItem(item)}
           />
-        <TextInput
-          style={styles.input}
+        <NumericInput
           placeholder={'Price'}
           value={price}
-          onChangeText={onPriceChanged}
-          keyboardType={'numeric'}
+          onChangeText={(price) => setPrice(price)}
         />
       </View>
       <View style={styles.buttons}>
         <Button
           style={styles.button}
           mode={'outlined'}
-          onPress={() => isNaN(Number(price)) || price === '' ? alert('Invalid. Enter a number for price instead')
-          : item === '' ? alert('Please enter a name for the item') : handleSubmit() }
-          >SUBMIT</Button>
+          onPress={() => item === '' ? alert('Please enter a name for the item') : handleSubmit() }
+        >SUBMIT</Button>
       </View>
     </View>
   )

@@ -1,33 +1,25 @@
 import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import AuthStack from './stacks/AuthStack';
 import MainStack from './stacks/MainStack';
 import LoadingScreen from './screens/LoadingScreen';
-import { selectAuthorized, selectIsLoading, signIn, signOut } from './store/authSlice';
-import { addAuthListener } from '../api/auth';
+import { selectLoading, selectUserId } from './store/userSlice';
 
 export default function Navigation () {
-  const authorized = useSelector(selectAuthorized);
-  const isLoading = useSelector(selectIsLoading)
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const authListener = addAuthListener(
-      ({ displayName, email, photoURL, uid }) => dispatch(signIn({ displayName, email, photoURL, uid })),
-      () => dispatch(signOut()));
-    return authListener;
-  }, [])
+  let uid = useSelector(selectUserId);
+  const isLoading = useSelector(selectLoading);
 
   if (isLoading) {
     return (
       <LoadingScreen />
     )
   }
+
   return (
     <NavigationContainer>
-      {authorized ? (
+      {uid ? (
         <MainStack />
       ) : (
         <AuthStack />

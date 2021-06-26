@@ -8,7 +8,7 @@ import Screen from '../components/Screen';
 
 export default function ExpensesScreen({ navigation }) {
   return (
-    <Screen title="Expenses">
+    <Screen title="Expenses" enableAppbar={true}>
       <AddExpenseForm />
       <ExpenseList />
     </Screen>
