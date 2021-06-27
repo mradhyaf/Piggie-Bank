@@ -9,7 +9,7 @@ const initialState = {
     uid: null,
   },
   loading: false,
-  error: null,
+  error: '',
 }
 
 export const userSlice = createSlice({
@@ -22,27 +22,29 @@ export const userSlice = createSlice({
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
     },
     signInFail: (state, action) => {
-      state.currentUser = {...initialState.currentUser};
       state.loading = false;
       state.error = action.payload;
     },
     signUpSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
     },
     signUpFail: (state, action) => {
-      state.currentUser = {...initialState.currentUser};
       state.loading = false;
       state.error = action.payload;
     },
-    signOut: state => {
+    signOutSuccess: state => {
       state.currentUser = {...initialState.currentUser};
-      state.loading = initialState.loading;
-      state.error = initialState.error;
+      state.loading = false;
+    },
+    signOutFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload
+    },
+    passwordRecoveryFail: (state, action) => {
+      state.error = action.payload
     }
   },
 })
@@ -70,19 +72,50 @@ export const signUp = ({ displayName, email, password }) => {
         displayName,
         photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
       })
-      dispatch(signUpSuccess({ 
+      return dispatch(signUpSuccess({ 
           displayName: user.displayName, 
           email: user.email,
           photoURL: user.email,
           uid: user.uid,
-        }))
+        }));
     } catch (error) {
       return dispatch(signUpFail(error));
     }
   }
 }
 
-export const { authRequest, signInSuccess, signInFail, signUpSuccess, signUpFail, signOut } = userSlice.actions;
+export const signOut = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(authRequest());
+      await auth.signOut();
+      return dispatch(signOutSuccess());
+    } catch (error) {
+      return dispatch(signOutFail());
+    }
+  }
+}
+
+export const passwordRecovery = () => {
+  return async (dispatch) => {
+    try {
+
+    } catch (error) {
+      return dispatch(passwordRecoveryFail());
+    }
+  }
+}
+
+export const { 
+  authRequest, 
+  signInSuccess, 
+  signInFail, 
+  signUpSuccess, 
+  signUpFail, 
+  signOutSuccess, 
+  signOutFail,
+  passwordRecoveryFail
+} = userSlice.actions;
 
 export const selectDisplayName = state => state.user.currentUser.displayName;
 export const selectPhotoURL = state => state.user.currentUser.photoURL;

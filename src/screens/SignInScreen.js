@@ -4,6 +4,7 @@ import { Button, Headline, Text, TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import Screen from '../components/Screen';
+import { getUserExpenses } from '../store/expensesSlice';
 import { signIn } from '../store/userSlice';
 
 export default function LoginScreen({ navigation }) {
@@ -13,7 +14,7 @@ export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleSignIn = () => {
-    dispatch(signIn({email, password}))
+    dispatch(signIn({ email, password }));
   }
 
   const secureText =() => {
