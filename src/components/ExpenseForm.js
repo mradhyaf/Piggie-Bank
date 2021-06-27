@@ -67,7 +67,6 @@ export default function ExpenseForm() {
         />
       </Pressable>
       {show && (<DateTimePicker
-        {...props}
         display='spinner'
         mode="date"
         value={date}

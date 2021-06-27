@@ -16,7 +16,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    signInRequest: state => {
+    authRequest: state => {
       state.loading = true;
     },
     signInSuccess: (state, action) => {
@@ -25,6 +25,16 @@ export const userSlice = createSlice({
       state.error = null;
     },
     signInFail: (state, action) => {
+      state.currentUser = {...initialState.currentUser};
+      state.loading = false;
+      state.error = action.payload;
+    },
+    signUpSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    signUpFail: (state, action) => {
       state.currentUser = {...initialState.currentUser};
       state.loading = false;
       state.error = action.payload;
@@ -40,7 +50,7 @@ export const userSlice = createSlice({
 export const signIn = ({ email, password }) => {
   return async (dispatch) => {
     try {
-      dispatch(signInRequest());
+      dispatch(authRequest());
       const userCredentials = await auth.signInWithEmailAndPassword(email, password);
       const { uid, photoURL, displayName, email: mail } = userCredentials.user;
       return dispatch(signInSuccess({ uid, photoURL, displayName, mail }));
@@ -50,7 +60,29 @@ export const signIn = ({ email, password }) => {
   }
 }
 
-export const { signInRequest, signInSuccess, signInFail, signOut } = userSlice.actions;
+export const signUp = ({ displayName, email, password }) => {
+  return async (dispatch) => {
+    try {   
+      dispatch(authRequest());
+      const userCredentials = await auth.createUserWithEmailAndPassword(email, password);
+      const { user } = userCredentials;
+      user.updateProfile({
+        displayName,
+        photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
+      })
+      dispatch(signUpSuccess({ 
+          displayName: user.displayName, 
+          email: user.email,
+          photoURL: user.email,
+          uid: user.uid,
+        }))
+    } catch (error) {
+      return dispatch(signUpFail(error));
+    }
+  }
+}
+
+export const { authRequest, signInSuccess, signInFail, signUpSuccess, signUpFail, signOut } = userSlice.actions;
 
 export const selectDisplayName = state => state.user.currentUser.displayName;
 export const selectPhotoURL = state => state.user.currentUser.photoURL;
