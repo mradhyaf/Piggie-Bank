@@ -14,7 +14,7 @@ export default () => {
       val => {if (val) setExpenses(Object.values(val))},
       console.error
     )
-  }, [])
+  }, [visible])
 
   const categories = ['1', '2', '3', '4', '5', '6'];
   const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + Number(data.price), 0);
@@ -49,7 +49,7 @@ export default () => {
         right={() =>
         <View style={{flexDirection: 'row'}}>
           <PriceTag value={item.price} />
-          <Button icon={'trash-can-outline'} onPress={() => handleDelete(item.key)} />
+          <Button icon={'trash-can-outline'} onPress={() => {setVisible(true); setItem(item); }} />
         </View>}
       />
       <Divider />
