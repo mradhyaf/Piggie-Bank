@@ -1,6 +1,6 @@
 import React, {  useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView, View, SafeAreaView } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { StyleSheet, ScrollView, View, SafeAreaView, FlatList } from 'react-native';
+import { Appbar, Text } from 'react-native-paper';
 import Screen from '../components/Screen';
 import { BarChart } from 'react-native-chart-kit';
 import { useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function StatisticsScreen({ navigation }) {
       }
     ]
   };
+  
   const chartConfig={
     backgroundColor: '#e26a00',
     backgroundGradientFrom: '#fb8c00',
@@ -31,16 +32,55 @@ export default function StatisticsScreen({ navigation }) {
     }
   };
 
+  const renderItem = (item) => (
+    <List.Item
+      style={styles.item}
+      title={item.title}
+      description={item.description}
+      right={() =>
+      <View style={{flexDirection: 'row'}}>
+        <PriceTag value={item.price} />
+        <Button icon={'trash-can-outline'} onPress={() => handleDelete(item.key)} />
+      </View>}
+    />
+  );
+  
+
   return (
-    <Screen title="Statistics">
-      <SafeAreaView>
-        <BarChart data={data} yAxisLabel="$"   width={screenWidth}
-                                               height={220}
-                                               yAxisLabel="$"
-                                               chartConfig={chartConfig}
-                                               verticalLabelRotation={30}/>
-      </SafeAreaView>
+    <Screen title="Statistics" enableAppbar={true}>
+      <View style={styles.chart}>
+        {/* <BarChart 
+        data={data} 
+        yAxisLabel="$"   
+        width={screenWidth}
+        height={220}
+        yAxisLabel="$"
+        chartConfig={chartConfig}
+        verticalLabelRotation={30}/> */}
+        <Text>Chart here</Text>
+      </View>
+      <View style={styles.list}>
+        <Text>List here</Text>
+        <FlatList />
+      </View>
     </Screen>
   )
 }
 
+const styles = StyleSheet.create({
+  chart: {
+    flex: 4,
+    borderColor: 'red',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  list: {
+    flex: 8,
+    borderColor: 'blue',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  listItem: {
+    borderColor: 'blue',
+    borderWidth: StyleSheet.hairlineWidth,
+    
+  }
+})

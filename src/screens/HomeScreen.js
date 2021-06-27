@@ -1,7 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Avatar, Button } from "react-native-paper";
+import { Avatar, Button, Card } from "react-native-paper";
 import { useSelector } from 'react-redux';
+
+import ExpenseForm from '../components/ExpenseForm';
 import BudgetProgress from '../components/BudgetProgress';
 import Screen from '../components/Screen';
 import { selectPhotoURL } from '../store/userSlice';
@@ -10,16 +12,17 @@ import { selectPhotoURL } from '../store/userSlice';
 
 export default function HomeScreen({ navigation }) {
   return (
-    <Screen title="Home" enableAppbar={true}>
-      <View style={styles.container}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarName}>OBI-WAN KENOBI</Text>
-          <Avatar.Text size={32} label='OK' />
-        </View>
-        <View style={styles.budget}>
-          <BudgetProgress />
-        </View>
-      </View>
+    <Screen style={styles.container} title="Home" enableAppbar={true}>
+      <Card style={styles.card}>
+        <Avatar.Text style={styles.avatar} size={72} label='OK' />
+        <Text style={styles.avatarName}>OBI-WAN KENOBI</Text>
+      </Card>
+      <Card style={styles.card}>
+        <BudgetProgress />
+      </Card>
+      <Card style={styles.card}>
+        <ExpenseForm />
+      </Card>
     </Screen>
   )
 }
@@ -27,11 +30,14 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '5%',
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: 'black',
+  },
+  card: {
+    marginHorizontal: '1%',
+    marginVertical: 2,
+    paddingHorizontal: '2%',
+    paddingVertical: 15,
   },
   avatar: {
     flex: 1,

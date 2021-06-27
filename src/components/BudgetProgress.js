@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { Button, Text } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBudget, setBudget } from '../store/settingsSlice';
 import NumericInput from './NumericInput';
 
 export default function BudgetProgress() {
-  const [budget, setBudget] = useState(1000);
+  const dispatch = useDispatch();
+  const budget = useSelector(selectBudget);
+
+  const [show, setShow] = useState(false);
+  const [newBudget, setNewBudget] = useState(budget);
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
   };
 
   const data = {
@@ -20,27 +26,30 @@ export default function BudgetProgress() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Your budget this month:</Text>
-      <ProgressChart
-        data={data}
-        width={160}
-        height={160}
-        strokeWidth={16}
-        radius={64}
-        chartConfig={chartConfig}
-        hideLegend={true}
-      />
-      <View>
-      <NumericInput
-        placeholder={'Budget'}
-        value={budget}
-        onChangeText={(budget) => setBudget(budget)}
-      />
-      <Button
-      >Set Budget</Button>
+    // <Pressable style={styles.container} onPress={() => setShow(true)} onBlur={setShow(false)}>
+      <View onPress={() => setShow(true)} onLongPress={() => setShow(false)} >
+        <Text>Your budget this month: {`${budget}`}</Text>
+        <ProgressChart
+          data={data}
+          width={160}
+          height={160}
+          strokeWidth={16}
+          radius={64}
+          chartConfig={chartConfig}
+          hideLegend={true}
+        />
+        {show && (<View>
+          <NumericInput
+            placeholder={budget}
+            value={newBudget}
+            onChangeText={(newBudget) => setNewBudget(newBudget)}
+          />
+          <Button
+            onPress={() => dispatch(setBudget(newBudget))}
+          >Set Budget</Button>
+        </View>)}
       </View>
-    </View>
+    // </Pressable>
   )
 }
 

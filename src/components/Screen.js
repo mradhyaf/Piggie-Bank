@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    margin: '5%',
+    margin: '1%',
   }
 })

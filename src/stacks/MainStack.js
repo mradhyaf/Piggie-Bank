@@ -39,7 +39,7 @@ export default () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
         options={{
@@ -49,7 +49,7 @@ export default () => {
             <Icon name='chart-line' color={color} size={24} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
