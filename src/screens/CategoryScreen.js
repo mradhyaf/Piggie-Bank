@@ -73,7 +73,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   deleteBox: {
-    padding: 25,
+    padding: 27,
+    backgroundColor: 'red',
+    color: 'white'
   },
   container: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

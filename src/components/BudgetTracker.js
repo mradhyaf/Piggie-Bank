@@ -34,7 +34,7 @@ export default function BudgetTracker() {
     <View>
       <Pressable style={styles.container} onPress={() => setShow(!show)}>
         <View>
-          <Text>         Your budget this month: {`${budget}`}</Text>
+          <Text>               Your Budget: {`${budget}`}</Text>
           {percentage >= 1 && (<View>
             <Text style={{color:'red', paddingLeft:80}}>Exceeded</Text>
           </View>)}
