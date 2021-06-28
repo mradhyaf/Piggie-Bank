@@ -26,7 +26,7 @@ export default function SignUp({ navigation }) {
       </Headline>
       <View style={styles.form}>
         {error && <Text style={styles.error}>
-          Invalid credentials.
+          {error.message}
         </Text>}
         <TextInput
             style={styles.input}

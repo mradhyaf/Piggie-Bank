@@ -16,45 +16,59 @@ export default function BudgetTracker() {
   const percentage = (priceTotal(expenses) / budget);
 
   const [show, setShow] = useState(false);
-  const [newBudget, setNewBudget] = useState(budget);
+  const [newBudget, setNewBudget] = useState('');
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
+    color: (opacity = 1) => `rgba(218, 53, 47, ${opacity*2})`,
   };
 
   const data = {
-    data: [percentage > 1 ? 1 : percentage]
+    data: [percentage > 1 ? 1 : percentage],
   };
 
   return (
-    <Pressable style={styles.container} onPress={() => setShow(true)}>
-      <View>
-        <Text>Your budget this month: {`${budget}`}</Text>
-        <ProgressChart
-          data={data}
-          width={160}
-          height={160}
-          strokeWidth={16}
-          radius={64}
-          chartConfig={chartConfig}
-          hideLegend={true}
+    <View>
+      <Pressable style={styles.container} onPress={() => setShow(!show)}>
+        <View>
+          <Text style={styles.text}>Your Budget: {`${budget}`}</Text>
+          {percentage >= 1 && (<View>
+            <Text style={{color:'red', paddingLeft:80}}>Exceeded</Text>
+          </View>)}
+          <View style={styles.progress}>
+            <ProgressChart
+              data={data}
+              width={250}
+              height={160}
+              strokeWidth={16}
+              radius={64}
+              chartConfig={chartConfig}
+              hideLegend={false}
+            />
+          </View>
+        </View>
+      </Pressable>
+      {!show && <Button
+          onPress={() => setShow(true)}
+          mode='text'
+      >Set Budget</Button>}
+      {show && (<View>
+        <NumericInput
+          placeholder={'Budget'}
+          value={newBudget}
+          onChangeText={(newBudget) => setNewBudget(newBudget)}
+          mode='outlined'
+          style={styles.input}
         />
-        {show && (<View>
-          <NumericInput
-            placeholder={budget}
-            value={newBudget}
-            onChangeText={(newBudget) => setNewBudget(newBudget)}
-          />
-          <Button
-            onPress={() => dispatch(setBudget(newBudget))}
-          >Set Budget</Button>
-        </View>)}
-      </View>
-    </Pressable>
+        <Button
+          onPress={() => {dispatch(setBudget(newBudget)); setShow(false); }}
+          mode='contained'
+        >Set Budget</Button>
+      </View>)}
+    </View>
   )
 }
 
@@ -63,14 +77,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'black',
-    borderWidth: StyleSheet.hairlineWidth,
-    margin: '5%'
+    // borderColor: 'white',
+    // borderWidth: StyleSheet.hairlineWidth,
+    marginHorizontal: '5%'
   },
   text: {
-    color: '#000',
     fontSize: 20,
-    marginTop: 2,
     fontWeight: 'bold',
+    alignSelf: 'center'
+  },
+  input: {
+    marginVertical: 5
+  },
+  progress: {
+    paddingLeft: 20
   }
 })

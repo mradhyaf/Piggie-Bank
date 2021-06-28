@@ -37,9 +37,9 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <Screen title="Settings" enableAppbar="true">
-      <Button
+      {/* <Button
         onPress={handleClearExpenses}
-      >CLEAR ALL EXPENSES</Button>
+      >CLEAR ALL EXPENSES</Button> */}
       <Button
         onPress={handleGetExpenses}
       >GET USER EXPENSES</Button>

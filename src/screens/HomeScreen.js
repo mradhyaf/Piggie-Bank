@@ -1,7 +1,8 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Avatar, Card, Text } from "react-native-paper";
 import { useSelector } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ExpenseForm from '../components/ExpenseForm';
 import BudgetTracker from '../components/BudgetTracker';
@@ -11,13 +12,14 @@ import { selectDisplayName, selectPhotoURL } from '../store/authSlice';
 
 
 export default function HomeScreen({ navigation }) {
-  const photoURL = useSelector(selectPhotoURL);
+  // const photoURL = useSelector(selectPhotoURL);
   const displayName = useSelector(selectDisplayName);
 
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>
-      <Card style={styles.card}>
-        <Avatar.Image style={styles.avatar} size={72} label='OK' source={photoURL} />
+      <ScrollView>
+      <Card style={[styles.card, {alignItems: 'center'}]}>
+        <Icon style={styles.icon} name='user-alt' size={72} />
         <Text style={styles.avatarName}>{displayName}</Text>
       </Card>
       <Card style={styles.card}>
@@ -26,6 +28,7 @@ export default function HomeScreen({ navigation }) {
       <Card style={styles.card}>
         <ExpenseForm />
       </Card>
+      </ScrollView>
     </Screen>
   )
 }
@@ -37,11 +40,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: '2%',
     paddingVertical: 15,
   },
-  avatar: {
-    flex: 1,
+  icon: {
+    marginLeft: 26,
+    color: '#323031'
   },
   avatarName: {
-    color: '#000',
     fontSize: 20,
     marginTop: 2,
     fontWeight: 'bold',

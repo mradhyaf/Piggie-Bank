@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth as firebaseAuth } from "../../api/auth";
+import { clearExpense } from "./expensesSlice";
 
 const initialState = {
   currentUser: {
@@ -87,6 +88,7 @@ export const signOut = () => {
     firebaseAuth.signOut()
       .then(() => {
         dispatch(signOutSuccess());
+        dispatch(clearExpense());
       }).catch(error => {
         dispatch(authRequestFail())
       })

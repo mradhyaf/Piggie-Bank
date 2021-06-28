@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
       <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
       <View style={styles.form}>
         {error && <Text style={styles.error}>
-          Invalid credentials.
+          {error.message}
         </Text>}
         <TextInput
             style={styles.input}

@@ -41,29 +41,22 @@ export default function ExpenseForm() {
         style={styles.input}
         placeholder={'Item'}
         value={item}
+        mode='outlined'
         onChangeText={(item) => setItem(item)}
         />
       <NumericInput
         style={styles.input}
         placeholder={'Price'}
         value={price}
+        mode='outlined'
         onChangeText={(price) => setPrice(price)}
       />
-      <Picker
-        style={styles.picker}
-        selectedValue={category}
-        onValueChange={(itemValue, itemIndex) =>
-          setCategory(itemValue)}
-      >
-        {CATEGORIES.map(({ title }) => (
-          <Picker.Item label={title} value={title} key={title}/>
-          ))}
-      </Picker>
       <Pressable onPress={() => setShow(true)}>
         <TextInput 
           style={styles.input}
           value={dateString}
           editable={false}
+          mode='outlined'
         />
       </Pressable>
       {show && (<DateTimePicker
@@ -72,9 +65,18 @@ export default function ExpenseForm() {
         value={date}
         onChange={handleConfirm}
       />)}
+      <Picker
+        style={styles.picker}
+        selectedValue={category}
+        onValueChange={(itemValue, itemIndex) =>
+          setCategory(itemValue)}
+      >{CATEGORIES.map(({ title }) => (
+          <Picker.Item label={title} value={title} key={title}/>
+          ))}
+      </Picker>
       <Button
         style={styles.button}
-        mode={'outlined'}
+        mode={'contained'}
         onPress={() => item === '' ? alert('Please enter a name for the item') : handleSubmit() }
       >SUBMIT</Button>
     </View>
@@ -95,6 +97,6 @@ const styles = StyleSheet.create({
   picker: {
     backgroundColor: '#e3e1e1',
     height: 56,
-    margin: 5,
+    margin: 5
   }
 })
