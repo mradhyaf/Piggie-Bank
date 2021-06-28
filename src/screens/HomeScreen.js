@@ -1,24 +1,27 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Avatar, Button, Card } from "react-native-paper";
+import { StyleSheet } from 'react-native'
+import { Avatar, Card, Text } from "react-native-paper";
 import { useSelector } from 'react-redux';
 
 import ExpenseForm from '../components/ExpenseForm';
-import BudgetProgress from '../components/BudgetProgress';
+import BudgetTracker from '../components/BudgetTracker';
 import Screen from '../components/Screen';
-import { selectPhotoURL } from '../store/userSlice';
+import { selectDisplayName, selectPhotoURL } from '../store/authSlice';
 
 
 
 export default function HomeScreen({ navigation }) {
+  const photoURL = useSelector(selectPhotoURL);
+  const displayName = useSelector(selectDisplayName);
+
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>
       <Card style={styles.card}>
-        <Avatar.Text style={styles.avatar} size={72} label='OK' />
-        <Text style={styles.avatarName}>OBI-WAN KENOBI</Text>
+        <Avatar.Image style={styles.avatar} size={72} label='OK' source={photoURL} />
+        <Text style={styles.avatarName}>{displayName}</Text>
       </Card>
       <Card style={styles.card}>
-        <BudgetProgress />
+        <BudgetTracker />
       </Card>
       <Card style={styles.card}>
         <ExpenseForm />
@@ -28,11 +31,6 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'black',
-  },
   card: {
     marginHorizontal: '1%',
     marginVertical: 2,
@@ -41,11 +39,6 @@ const styles = StyleSheet.create({
   },
   avatar: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'black',
-    flexDirection: 'row',
   },
   avatarName: {
     color: '#000',
@@ -57,6 +50,5 @@ const styles = StyleSheet.create({
     flex: 11,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
   }
 })

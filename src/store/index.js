@@ -12,12 +12,14 @@ import {
   REGISTER
 } from 'redux-persist';
 
-import userReducer from "./userSlice";
+import authReducer from "./authSlice";
 import expensesReducer from "./expensesSlice";
+import settingsSlice from "./settingsSlice";
 
 const reducers = combineReducers({
-  user: userReducer,
+  auth: authReducer,
   expenses: expensesReducer,
+  settings: settingsSlice,
 });
 
 const persistConfig = {

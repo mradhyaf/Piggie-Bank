@@ -2,17 +2,20 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, TextInput, Button, Headline } from 'react-native-paper';
 
-import { signUp } from '../../api/auth';
+import { signUp } from '../store/authSlice';
 import Screen from '../components/Screen';
+import { useDispatch } from 'react-redux';
 
 export default function SignUp({ navigation }) {
+  const dispatch = useDispatch()
+  const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [visible, setVisible] = React.useState(true);
 
   const handleSignUp = () => {
-    const userDetails = { email: email, password: password };
-    signUp(userDetails, console.log, alert);
+    const userDetails = { username, email, password };
+    dispatch(signUp(userDetails));
   }
 
   const secureText =() => {
@@ -23,6 +26,13 @@ export default function SignUp({ navigation }) {
     <Screen style={styles.container}>
       <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
       <View style={styles.form}>
+        <TextInput
+            style={styles.input}
+            placeholder={'Username'}
+            textContentType={'name'}
+            value={username}
+            onChangeText={setUsername}
+        />
         <TextInput
             style={styles.input}
             placeholder={'Email'}
@@ -44,7 +54,7 @@ export default function SignUp({ navigation }) {
         </Button>
       </View>
       <Text style={styles.bottomText}>
-        Already have an account? <Text style={styles.signUp} onPress={() => navigation.push('SignIn')}>Sign In</Text>
+        Already have an account? <Text style={styles.signUp} onPress={() => navigation.goBack()}>Sign In</Text>
       </Text>
     </Screen>
   );

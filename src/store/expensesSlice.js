@@ -21,7 +21,7 @@ export const expensesSlice = createSlice({
     update: (state, action) => {
       state.history = [...state.history, ...action.payload];
     },
-    remove: (state, action) => {
+    delete: (state, action) => {
       state.history = state.history.filter(expense => expense.key !== action.payload)
     },
     clear: state => {
@@ -39,7 +39,7 @@ export const expensesSlice = createSlice({
 export const getUserExpenses = () => {
   return async (dispatch, getState) => {
     try {
-      const uid = getState().user.currentUser.uid;
+      const uid = getState().auth.currentUser.uid;
       const snapshot = await expensesRef.child(uid).get();
       const expenses = Object.values(snapshot.val());
       return dispatch(update(expenses))
@@ -52,7 +52,7 @@ export const getUserExpenses = () => {
 export const uploadUserExpenses = () => {
   return async (dispatch, getState) => {
     try {
-      const uid = getState().user.currentUser.uid;
+      const uid = getState().auth.currentUser.uid;
       const expenses = getState().expenses.history;
       const updates = Object.assign({}, expenses);
       await expensesRef.child(uid).update(updates);
@@ -63,10 +63,10 @@ export const uploadUserExpenses = () => {
 }
 
 export const { 
-  add, 
-  update, 
-  remove, 
-  clear,
+  add: addExpense, 
+  update: updateExpense, 
+  delete: deleteExpense, 
+  clear: clearExpense,
   getExpensesFail,
   updateExpensesFail
 } = expensesSlice.actions;

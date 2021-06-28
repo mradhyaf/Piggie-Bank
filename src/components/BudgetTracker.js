@@ -3,12 +3,17 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import { priceTotal } from '../functions/expenses';
+import { selectExpenses } from '../store/expensesSlice';
+
 import { selectBudget, setBudget } from '../store/settingsSlice';
 import NumericInput from './NumericInput';
 
-export default function BudgetProgress() {
+export default function BudgetTracker() {
   const dispatch = useDispatch();
   const budget = useSelector(selectBudget);
+  const expenses = useSelector(selectExpenses);
+  const percentage = (priceTotal(expenses) / budget);
 
   const [show, setShow] = useState(false);
   const [newBudget, setNewBudget] = useState(budget);
@@ -22,12 +27,12 @@ export default function BudgetProgress() {
   };
 
   const data = {
-    data: [0.7]
+    data: [percentage > 1 ? 1 : percentage]
   };
 
   return (
-    // <Pressable style={styles.container} onPress={() => setShow(true)} onBlur={setShow(false)}>
-      <View onPress={() => setShow(true)} onLongPress={() => setShow(false)} >
+    <Pressable style={styles.container} onPress={() => setShow(true)}>
+      <View>
         <Text>Your budget this month: {`${budget}`}</Text>
         <ProgressChart
           data={data}
@@ -49,7 +54,7 @@ export default function BudgetProgress() {
           >Set Budget</Button>
         </View>)}
       </View>
-    // </Pressable>
+    </Pressable>
   )
 }
 

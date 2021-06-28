@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import Screen from '../components/Screen';
 import { getUserExpenses } from '../store/expensesSlice';
-import { signIn } from '../store/userSlice';
+import { signIn } from '../store/authSlice';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -41,7 +41,7 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry={visible}
           right={<TextInput.Icon style={styles.eyecon} name="eye" onPress={secureText}/>}
         />
-        <Text style={styles.reset} onPress={() => navigation.push('Reset')}>
+        <Text style={styles.reset} onPress={() => navigation.push('Recovery')}>
           Forgot password?
         </Text>
         <Button style={styles.button} contentStyle={styles.buttonContent} labelStyle={styles.buttonLabel} mode={'contained'} onPress={handleSignIn} compact={true}>

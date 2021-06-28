@@ -1,17 +1,16 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button, Headline } from 'react-native-paper';
-import { resetEmail, sendPasswordResetEmail } from '../../api/auth';
+import { useDispatch } from 'react-redux';
+
 import Screen from '../components/Screen';
+import { passwordRecovery } from '../store/authSlice';
 
 export default function SignUp({ navigation }) {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
 
-  const handleReset = () => {
-    sendPasswordResetEmail({ email },
-      () => alert('Recovery email sent!') ,
-      () => alert('Try again'));
-  }
+
 
   return (
     // <SafeAreaView style={styles.main}>
@@ -50,12 +49,12 @@ export default function SignUp({ navigation }) {
           contentStyle={styles.buttonContent}
           labelStyle={styles.buttonLabel}
           mode={'contained'}
-          onPress={handleReset}
+          onPress={() => dispatch(passwordRecovery(email))}
           compact={true}
         >SEND</Button>
       </View>
       <Text style={styles.bottomText}>
-        Already have an account? <Text style={styles.signUp} onPress={() => navigation.push('SignIn')}>Sign In</Text>
+        Already have an account? <Text style={styles.signUp} onPress={() => navigation.goBack()}>Sign In</Text>
       </Text>
   </Screen>
   );

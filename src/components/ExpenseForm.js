@@ -7,14 +7,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import NumericInput from './NumericInput';
 import CATEGORIES from '../constants/CATEGORIES';
-import newExpense from '../functions/newExpense';
-import { add } from '../store/expensesSlice';
+import { newExpense } from '../functions/expenses';
+import { addExpense } from '../store/expensesSlice';
 import dateMY from '../functions/dateMY';
 
 export default function ExpenseForm() {
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [category, setCategory] = useState(CATEGORIES[0].title);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date())
   const [dateString, setDateString] = useState(dateMY(date));
@@ -31,8 +31,8 @@ export default function ExpenseForm() {
   };
 
   const handleSubmit = () => {
-    const expense = newExpense(item, price, date, category,);
-    dispatch(add(expense));
+    const expense = newExpense(item, price, date.toString(), category,);
+    dispatch(addExpense(expense));
   }
 
   return (

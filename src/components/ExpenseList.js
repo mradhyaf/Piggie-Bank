@@ -4,7 +4,7 @@ import { Card, Dialog, Portal, Divider, List, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import accumulatePrice from '../functions/accumulatePrice';
-import getCategory from '../functions/getCategory';
+import { byCategory } from '../functions/expenses';
 import { useSelector } from 'react-redux';
 import { selectExpenses } from '../store/expensesSlice';
 import CATEGORIES from '../constants/CATEGORIES';

@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const settingsSlice = createSlice({
-  name: 'expenses',
+  name: 'settings',
   initialState,
   reducers: {
     setBudget: (state, action) => {
@@ -16,6 +16,6 @@ export const settingsSlice = createSlice({
 
 export const { setBudget } = settingsSlice.actions;
 
-export const selectBudget = (state) => state.expenses.budget;
+export const selectBudget = (state) => state.settings.budget;
 
 export default settingsSlice.reducer;

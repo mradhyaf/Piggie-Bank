@@ -4,14 +4,14 @@ import { Button } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 
 import Screen from '../components/Screen'
-import { clear, getUserExpenses, uploadUserExpenses } from '../store/expensesSlice'
-import { signOut } from '../store/userSlice'
+import { clearExpense, getUserExpenses, uploadUserExpenses } from '../store/expensesSlice'
+import { signOut } from '../store/authSlice'
 
 export default function SettingsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleClearExpenses = () => {
-    dispatch(clear());
+    dispatch(clearExpense());
   }
 
   const handleGetExpenses = () => {
@@ -24,7 +24,7 @@ export default function SettingsScreen({ navigation }) {
 
   const handleSignOut = () => {
     dispatch(signOut());
-    dispatch(clear());
+    dispatch(clearExpense());
   }
 
   return (
