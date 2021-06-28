@@ -1,42 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button, Headline } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Screen from '../components/Screen';
-import { passwordRecovery } from '../store/authSlice';
+import { passwordRecovery} from '../store/authSlice';
 
 export default function SignUp({ navigation }) {
   const dispatch = useDispatch();
-  const [email, setEmail] = React.useState('');
+  const [error, setError] = useState(null);
+  const [email, setEmail] = useState('');
 
-
+  const handleRecovery = () => {
+    dispatch(
+      passwordRecovery(
+        email,
+        () => console.log('Email sent!'),
+        setError));
+  }
 
   return (
-    // <SafeAreaView style={styles.main}>
-    //   <View>
-    //     <Text>Reset</Text>
-    //     <TextInput
-    //       mode={'outlined'}
-    //       style={styles.input}
-    //       placeholder={'Email'}
-    //       // ref={emailRef}
-    //       value={email}
-    //       onChangeText={setEmail}
-    //     />
-    //     <Button mode={'contained'} style={styles.input} onPress={handleReset}>
-    //       SEND RESET EMAIL
-    //     </Button>
-    //     <Button mode={'contained'} style={styles.input}  onPress={() => navigation.push('SignIn')}>
-    //       LOGIN PAGE
-    //     </Button>
-    //   </View>
-    // </SafeAreaView>
     <Screen style={styles.container}>
       <Headline style={styles.headline}>Forgot your password?
         Send a recovery email.
       </Headline>
       <View style={styles.form}>
+        {error && <Text style={styles.error}>
+          Invalid credentials.
+        </Text>}
         <TextInput
             style={styles.input}
             placeholder={'Email'}
@@ -49,12 +40,12 @@ export default function SignUp({ navigation }) {
           contentStyle={styles.buttonContent}
           labelStyle={styles.buttonLabel}
           mode={'contained'}
-          onPress={() => dispatch(passwordRecovery(email))}
+          onPress={handleRecovery}
           compact={true}
         >SEND</Button>
       </View>
       <Text style={styles.bottomText}>
-        Already have an account? <Text style={styles.signUp} onPress={() => navigation.goBack()}>Sign In</Text>
+        Already have an account? <Text style={styles.signUp} onPress={navigation.goBack}>Sign In</Text>
       </Text>
   </Screen>
   );
@@ -66,6 +57,10 @@ const styles = StyleSheet.create({
   },
   headline: {
     flex: 6
+  },
+  error: {
+    color: 'red',
+    margin: '2%'
   },
   form: {
     flex: 16,

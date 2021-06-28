@@ -1,3 +1,4 @@
+import 'react-native-get-random-values'
 import { groupBy } from 'lodash';
 import { v4 as generateKey } from "uuid"
 
@@ -14,7 +15,7 @@ export function newExpense(title, price, date, category) {
 // Accumulates the price property of an array of expenses
 export function priceTotal(data) {
   const reducer = (accumulator, currentExpense) => accumulator + Number(currentExpense.price);
-  return data && data.reduce(reducer, 0)
+  return data ? data.reduce(reducer, 0) : 0;
 }
 
 export function groupByCategory(data) {

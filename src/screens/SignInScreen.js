@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Headline, Text, TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
@@ -8,13 +8,20 @@ import { getUserExpenses } from '../store/expensesSlice';
 import { signIn } from '../store/authSlice';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [visible, setVisible] = React.useState(true);
   const dispatch = useDispatch();
+  const [error, setError] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(true);
 
   const handleSignIn = () => {
-    dispatch(signIn({ email, password }));
+    dispatch(signIn(
+      {email, password},
+      () => dispatch(getUserExpenses(
+        () => console.log("User expenses updated"),
+        console.error)),
+      setError
+    ))
   }
 
   const secureText =() => {
@@ -25,6 +32,9 @@ export default function LoginScreen({ navigation }) {
     <Screen style={styles.container}>
       <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
       <View style={styles.form}>
+        {error && <Text style={styles.error}>
+          Invalid credentials.
+        </Text>}
         <TextInput
             style={styles.input}
             placeholder={'Email'}
@@ -44,9 +54,14 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.reset} onPress={() => navigation.push('Recovery')}>
           Forgot password?
         </Text>
-        <Button style={styles.button} contentStyle={styles.buttonContent} labelStyle={styles.buttonLabel} mode={'contained'} onPress={handleSignIn} compact={true}>
-          LOG IN
-        </Button>
+        <Button 
+          style={styles.button} 
+          contentStyle={styles.buttonContent} 
+          labelStyle={styles.buttonLabel} 
+          mode={'contained'} 
+          onPress={handleSignIn} 
+          compact={true}
+        >LOG IN</Button>
       </View>
       <Text style={styles.bottomText}>
         Don't have an account? <Text style={styles.signUp} onPress={() => navigation.push('SignUp')}>Sign Up</Text>
@@ -61,6 +76,10 @@ const styles = StyleSheet.create({
   },
   headline: {
     flex: 6
+  },
+  error: {
+    color: 'red',
+    margin: '2%'
   },
   form: {
     flex: 16,

@@ -14,20 +14,27 @@ import {
 
 import authReducer from "./authSlice";
 import expensesReducer from "./expensesSlice";
-import settingsSlice from "./settingsSlice";
+import settingsReducer from "./settingsSlice";
 
-const reducers = combineReducers({
-  auth: authReducer,
-  expenses: expensesReducer,
-  settings: settingsSlice,
-});
-
-const persistConfig = {
+const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['auth']
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const authPersistConfig = {
+  key: 'auth',
+  storage: AsyncStorage,
+  blacklist: ['loading']
+}
+
+const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducer),
+  expenses: expensesReducer,
+  settings: settingsReducer,
+});
+
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { auth, auth as firebaseAuth } from "../../api/auth";
+import { auth as firebaseAuth } from "../../api/auth";
 
 const initialState = {
   currentUser: {
@@ -9,7 +9,6 @@ const initialState = {
     uid: null,
   },
   loading: false,
-  error: '',
 }
 
 export const authSlice = createSlice({
@@ -19,13 +18,15 @@ export const authSlice = createSlice({
     authRequest: state => {
       state.loading = true;
     },
+    authRequestFail: state => {
+      state.loading = false;
+    },
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
     },
     signInFail: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
     },
     signUpSuccess: (state, action) => {
       state.currentUser = action.payload;
@@ -33,7 +34,6 @@ export const authSlice = createSlice({
     },
     signUpFail: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
     },
     signOutSuccess: state => {
       state.currentUser = {...initialState.currentUser};
@@ -41,80 +41,78 @@ export const authSlice = createSlice({
     },
     signOutFail: (state, action) => {
       state.loading = false;
-      state.error = action.payload
-    },
-    passwordRecoveryFail: (state, action) => {
-      state.error = action.payload
     }
   },
 })
 
-export const signIn = ({ email, password }) => {
-  return async (dispatch) => {
-    try {
-      dispatch(authRequest());
-      const userCredentials = await firebaseAuth.signInWithEmailAndPassword(email, password);
-      const { uid, photoURL, displayName, email: mail } = userCredentials.user;
-      return dispatch(signInSuccess({ uid, photoURL, displayName, mail }));
-    } catch (error) {
-      return dispatch(signInFail(error));
-    }
+export const signIn = ({ email, password }, onSuccess, onError) => {
+  return (dispatch) => {
+    firebaseAuth.signInWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const { uid, photoURL, displayName, email: mail } = userCredentials.user;
+        dispatch(signInSuccess({ uid, photoURL, displayName, mail }));
+        return onSuccess()
+      }).catch(error => {
+        dispatch(authRequestFail());
+        return onError(error);
+      })
   }
 }
 
-export const signUp = ({ displayName, email, password }) => {
+export const signUp = ({ displayName, email, password }, onSuccess, onError) => {
   return async (dispatch) => {
-    try {   
-      dispatch(authRequest());
-      const userCredentials = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-      const { user } = userCredentials;
-      user.updateProfile({
-        displayName,
-        photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
-      })
-      return dispatch(signUpSuccess({ 
+    firebaseAuth.createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const { user } = userCredentials;
+        user.updateProfile({
+          displayName,
+          photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
+        })
+        dispatch(signUpSuccess({ 
           displayName: user.displayName, 
           email: user.email,
           photoURL: user.email,
           uid: user.uid,
         }));
-    } catch (error) {
-      return dispatch(signUpFail(error));
-    }
+        return onSuccess();
+      }).catch(error => {
+        dispatch(authRequestFail());
+        return onError(error);
+      })
   }
 }
 
 export const signOut = () => {
   return async (dispatch) => {
-    try {
-      dispatch(authRequest());
-      await firebaseAuth.signOut();
-      return dispatch(signOutSuccess());
-    } catch (error) {
-      return dispatch(signOutFail());
-    }
+    firebaseAuth.signOut()
+      .then(() => {
+        dispatch(signOutSuccess());
+      }).catch(error => {
+        dispatch(authRequestFail())
+      })
   }
 }
 
-export const passwordRecovery = (email) => {
+export const passwordRecovery = (email, onSuccess, onError) => {
   return async (dispatch) => {
-    try {
-      await firebaseAuth.sendPasswordResetEmail(email);
-    } catch (error) {
-      return dispatch(passwordRecoveryFail(error));
-    }
+    firebaseAuth.sendPasswordResetEmail(email)
+      .then(() => {
+        return onSuccess();
+      }).catch(error => {
+        dispatch(authRequestFail());
+        return onError(error);
+      })
   }
 }
 
 export const { 
-  authRequest, 
+  authRequest,
+  authRequestFail,
   signInSuccess, 
   signInFail, 
   signUpSuccess, 
   signUpFail, 
-  signOutSuccess, 
-  signOutFail,
-  passwordRecoveryFail
+  signOutSuccess
 } = authSlice.actions;
 
 export const selectDisplayName = state => state.auth.currentUser.displayName;

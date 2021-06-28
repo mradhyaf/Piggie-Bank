@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, TextInput, Button, Headline } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 import { signUp } from '../store/authSlice';
 import Screen from '../components/Screen';
-import { useDispatch } from 'react-redux';
 
 export default function SignUp({ navigation }) {
-  const dispatch = useDispatch()
-  const [username, setUsername] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [visible, setVisible] = React.useState(true);
+  const dispatch = useDispatch();
+  const [error, setError] = useState(null);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(true);
 
   const handleSignUp = () => {
-    const userDetails = { username, email, password };
-    dispatch(signUp(userDetails));
+    dispatch(
+      signUp(
+        { username, email, password },
+        () => console.log('Successful'),
+        setError));
   }
 
   const secureText =() => {
@@ -26,6 +30,9 @@ export default function SignUp({ navigation }) {
     <Screen style={styles.container}>
       <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
       <View style={styles.form}>
+        {error && <Text style={styles.error}>
+          Invalid credentials.
+        </Text>}
         <TextInput
             style={styles.input}
             placeholder={'Username'}
@@ -49,12 +56,17 @@ export default function SignUp({ navigation }) {
           secureTextEntry={visible}
           right={<TextInput.Icon style={styles.eyecon} name="eye" onPress={secureText}/>}
         />
-        <Button style={styles.button} contentStyle={styles.buttonContent} labelStyle={styles.buttonLabel} mode={'contained'} onPress={handleSignUp} compact={true}>
-          SIGN UP
-        </Button>
+        <Button
+          style={styles.button} 
+          contentStyle={styles.buttonContent} 
+          labelStyle={styles.buttonLabel} 
+          mode={'contained'} 
+          onPress={handleSignUp} 
+          compact={true}
+        >SIGN UP</Button>
       </View>
       <Text style={styles.bottomText}>
-        Already have an account? <Text style={styles.signUp} onPress={() => navigation.goBack()}>Sign In</Text>
+        Already have an account? <Text style={styles.signUp} onPress={navigation.goBack}>Sign In</Text>
       </Text>
     </Screen>
   );
@@ -66,6 +78,10 @@ const styles = StyleSheet.create({
   },
   headline: {
     flex: 6
+  },
+  error: {
+    color: 'red',
+    margin: '2%'
   },
   form: {
     flex: 16,

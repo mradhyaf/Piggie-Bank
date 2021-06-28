@@ -15,16 +15,24 @@ export default function SettingsScreen({ navigation }) {
   }
 
   const handleGetExpenses = () => {
-    dispatch(getUserExpenses());
+    dispatch(getUserExpenses(
+      () => alert('Expenses successfully updated'),
+      (error) => alert(error.message)
+    ));
   }
 
   const handleUploadExpenses = () => {
-    dispatch(uploadUserExpenses());
+    dispatch(uploadUserExpenses(
+      () => alert('Expenses successfully uploaded'),
+      () => alert('Try again')
+    ))
   }
 
   const handleSignOut = () => {
-    dispatch(signOut());
-    dispatch(clearExpense());
+    dispatch(uploadUserExpenses(
+      () => dispatch(signOut()),
+      (error) => alert('Cannot safely sign out')
+    ))
   }
 
   return (
@@ -37,7 +45,7 @@ export default function SettingsScreen({ navigation }) {
       >GET USER EXPENSES</Button>
       <Button
         onPress={handleUploadExpenses}
-      >UPLOAD EXPENSES</Button>
+      >SAVE DATA TO CLOUD</Button>
       <Button
         onPress={handleSignOut}
       >LOG OUT</Button>
