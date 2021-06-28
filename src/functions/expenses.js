@@ -1,4 +1,5 @@
-import { groupBy } from 'lodash';
+import 'react-native-get-random-values'
+import { groupBy } from 'lodash'
 import { v4 as generateKey } from "uuid"
 
 export function newExpense(title, price, date, category) {

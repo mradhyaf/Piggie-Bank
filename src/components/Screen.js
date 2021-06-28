@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, SafeAreaView, View, StatusBar, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 export default function Screen({ children, title, enableAppbar, style, ...props }) {
@@ -12,9 +12,9 @@ export default function Screen({ children, title, enableAppbar, style, ...props 
         />
         </Appbar>
       )}
-      <View style={[styles.content, style]} {...props}>
+      <ScrollView>
           {children}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, SafeAreaView, StatusBar,Platform } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Card, Dialog, Portal, Divider, List, Text, Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -29,7 +29,7 @@ export default function CategoryScreen({ navigation, category }) {
   )
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Button onPress={() => navigation.goBack()}>GO BACK</Button>
       <Card style={styles.card}>
         <Card.Title 
@@ -43,7 +43,7 @@ export default function CategoryScreen({ navigation, category }) {
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -55,11 +55,16 @@ const styles = StyleSheet.create({
   card: {
     marginTop: '1%',
     marginHorizontal: '1%',
+    flexDirection:'row'
   },
   total: {
     padding: 15,
   },
   deleteBox: {
     width: 10
+  },
+  container: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   }
 })
