@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Avatar, Card, Text } from "react-native-paper";
 import { useSelector } from 'react-redux';
 
@@ -16,6 +16,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>
+      <ScrollView>
       <Card style={styles.card}>
         <Avatar.Image style={styles.avatar} size={72} label='OK' source={photoURL} />
         <Text style={styles.avatarName}>{displayName}</Text>
@@ -26,6 +27,7 @@ export default function HomeScreen({ navigation }) {
       <Card style={styles.card}>
         <ExpenseForm />
       </Card>
+      </ScrollView>
     </Screen>
   )
 }

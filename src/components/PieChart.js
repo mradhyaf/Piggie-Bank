@@ -1,11 +1,17 @@
 import React from 'react'
-import { StyleSheet, useWindowDimensions, View } from 'react-native'
+import { StyleSheet, Dimensions, SafeAreaView } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 
-export default function ({ data }) {
-  const screenWidth = Dimensions.get('window').width;
+import { selectExpenses } from '../store/expensesSlice';
+import { groupByCategory, priceTotal } from '../functions/expenses';
+import { useSelector } from 'react-redux';
 
-  const chartConfig2={
+export default function () {
+  const screenWidth = Dimensions.get('window').width;
+  const expenses = useSelector(selectExpenses);
+  const expensesByCategory = groupByCategory(expenses);
+
+  const chartConfig={
     backgroundColor: '#26872a',
     backgroundGradientFrom: '#43a047',
     backgroundGradientTo: '#66bb6a',
@@ -16,22 +22,27 @@ export default function ({ data }) {
   };
 
   const pieChartData = [
-    { name: 'Seoul', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 10 },
-    { name: 'Toronto', population: 2800000, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 10 },
-    { name: 'Beijing', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 10 },
-    { name: 'New York', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 10 },
-    { name: 'Moscow', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 10 }
+    { name: 'Food', category: priceTotal(expensesByCategory['Food']), color: 'rgba(131, 167, 234, 1)',
+    legendFontColor: '#7F7F7F', legendFontSize: 10 },
+    { name: 'Transportation', category: priceTotal(expensesByCategory['Transportation']), color: '#F00',
+    legendFontColor: '#7F7F7F', legendFontSize: 10 },
+    { name: 'Utilities', category: priceTotal(expensesByCategory['Utilities']), color: 'turquoise',
+    legendFontColor: '#7F7F7F', legendFontSize: 10 },
+    { name: 'Personal', category: priceTotal(expensesByCategory['Personal']), color: '#ffffff',
+    legendFontColor: '#7F7F7F', legendFontSize: 10 },
+    { name: 'Others', category: priceTotal(expensesByCategory['Others']), color: 'rgb(0, 0, 255)',
+    legendFontColor: '#7F7F7F', legendFontSize: 10 }
   ];
 
   return (
     <SafeAreaView>
       <PieChart
         data={pieChartData}
-        height={256}
-        width={screenWidth*0.9}
+        height={220}
+        width={screenWidth*0.98}
         paddingLeft={25}
         chartConfig={chartConfig}
-        accessor="population"
+        accessor="category"
         style={chartConfig.style}
       />
     </SafeAreaView>

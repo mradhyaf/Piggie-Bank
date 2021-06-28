@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { Card, Dialog, Portal, Divider, List, Text } from 'react-native-paper';
+import { Card, Divider, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useSelector } from 'react-redux';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 import Screen from '../components/Screen';
 import { selectExpenses } from '../store/expensesSlice';
 import { groupByCategory, priceTotal } from '../functions/expenses';
+import CATEGORIES from '../constants/CATEGORIES';
+import PieChart from '../components/PieChart'
+import BarChart from '../components/BarChart'
 
 export default function ExpensesScreen({ navigation }) {
   const expenses = useSelector(selectExpenses);
   const expensesByCategory = groupByCategory(expenses);
-  const categories = ["Food", "Transportation", "Utilities", "Personal", "Others"];
+  const categories = CATEGORIES;
 
   const renderItem = ({ item }) => (
-    <Card style={styles.card} onPress={() => navigation.navigate(item)} >
+    <Card style={styles.card} onPress={() => navigation.navigate(item.title)} >
       <Card.Title
-        title={item}
-        // left={({ size }) => <Icon name={item} size={size} />}
+        title={item.title}
+        left={({ size }) => <Icon name={item.icon} size={size} />}
         right={({ size }) => (
           <Text style={[{ fontSize: size }, styles.total]}>
-            {priceTotal(expensesByCategory[item])}
+            {'$' + priceTotal(expensesByCategory[item.title])}
           </Text>)}
       />
     </Card>
@@ -28,27 +32,18 @@ export default function ExpensesScreen({ navigation }) {
 
   return (
     <Screen title="Expenses" enableAppbar={true}>
-      {/* <PieChart /> */}
+      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={1}>
+        <PieChart />
+        <BarChart />
+      </SwiperFlatList>
       <FlatList
         style={styles.list}
         data={categories}
         renderItem={renderItem}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.title}
       />
     </Screen>
   )
-  {/* <Portal>
-      <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
-        <Dialog.Title>Alert</Dialog.Title>
-        <Dialog.Content>
-          <Paragraph>'Are you sure you want to delete?'</Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={() => { setVisible(false); handleDelete(item.key); }}>Yes</Button>
-          <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal> */}
 }
 
 const styles = StyleSheet.create({

@@ -16,45 +16,50 @@ export default function BudgetTracker() {
   const percentage = (priceTotal(expenses) / budget);
 
   const [show, setShow] = useState(false);
-  const [newBudget, setNewBudget] = useState(budget);
+  const [newBudget, setNewBudget] = useState('');
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
+    color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
   };
 
   const data = {
-    data: [percentage > 1 ? 1 : percentage]
+    data: [percentage > 1 ? 1 : percentage],
   };
 
   return (
-    <Pressable style={styles.container} onPress={() => setShow(true)}>
-      <View>
-        <Text>Your budget this month: {`${budget}`}</Text>
-        <ProgressChart
-          data={data}
-          width={160}
-          height={160}
-          strokeWidth={16}
-          radius={64}
-          chartConfig={chartConfig}
-          hideLegend={true}
-        />
-        {show && (<View>
-          <NumericInput
-            placeholder={budget}
-            value={newBudget}
-            onChangeText={(newBudget) => setNewBudget(newBudget)}
+    <View>
+      <Pressable style={styles.container} onPress={() => setShow(!show)}>
+        <View>
+          <Text>         Your budget this month: {`${budget}`}</Text>
+          {percentage >= 1 && (<View>
+            <Text style={{color:'red', paddingLeft:80}}>Exceeded</Text>
+          </View>)}
+          <ProgressChart
+            data={data}
+            width={250}
+            height={160}
+            strokeWidth={16}
+            radius={64}
+            chartConfig={chartConfig}
+            hideLegend={false}
           />
-          <Button
-            onPress={() => dispatch(setBudget(newBudget))}
-          >Set Budget</Button>
-        </View>)}
-      </View>
-    </Pressable>
+        </View>
+      </Pressable>
+      {show && (<View>
+        <NumericInput
+          placeholder={'Budget'}
+          value={newBudget}
+          onChangeText={(newBudget) => setNewBudget(newBudget)}
+        />
+        <Button
+          onPress={() => {dispatch(setBudget(newBudget)); setShow(false); }}
+        >Set Budget</Button>
+      </View>)}
+    </View>
   )
 }
 
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'black',
+    borderColor: 'white',
     borderWidth: StyleSheet.hairlineWidth,
     margin: '5%'
   },

@@ -67,7 +67,6 @@ export default function StatisticsScreen({ navigation }) {
         <SafeAreaView>
           <BarChart
             data={data}
-            yAxisLabel="$"
             width={screenWidth*0.98}
             height={256}
             yAxisLabel="$"
