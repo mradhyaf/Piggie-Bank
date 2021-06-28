@@ -1,47 +1,57 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Avatar, Button } from "react-native-paper";
+import { StyleSheet, ScrollView } from 'react-native'
+import { Avatar, Card, Text } from "react-native-paper";
 import { useSelector } from 'react-redux';
-import BudgetProgress from '../components/BudgetProgress';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+
+import ExpenseForm from '../components/ExpenseForm';
+import BudgetTracker from '../components/BudgetTracker';
 import Screen from '../components/Screen';
-import { selectPhotoURL } from '../store/authSlice';
+import { selectDisplayName, selectPhotoURL } from '../store/authSlice';
 
 
 
 export default function HomeScreen({ navigation }) {
+  // const photoURL = useSelector(selectPhotoURL);
+  const displayName = useSelector(selectDisplayName);
+
   return (
-    <Screen title="Home">
-      <View style={styles.container}>
-        <View style={styles.avatar}>
-          <Avatar.Text size={80} label='OK' />
-          <Text style={styles.avatarName}>OBI-WAN KENOBI</Text>
-        </View>
-        <BudgetProgress />
-      </View>
+    <Screen style={styles.container} title="Home" enableAppbar={true}>
+      <ScrollView>
+      <Card style={[styles.card, {alignItems: 'center'}]}>
+        <Icon style={styles.icon} name='user-alt' size={72} />
+        <Text style={styles.avatarName}>{displayName}</Text>
+      </Card>
+      <Card style={styles.card}>
+        <BudgetTracker />
+      </Card>
+      <Card style={styles.card}>
+        <ExpenseForm />
+      </Card>
+      </ScrollView>
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '5%',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'black'
+  card: {
+    marginHorizontal: '1%',
+    marginVertical: 2,
+    paddingHorizontal: '2%',
+    paddingVertical: 15,
   },
-  avatar: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'black',
+  icon: {
+    marginLeft: 26,
+    color: '#323031'
   },
   avatarName: {
-    color: '#000',
     fontSize: 20,
     marginTop: 2,
     fontWeight: 'bold',
+  },
+  budget: {
+    flex: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 })

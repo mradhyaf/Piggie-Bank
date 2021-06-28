@@ -1,17 +1,27 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from 'react-native';
-import { Button, Headline, TextInput } from 'react-native-paper';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Headline, Text, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
-import { signIn } from '../../api/auth';
+import Screen from '../components/Screen';
+import { getUserExpenses } from '../store/expensesSlice';
+import { signIn } from '../store/authSlice';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [visible, setVisible] = React.useState(true);
+  const dispatch = useDispatch();
+  const [error, setError] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(true);
 
   const handleSignIn = () => {
-    const userDetails = { email: email, password: password };
-    signIn(userDetails, console.log, alert);
+    dispatch(signIn(
+      {email, password},
+      () => dispatch(getUserExpenses(
+        () => console.log("User expenses updated"),
+        console.error)),
+      setError
+    ))
   }
 
   const secureText =() => {
@@ -19,56 +29,90 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.main}>
-      <View>
-        <Headline>Get insights from your monthly expenses</Headline>
-      </View>
-      <View>
+    <Screen style={styles.container}>
+      <Headline style={styles.headline}>Get insights from your monthly expenses</Headline>
+      <View style={styles.form}>
+        {error && <Text style={styles.error}>
+          {error.message}
+        </Text>}
         <TextInput
-            mode={'outlined'}
             style={styles.input}
             placeholder={'Email'}
+            textContentType={'emailAddress'}
             value={email}
             onChangeText={setEmail}
         />
         <TextInput
-          mode={'outlined'}
           style={styles.input}
           placeholder={'Password'}
+          textContentType={'password'}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={visible}
-          right={<TextInput.Icon name="eye" onPress={secureText}/>}
+          right={<TextInput.Icon style={styles.eyecon} name="eye" onPress={secureText}/>}
         />
-        <Button mode={'contained'} style={styles.button} onPress={handleSignIn}>
-          LOG IN
-        </Button>      
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('SignUp')}>
-          CREATE AN ACCOUNT
-        </Button>
-        <Button mode={'contained'} style={styles.button} onPress={() => navigation.push('Reset')}>
-          RESET PASSWORD
-        </Button>
+        <Text style={styles.reset} onPress={() => navigation.push('Recovery')}>
+          Forgot password?
+        </Text>
+        <Button 
+          style={styles.button} 
+          contentStyle={styles.buttonContent} 
+          labelStyle={styles.buttonLabel} 
+          mode={'contained'} 
+          onPress={handleSignIn} 
+          compact={true}
+        >LOG IN</Button>
       </View>
-    </SafeAreaView>
+      <Text style={styles.bottomText}>
+        Don't have an account? <Text style={styles.signUp} onPress={() => navigation.push('SignUp')}>Sign Up</Text>
+      </Text>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  main: {
-    flex: 1,
+  container: {
     justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  headline: {
+    flex: 6
+  },
+  error: {
+    color: 'red',
+    margin: '2%'
+  },
+  form: {
+    flex: 16,
+    paddingHorizontal: '10%',
   },
   input: {
-    flex: 1,
-    justifyContent: 'space-around',
-    margin: 1
+    marginVertical: '1.5%',
+    height: 56,
+  },
+  reset: {
+    color: '#3498db',
+    textAlign: 'right',
+    margin: '2%'
   },
   button: {
-    flex: 1,
-    justifyContent: 'space-around',
-    margin: 1
+    justifyContent: 'center',
+    marginHorizontal: '10%',
+    marginVertical: '3%',
+    borderRadius: 28,
+  },
+  buttonContent: {
+    height: 56,
+  },
+  buttonLabel: {
+    paddingHorizontal: '20%',
+    paddingVertical: '0%',
+  },
+  bottomText: {
+    flex: 2,
+    textAlign: 'center',
+  },
+  signUp: {
+    fontWeight: 'bold',
+    color: '#3498db',
   }
 })

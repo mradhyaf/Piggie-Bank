@@ -2,7 +2,7 @@ import { getCurrentUserId } from "./auth";
 import firebase from "./firebase";
 
 const db = firebase.database();
-const expensesRef = db.ref(`expenses`);
+export const expensesRef = db.ref(`expenses`);
 
 export const createExpense = async ({ title, price, date, category }, onSuccess, onError) => {
   try {
