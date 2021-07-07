@@ -14,9 +14,10 @@ export default function BudgetTracker() {
   const budget = useSelector(selectBudget);
   const expenses = useSelector(selectExpenses);
   const percentage = (priceTotal(expenses) / budget);
+  const exceed = Math.abs(budget - priceTotal(expenses));
 
   const [show, setShow] = useState(false);
-  const [newBudget, setNewBudget] = useState('');
+  const [newBudget, setNewBudget] = useState(0);
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
@@ -34,9 +35,12 @@ export default function BudgetTracker() {
     <View>
       <Pressable style={styles.container} onPress={() => setShow(!show)}>
         <View>
-          <Text style={styles.text}>Your Budget: {`${budget}`}</Text>
-          {percentage >= 1 && (<View>
-            <Text style={{color:'red', paddingLeft:80}}>Exceeded</Text>
+          <Text style={styles.text}>Your Budget: ${budget}</Text>
+          {percentage >= 1 && (<View style={styles.text}>
+            <Text style={{color:'red'}}>Exceeded by ${exceed}</Text>
+          </View>)}
+          {percentage < 1 && (<View style={styles.text}>
+            <Text style={{color:'black'}}>${exceed} left before exceeding</Text>
           </View>)}
           <View style={styles.progress}>
             <ProgressChart
@@ -59,12 +63,13 @@ export default function BudgetTracker() {
         <NumericInput
           placeholder={'Budget'}
           value={newBudget}
+          maxLength={13}
           onChangeText={(newBudget) => setNewBudget(newBudget)}
           mode='outlined'
           style={styles.input}
         />
         <Button
-          onPress={() => {dispatch(setBudget(newBudget)); setShow(false); }}
+          onPress={() => {Number(newBudget) ? dispatch(setBudget(Number(newBudget))) : alert('Invalid input'); setShow(false); }}
           mode='contained'
         >Set Budget</Button>
       </View>)}

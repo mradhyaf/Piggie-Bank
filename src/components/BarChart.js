@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 export default function () {
   const screenWidth = Dimensions.get('window').width;
   const expenses = useSelector(selectExpenses);
-  const expensesByCategory = groupByCategory(expenses);
+  const expensesByCategory = (cat) => Math.ceil(priceTotal(groupByCategory(expenses)[(cat)]));
 
   const chartConfig={
      backgroundColor: "#ffffff",
@@ -24,11 +24,11 @@ export default function () {
     labels: ['Food', 'Transportation', '   Utilities', 'Personal', 'Others'],
     datasets: [
       {
-        data: [priceTotal(expensesByCategory['Food']),
-        priceTotal(expensesByCategory['Transportation']),
-        priceTotal(expensesByCategory['Utilities']),
-        priceTotal(expensesByCategory['Personal']),
-        priceTotal(expensesByCategory['Others'])],
+        data: [expensesByCategory('Food'),
+        expensesByCategory('Transportation'),
+        expensesByCategory('Utilities'),
+        expensesByCategory('Personal'),
+        expensesByCategory('Others')],
       }
     ]
   };

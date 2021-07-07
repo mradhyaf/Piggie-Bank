@@ -40,6 +40,7 @@ export default function ExpensesScreen({ navigation }) {
         style={styles.list}
         data={categories}
         renderItem={renderItem}
+        extractData={categories}
         keyExtractor={(item) => item.title}
       />
     </Screen>

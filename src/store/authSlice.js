@@ -40,6 +40,9 @@ export const authSlice = createSlice({
       state.currentUser = {...initialState.currentUser};
       state.loading = false;
     },
+    changeUserName: (state, action) => {
+      state.currentUser.displayName = action.payload;
+    },
     signOutFail: (state, action) => {
       state.loading = false;
     }
@@ -60,21 +63,22 @@ export const signIn = ({ email, password }, onSuccess, onError) => {
   }
 }
 
-export const signUp = ({ displayName, email, password }, onSuccess, onError) => {
+export const signUp = ({ username, email, password }, onSuccess, onError) => {
   return async (dispatch) => {
     firebaseAuth.createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const { user } = userCredentials;
         user.updateProfile({
-          displayName,
+          displayName: username,
           photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
-        })
-        dispatch(signUpSuccess({ 
-          displayName: user.displayName, 
-          email: user.email,
-          photoURL: user.email,
-          uid: user.uid,
-        }));
+        }).then(() => {
+          dispatch(signUpSuccess({
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid,
+          }));
+        });
         return onSuccess();
       }).catch(error => {
         dispatch(authRequestFail());
@@ -113,7 +117,8 @@ export const {
   signInSuccess, 
   signInFail, 
   signUpSuccess, 
-  signUpFail, 
+  signUpFail,
+  changeUserName,
   signOutSuccess
 } = authSlice.actions;
 
