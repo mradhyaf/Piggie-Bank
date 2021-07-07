@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   progress: {
-    paddingLeft: 20
+    paddingLeft: 50
   }
 })
