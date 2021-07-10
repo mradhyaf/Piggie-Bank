@@ -2,14 +2,12 @@ import React from 'react'
 import { StyleSheet, Dimensions, SafeAreaView } from 'react-native'
 import { BarChart } from 'react-native-chart-kit'
 
-import { selectExpenses } from '../store/expensesSlice';
-import { groupByCategory, priceTotal } from '../../functions/expenses';
-import { useSelector } from 'react-redux';
+import { priceTotal } from '../../functions/expenses';
+import useExpenses from '../../hooks/useExpenses';
 
 export default function () {
   const screenWidth = Dimensions.get('window').width;
-  const expenses = useSelector(selectExpenses);
-  const expensesByCategory = groupByCategory(expenses);
+  const expenses = useExpenses('category');
 
   const chartConfig={
      backgroundColor: "#ffffff",
@@ -24,11 +22,11 @@ export default function () {
     labels: ['Food', 'Transportation', '   Utilities', 'Personal', 'Others'],
     datasets: [
       {
-        data: [priceTotal(expensesByCategory['Food']),
-        priceTotal(expensesByCategory['Transportation']),
-        priceTotal(expensesByCategory['Utilities']),
-        priceTotal(expensesByCategory['Personal']),
-        priceTotal(expensesByCategory['Others'])],
+        data: [priceTotal(expenses['Food']),
+        priceTotal(expenses['Transportation']),
+        priceTotal(expenses['Utilities']),
+        priceTotal(expenses['Personal']),
+        priceTotal(expenses['Others'])],
       }
     ]
   };

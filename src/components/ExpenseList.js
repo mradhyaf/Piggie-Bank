@@ -12,9 +12,7 @@ import useExpenses from '../../hooks/useExpenses';
 
 export default function ExpenseList({ category }) {
   // User expenses  
-  const expenses = useExpenses();
-  console.log(expenses)
-  const categoricalExpenses = groupByCategory(expenses)[category];
+  const expenses = useExpenses('category')[category];
 
   const [visible, setVisible] = useState(false);
   const [item, setItem] = useState('');
@@ -45,14 +43,14 @@ export default function ExpenseList({ category }) {
       <Card style={styles.card}>
         <Card.Title 
           style={styles.cardTitle} 
-          right={({ size }) => <Text style={{fontSize: size}}>{'$' + priceTotal(categoricalExpenses)} </Text>}
+          right={({ size }) => <Text style={{fontSize: size}}>{'$' + priceTotal(expenses)} </Text>}
           title={category}
           
         />
       </Card>
       <FlatList
         style={styles.list}
-        data={categoricalExpenses}
+        data={expenses}
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
       />

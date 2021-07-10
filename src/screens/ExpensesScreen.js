@@ -22,7 +22,7 @@ export default function ExpensesScreen({ navigation }) {
         left={({ size }) => <Icon style={styles.icon} name={item.icon} size={size} />}
         right={({ size }) => (
           <Text style={[{ fontSize: size }, styles.total]}>
-            {'$' + priceTotal(expenses[item.title])}
+            ${priceTotal(expenses[item.title])}
           </Text>)}
       />
     </Card>

@@ -1,27 +1,30 @@
 import { useState, useEffect } from 'react'
 
-import { getUserExpensesRef } from '../api/expenses';
+import { expenseSubscriber } from '../api/expenses';
 import { groupByCategory } from '../functions/expenses';
 
 export default function useExpenses(groupBy) {
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState({});
 
   useEffect(() => {
-    const subscriber = getUserExpensesRef();
-    subscriber.on(
-      'value',
-      (snapshot) => setExpenses(snapshot.val())
-    )
+    const unsubscribe = expenseSubscriber(setExpenses);
     return () => {
-      subscriber.off('value')
+      unsubscribe();
     }
   }, []);
 
+  if (!expenses) {
+    return {};
+  }
+  
   switch (groupBy) {
     case 'category':
       return groupByCategory(Object.values(expenses));
     
-    default:
+    case 'array':
       return Object.values(expenses);
+
+    default:
+      return expenses
   }
 }

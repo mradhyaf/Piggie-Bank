@@ -13,7 +13,7 @@ export function expenseSubscriber(callback, type = 'value') {
     type,
     (snapshot) => optionalFunction(callback)(snapshot.val())
   )
-  return subscriber.off
+  return () => subscriber.off('value');
 }
 
 export const addExpense = async ({ title, price, date, category }, onSuccess, onError) => {
@@ -48,7 +48,7 @@ export const getUserExpenses = async (onSuccess, onError) => {
   try {
     const snapshot = await getUserExpensesRef().get();
     optionalFunction(onSuccess)();
-    return onSuccess(snapshot.val());
+    return snapshot.val();
   } catch (error) {
     console.error(error);
     optionalFunction(onError)(error);

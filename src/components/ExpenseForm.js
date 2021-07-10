@@ -12,7 +12,7 @@ import { addExpense } from '../../api/expenses';
 export default function ExpenseForm() {
   // Form variables
   const [item, setItem] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [category, setCategory] = useState(CATEGORIES[0].title);
   const [date, setDate] = useState(new Date())
   const [dateString, setDateString] = useState(dateMY(date));
