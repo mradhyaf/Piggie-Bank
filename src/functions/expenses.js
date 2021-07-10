@@ -20,12 +20,14 @@ export function priceTotal(data) {
 
 export function groupByCategory(data) {
   return groupBy(data, 'category');
-} 
+}
 
-// function inTheMonthOf(month, year) {
-//   function equalMonth(el) {
-//     const date = el.date;
-//     return date.getMonth() === month && date.getFullYear() === year;
-//   }
-//   return data.filter(equalMonth);
-// }
+
+
+export function inTheMonthOf(month, year, data) {
+   function equalMonth(el) {
+     const dat = new Date(el.date);
+     return dat.getMonth() === month && dat.getFullYear() === year;
+   }
+   return data.filter(equalMonth);
+}
