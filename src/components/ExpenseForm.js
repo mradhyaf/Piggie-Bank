@@ -2,25 +2,23 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput, Button } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import NumericInput from './NumericInput';
 import CATEGORIES from '../constants/CATEGORIES';
-import { newExpense } from '../functions/expenses';
-import { addExpense } from '../store/expensesSlice';
-import dateMY from '../functions/dateMY';
+import dateMY from '../../functions/dateMY';
+import { addExpense } from '../../api/expenses';
 
 export default function ExpenseForm() {
+  // Form variables
   const [item, setItem] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0].title);
-  const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date())
   const [dateString, setDateString] = useState(dateMY(date));
   
-  const dispatch = useDispatch();
-  
+  // DateTimePicker visibility
+  const [show, setShow] = useState(false);
 
   const handleConfirm = (event, selectedDate) => {
     setShow(false);
@@ -31,8 +29,14 @@ export default function ExpenseForm() {
   };
 
   const handleSubmit = () => {
-    const expense = newExpense(item, price, date.toString(), category,);
-    dispatch(addExpense(expense));
+    addExpense(
+      {
+        title: item,
+        price,
+        date: date.toString(),
+        category
+      }
+    )
   }
 
   return (
@@ -72,7 +76,7 @@ export default function ExpenseForm() {
           setCategory(itemValue)}
       >{CATEGORIES.map(({ title }) => (
           <Picker.Item label={title} value={title} key={title}/>
-          ))}
+        ))}
       </Picker>
       <Button
         style={styles.button}

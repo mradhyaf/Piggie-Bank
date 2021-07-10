@@ -5,14 +5,14 @@ import Screen from '../components/Screen';
 import { BarChart, PieChart, LineChart } from 'react-native-chart-kit';
 import { useSelector } from "react-redux";
 import { selectExpenses } from '../store/expensesSlice';
-import { readExpense } from '../../api/expenses'
+// import { readExpense } from '../../api/expenses'
 import { Dimensions} from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 export default function StatisticsScreen({ navigation }) {
   const screenWidth = Dimensions.get('window').width
   const [expenses, setExpenses] = useState([])
-  readExpense(val => {if (val) setExpenses(Object.values(val))}, console.error)
+  // readExpense(val => {if (val) setExpenses(Object.values(val))}, console.error)
   const reducer = (accumulator, data) => accumulator + Number(data.price);
   const c = (category) => expenses.filter(expense => expense.category === category).reduce(reducer, 0);
   const data = {

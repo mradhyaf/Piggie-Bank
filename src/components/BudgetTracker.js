@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { priceTotal } from '../functions/expenses';
+import { priceTotal } from '../../functions/expenses';
 import { selectExpenses } from '../store/expensesSlice';
 
 import { selectBudget, setBudget } from '../store/settingsSlice';

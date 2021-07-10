@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { expensesRef } from '../../api/expenses';
+import { getUserExpensesRef } from '../../api/expenses';
 
 const initialState = {
   history: [],
@@ -32,7 +32,7 @@ export const expensesSlice = createSlice({
 export const getUserExpenses = (onSuccess, onError) => {
   return async (dispatch, getState) => {
     const uid = getState().auth.currentUser.uid;
-    expensesRef.child(uid).get()
+    getUserExpensesRef().get()
       .then(snapshot => {
         const expenses = Object.values(snapshot.val());
         dispatch(updateExpense(expenses))
@@ -48,7 +48,7 @@ export const uploadUserExpenses = (onSuccess, onError) => {
     const uid = getState().auth.currentUser.uid;
     const expenses = getState().expenses.history;
     const updates = Object.assign({}, expenses);
-    expensesRef.child(uid).update(updates)
+    getUserExpensesRef().child(uid).update(updates)
       .then(() => {
         return onSuccess();
       }).catch(error => {

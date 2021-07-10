@@ -1,19 +1,17 @@
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
 import { Avatar, Card, Text } from "react-native-paper";
-import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ExpenseForm from '../components/ExpenseForm';
 import BudgetTracker from '../components/BudgetTracker';
 import Screen from '../components/Screen';
-import { selectDisplayName, selectPhotoURL } from '../store/authSlice';
+import { getCurrentUserDisplayName } from '../../api/auth';
 
 
 
 export default function HomeScreen({ navigation }) {
-  // const photoURL = useSelector(selectPhotoURL);
-  const displayName = useSelector(selectDisplayName);
+  const displayName = getCurrentUserDisplayName()
 
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>

@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 
 import AuthStack from './stacks/AuthStack';
 import MainStack from './stacks/MainStack';
 import LoadingScreen from './screens/LoadingScreen';
-import { selectLoading, selectUserId } from './store/authSlice';
+import { authSubscriber } from '../api/auth';
 
 const theme = {
   ...DefaultTheme,
@@ -20,9 +19,25 @@ const theme = {
 }
 
 export default function Navigation () {
-  let uid = useSelector(selectUserId);
-  const isLoading = useSelector(selectLoading);
-
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  useEffect(() => {
+    const unsubscribe = authSubscriber(
+      () => {
+        setIsAuthorized(true);
+        setIsLoading(false);
+      },
+      () => {
+        setIsAuthorized(false);
+        setIsLoading(false);
+      }
+    )
+    return () => {
+      unsubscribe();
+    }
+  })
+  
   if (isLoading) {
     return (
       <LoadingScreen />
@@ -31,7 +46,7 @@ export default function Navigation () {
 
   return (
     <NavigationContainer theme={theme}>
-      {uid ? (
+      {isAuthorized ? (
         <MainStack />
       ) : (
         <AuthStack />

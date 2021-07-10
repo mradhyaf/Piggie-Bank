@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, SafeAreaView } from 'react-native'
 import { BarChart } from 'react-native-chart-kit'
 
 import { selectExpenses } from '../store/expensesSlice';
-import { groupByCategory, priceTotal } from '../functions/expenses';
+import { groupByCategory, priceTotal } from '../../functions/expenses';
 import { useSelector } from 'react-redux';
 
 export default function () {

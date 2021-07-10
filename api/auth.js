@@ -1,55 +1,62 @@
 import firebase from "./firebase";
+import optionalFunction from "../functions/optionalFunction";
 
-export const auth = firebase.auth();
+const auth = firebase.auth();
+export default auth;
 
-export const addAuthListener = (onSignedIn, onSignedOut) => auth.onAuthStateChanged((user) => {
-  if (user) {
-    return onSignedIn(user);
-  } else {
-    return onSignedOut();
-  }
-});
+export function authSubscriber(onSignedIn, onSignedOut) {
+  return auth.onAuthStateChanged((user) => {
+    if (user) {
+      onSignedIn(user);
+    } else {
+      onSignedOut();
+    }
+  })
+}
 
-export const signIn = async ({ email, password }, onSuccess, onError) => {
+export const signInWithEmailAndPassword = async ({ email, password }, onSuccess, onError) => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-    return onSuccess(userCredential.user);
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);  
+    optionalFunction(onSuccess)(userCredential.user);
   } catch (error) {
-    onError(error.message);
+    optionalFunction(onError)(error);
   }
 }
 
-export const signUp = async ({ email, password }, onSuccess, onError) => {
+export const signUpWithEmailAndPassword = async ({ username = "Anonymous", email, password }, onSuccess, onError) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-    defaultUserConfig(userCredential.user);
-    return onSuccess(userCredential.user);
+    await userCredential.user.updateProfile({
+      displayName: username,
+      photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
+    })
+    optionalFunction(onSuccess)(userCredential.user);
   } catch (error) {
-    onError(error.message);
+    optionalFunction(onError)(error);
   }
 }
 
 export const signOut = async (onSuccess, onError) => {
   try {
     await auth.signOut();
-    return onSuccess();
+    optionalFunction(onSuccess)();
   } catch (error) {
-    onError(error.message);
+    optionalFunction(onError)(error);
   }
 }
 
-export const sendPasswordResetEmail = async ({ email }, onSuccess, onError) => {
+export const sendPasswordResetEmail = async (email, onSuccess, onError) => {
   try {
     await auth.sendPasswordResetEmail(email);
-    return onSuccess();
+    optionalFunction(onSuccess)();
   } catch (error) {
-    return onError(error);
+    optionalFunction(onError)(error);
   }
 }
 
 export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;
 
-export const getCurrentUser = () => auth.currentUser;
+export const getCurrentUserDisplayName = () => auth.currentUser ? auth.currentUser.displayName : null;
 
 const defaultUserConfig = (user) => {
   user.updateProfile({

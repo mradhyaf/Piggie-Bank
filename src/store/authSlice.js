@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { auth as firebaseAuth } from "../../api/auth";
+import firebaseAuth from "../../api/auth";
 import { clearExpense } from "./expensesSlice";
 
 const initialState = {

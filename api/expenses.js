@@ -1,53 +1,66 @@
+import { db } from "./firebase";
 import { getCurrentUserId } from "./auth";
-import firebase from "./firebase";
+import optionalFunction from '../functions/optionalFunction'
 
-const db = firebase.database();
-export const expensesRef = db.ref(`expenses`);
+export function getUserExpensesRef() {
+  return db.ref('expenses/' + getCurrentUserId());
+}
 
-export const createExpense = async ({ title, price, date, category }, onSuccess, onError) => {
+// Adds a listener to the user's expenses and returns a function to unsubscribe
+export function expenseSubscriber(callback, type = 'value') {
+  const subscriber = getUserExpensesRef()
+  subscriber.on(
+    type,
+    (snapshot) => optionalFunction(callback)(snapshot.val())
+  )
+  return subscriber.off
+}
+
+export const addExpense = async ({ title, price, date, category }, onSuccess, onError) => {
   try {
-    const uid = getCurrentUserId();
-    const expense = expensesRef.child(uid).push();
+    const expense = getUserExpensesRef().push();
     const newExpense = {
       key: expense.key,
-      title: title,
-      price: price,
-      date: date,
-      category: category
+      title,
+      price,
+      date,
+      category
     }
     await expense.set(newExpense);
-    return onSuccess(newExpense);
+    optionalFunction(onSuccess)();
   } catch (error) {
-    return onError(error);
-  }
-}
-
-export const readExpense = async (onSuccess, onError) => {
-  try {
-    const uid = getCurrentUserId();
-    const snapshot = await expensesRef.child(uid).get();
-    return onSuccess(snapshot.val());
-  } catch (error) {
-    return onError(error);
-  }
-}
-
-export const updateExpense = async (updates, onSuccess, onError) => {
-  try {
-    const uid = getCurrentUserId();
-    await expensesRef.child(uid).update(updates);
-    return onSuccess();
-  } catch (error) {
-    return onError(error);
+    console.error(error);
+    optionalFunction(onError)(error);
   }
 }
 
 export const deleteExpense = async (expenseKey, onSuccess, onError) => {
   try {
-    const uid = getCurrentUserId();
-    await expensesRef.child(uid).child(expenseKey).remove();
-    return onSuccess(expenseKey);
+    await getUserExpensesRef().child(expenseKey).remove();
+    optionalFunction(onSuccess)();
   } catch (error) {
-    return onError(error);
+    console.error(error);
+    optionalFunction(onError)(error);
+  }
+}
+
+export const getUserExpenses = async (onSuccess, onError) => {
+  try {
+    const snapshot = await getUserExpensesRef().get();
+    optionalFunction(onSuccess)();
+    return onSuccess(snapshot.val());
+  } catch (error) {
+    console.error(error);
+    optionalFunction(onError)(error);
+  }
+}
+
+export const updateUserExpenses = async (updates, onSuccess, onError) => {
+  try {
+    await getUserExpensesRef().update(updates);
+    optionalFunction(onSuccess)();
+  } catch (error) {
+    console.error(error);
+    optionalFunction(onError)(error);
   }
 }
