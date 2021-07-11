@@ -29,14 +29,9 @@ export default function ExpenseForm() {
   };
 
   const handleSubmit = () => {
-    addExpense(
-      {
-        title: item,
-        price,
-        date: date.toString(),
-        category
-      }
-    )
+    const expense = newExpense(item, Number(price), date.toString(), category,);
+    dispatch(addExpense(expense));
+    alert('Submitted');
   }
 
   return (
@@ -45,6 +40,7 @@ export default function ExpenseForm() {
         style={styles.input}
         placeholder={'Item'}
         value={item}
+        maxLength={50}
         mode='outlined'
         onChangeText={(item) => setItem(item)}
         />
@@ -52,6 +48,7 @@ export default function ExpenseForm() {
         style={styles.input}
         placeholder={'Price'}
         value={price}
+        maxLength={13}
         mode='outlined'
         onChangeText={(price) => setPrice(price)}
       />
@@ -81,7 +78,9 @@ export default function ExpenseForm() {
       <Button
         style={styles.button}
         mode={'contained'}
-        onPress={() => item === '' ? alert('Please enter a name for the item') : handleSubmit() }
+        onPress={() => item === '' ? alert('Please enter a name for the item') : Number(price)
+          ? handleSubmit()
+          : alert('Invalid input')}
       >SUBMIT</Button>
     </View>
   )

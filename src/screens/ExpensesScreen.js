@@ -1,19 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { Card, Divider, Text } from 'react-native-paper';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, Pressable } from 'react-native';
+import { Card, Divider, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Screen from '../components/Screen';
 import PieChart from '../components/PieChart'
 import BarChart from '../components/BarChart'
-import { priceTotal } from '../../functions/expenses';
-import CATEGORIES from '../constants/CATEGORIES';
-import useExpenses from '../../hooks/useExpenses';
+import LineChart from '../components/LineChart'
 
 export default function ExpensesScreen({ navigation }) {
   const expenses = useExpenses('category');
   const categories = CATEGORIES;
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [year, setYear] = React.useState(date.getFullYear());
+  const [month, setMonth] = React.useState(date.getMonth());
+  const [dateString, setDateString] = useState(`${month + 1}/${year}`);
+
+  const handleConfirm = (event, selectedDate) => {
+      setShow(false);
+      const newDate = selectedDate || date;
+      const newDateString = `${newDate.getMonth() + 1}/${newDate.getFullYear()}`;
+      setDate(newDate);
+      setDateString(newDateString);
+    };
+
 
   const renderItem = ({ item }) => (
     <Card style={styles.card} onPress={() => navigation.navigate(item.title)} >
@@ -31,14 +44,30 @@ export default function ExpensesScreen({ navigation }) {
 
   return (
     <Screen title="Expenses" enableAppbar={true}>
-      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={1}>
+      <Pressable onPress={() => setShow(true)}>
+        <TextInput
+          style={styles.input}
+          value={dateString}
+          editable={false}
+          mode='outlined'
+        />
+      </Pressable>
+      {show && (<DateTimePicker
+        display='spinner'
+        mode="date"
+        value={date}
+        onChange={handleConfirm}
+      />)}
+      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
         <PieChart />
         <BarChart />
+        <LineChart year={2021}/>
       </SwiperFlatList>
       <FlatList
         style={styles.list}
         data={categories}
         renderItem={renderItem}
+        extractData={categories}
         keyExtractor={(item) => item.title}
       />
     </Screen>

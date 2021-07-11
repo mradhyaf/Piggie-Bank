@@ -7,7 +7,8 @@ import useExpenses from '../../hooks/useExpenses';
 
 export default function () {
   const screenWidth = Dimensions.get('window').width;
-  const expenses = useExpenses('category');
+  const expenses = useSelector(selectExpenses);
+  const expensesByCategory = (cat) => Math.ceil(priceTotal(groupByCategory(expenses)[(cat)]));
 
   const chartConfig={
      backgroundColor: "#ffffff",
@@ -22,11 +23,11 @@ export default function () {
     labels: ['Food', 'Transportation', '   Utilities', 'Personal', 'Others'],
     datasets: [
       {
-        data: [priceTotal(expenses['Food']),
-        priceTotal(expenses['Transportation']),
-        priceTotal(expenses['Utilities']),
-        priceTotal(expenses['Personal']),
-        priceTotal(expenses['Others'])],
+        data: [expensesByCategory('Food'),
+        expensesByCategory('Transportation'),
+        expensesByCategory('Utilities'),
+        expensesByCategory('Personal'),
+        expensesByCategory('Others')],
       }
     ]
   };

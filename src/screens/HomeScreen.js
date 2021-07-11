@@ -16,9 +16,11 @@ export default function HomeScreen({ navigation }) {
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>
       <ScrollView>
-      <Card style={[styles.card, {alignItems: 'center'}]}>
-        <Icon style={styles.icon} name='user-alt' size={72} />
-        <Text style={styles.avatarName}>{displayName}</Text>
+      <Card style={styles.card}>
+        <Card.Content style={{alignItems:'center'}}>
+          <Icon style={styles.icon} name='user-alt' size={72} />
+          <Text style={styles.avatarName}>{displayName}</Text>
+        </Card.Content>
       </Card>
       <Card style={styles.card}>
         <BudgetTracker />
@@ -39,8 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   icon: {
-    marginLeft: 26,
-    color: '#323031'
+    color: '#323031',
   },
   avatarName: {
     fontSize: 20,
