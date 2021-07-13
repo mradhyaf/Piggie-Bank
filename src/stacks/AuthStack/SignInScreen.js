@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Headline, Text, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux'
 
 import { signInWithEmailAndPassword } from '../../../api/auth';
+import { getExpenses } from '../../../store/expensesSlice';
 import Screen from '../../components/Screen';
 
-export default function LoginScreen({ navigation }) { 
+export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,10 @@ export default function LoginScreen({ navigation }) {
   const handleSignIn = () => {
     signInWithEmailAndPassword(
       { email, password },
-      (error) => { if (error) setError(error.message) }
+      (error) => { error
+        ? setError(error)
+        : dispatch(getExpenses())
+      }
     )
   }
 

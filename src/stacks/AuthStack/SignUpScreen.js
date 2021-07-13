@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, TextInput, Button, Headline } from 'react-native-paper';
+import { useDispatch } from 'react-redux'
 
 import { signUpWithEmailAndPassword } from '../../../api/auth';
+import { getExpenses } from '../../../store/expensesSlice';
 import Screen from '../../components/Screen';
 
 export default function SignUp({ navigation }) {
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,9 +18,13 @@ export default function SignUp({ navigation }) {
   const handleSignUp = () => {
     signUpWithEmailAndPassword(
       { username, email, password },
-      (error) => { if (error) setError(error.message) }
+      (error) => { error
+        ? setError(error)
+        : dispatch(getExpenses())
+      }
     )
   }
+
 
   const secureText =() => {
       visible ?  setVisible(false) : setVisible(true);

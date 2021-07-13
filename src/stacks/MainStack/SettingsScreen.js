@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Button, Dialog, Portal, TextInput } from 'react-native-paper'
+import { useDispatch } from 'react-redux'
 
 import Screen from '../../components/Screen'
 import { signOut, updateProfile } from '../../../api/auth'
+import { clear as clearExpenses } from '../../../store/expensesSlice'
 
 export default function SettingsScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   
   // Set user displayName
@@ -20,7 +23,9 @@ export default function SettingsScreen({ navigation }) {
   }
 
   const handleSignOut = () => {
-    signOut()
+    signOut(
+      error => { if (!error) dispatch(clearExpenses()); }
+    );
   }
 
   return (
