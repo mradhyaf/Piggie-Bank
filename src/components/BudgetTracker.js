@@ -3,14 +3,15 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { priceTotal } from '../../functions/expenses';
-import { selectExpenses } from '../store/expensesSlice';
 
-import { selectBudget, setBudget } from '../store/settingsSlice';
+import { priceTotal } from '../../functions/expenses';
+import { selectExpenses } from '../../store/expensesSlice';
+import { selectBudget, setBudget } from '../../store/settingsSlice';
 import NumericInput from './NumericInput';
 
 export default function BudgetTracker() {
   const dispatch = useDispatch();
+
   const budget = useSelector(selectBudget);
   const expenses = useSelector(selectExpenses);
   const percentage = (priceTotal(expenses) / budget);

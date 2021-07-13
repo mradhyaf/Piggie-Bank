@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button, Headline } from 'react-native-paper';
-import { sendPasswordResetEmail } from '../../api/auth';
 
-import Screen from '../components/Screen';
+import { sendPasswordResetEmail } from '../../../api/auth';
+import Screen from '../../components/Screen';
 
 export default function SignUp({ navigation }) {
   const [error, setError] = useState(null);
@@ -12,8 +12,7 @@ export default function SignUp({ navigation }) {
   const handleRecovery = () => {
     sendPasswordResetEmail(
       email,
-      () => {},
-      (error) => setError(error.message)
+      (error) => { if (error) setError(error.message) }
     )
   }
 

@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import StatisticsScreen from '../screens/StatisticsScreen';
+import HomeScreen from './HomeScreen';
+import SettingsScreen from './SettingsScreen';
+import StatisticsScreen from '../../screens/StatisticsScreen';
 import ExpensesStack from './ExpensesStack';
 
 const Tab = createBottomTabNavigator();

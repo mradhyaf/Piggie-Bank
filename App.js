@@ -3,7 +3,7 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { store, persistor } from './src/store'
+import { store, persistor } from './store'
 import Navigator from "./src/Navigator";
 import LoadingScreen from './src/screens/LoadingScreen';
 

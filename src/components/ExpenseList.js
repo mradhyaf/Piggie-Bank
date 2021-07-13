@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Card, Dialog, Portal, Divider, List, Text, Button, Paragraph } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getCurrentUserId } from '../../api/auth';
-import { deleteExpense } from '../../api/expenses';
-import { DDMMYYYY } from '../../functions/date';
+import { deleteExpense } from '../../store/expensesSlice';
+import { format as formatDate } from '../../functions/date';
 import { groupByCategory, priceTotal } from '../../functions/expenses';
-import useExpenses from '../../hooks/useExpenses';
+import { selectExpenses } from '../../store/expensesSlice';
 
 export default function ExpenseList({ category }) {
+  const dispatch = useDispatch();
+  
   // User expenses  
-  const expenses = useExpenses('category')[category];
+  const expenses = groupByCategory(useSelector(selectExpenses))[category];
 
   const [visible, setVisible] = useState(false);
   const [item, setItem] = useState('');
 
   // Expense deletion
   const handleDelete = (expenseKey) => {
-    deleteExpense(getCurrentUserId(), expenseKey)
+    dispatch(deleteExpense(expenseKey));
   }
 
   const DeleteBox = ({ expense }) => (
@@ -32,7 +34,7 @@ export default function ExpenseList({ category }) {
       <List.Item
         style={styles.listItem}
         title={item.title}
-        description={DDMMYYYY(item.date)}
+        description={formatDate(item.date)}
         right={() => <Text style={styles.center}>{'$' + item.price}</Text>}
       />
     </Swipeable>

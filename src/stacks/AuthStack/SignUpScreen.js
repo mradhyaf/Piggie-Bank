@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, TextInput, Button, Headline } from 'react-native-paper';
 
-import { signUpWithEmailAndPassword } from '../../api/auth';
-import Screen from '../components/Screen';
+import { signUpWithEmailAndPassword } from '../../../api/auth';
+import Screen from '../../components/Screen';
 
 export default function SignUp({ navigation }) {
   const [error, setError] = useState(null);
@@ -15,8 +15,7 @@ export default function SignUp({ navigation }) {
   const handleSignUp = () => {
     signUpWithEmailAndPassword(
       { username, email, password },
-      () => {},
-      (error) => setError(error.message)
+      (error) => { if (error) setError(error.message) }
     )
   }
 

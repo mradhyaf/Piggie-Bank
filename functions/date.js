@@ -1,7 +1,12 @@
-export function DDMMYYYY(dateString) {
+export function format(dateString, style) {
   const date = new Date(dateString);
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
+  
+  switch (style) {
+    case 'DDMMYYYY':
+    default:
+      return `${day}/${month}/${year}`;
+  }
 }

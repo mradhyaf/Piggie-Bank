@@ -4,63 +4,65 @@ import optionalFunction from "../functions/optionalFunction";
 const auth = firebase.auth();
 export default auth;
 
-export function authSubscriber(onSignedIn, onSignedOut) {
+export function authSubscriber(onChange) {
   return auth.onAuthStateChanged((user) => {
-    if (user) {
-      onSignedIn(user);
-    } else {
-      onSignedOut();
-    }
+    onChange(user);
   })
 }
 
-export const signInWithEmailAndPassword = async ({ email, password }, onSuccess, onError) => {
+export const signInWithEmailAndPassword = async ({ email, password }, onComplete) => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);  
-    optionalFunction(onSuccess)(userCredential.user);
+    await auth.signInWithEmailAndPassword(email, password);  
+    optionalFunction(onComplete)(null);
   } catch (error) {
-    optionalFunction(onError)(error);
+    optionalFunction(onComplete)(error);
   }
 }
 
-export const signUpWithEmailAndPassword = async ({ username = "Anonymous", email, password }, onSuccess, onError) => {
+export const signUpWithEmailAndPassword = async ({ username = "Anonymous", email, password }, onComplete) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
     await userCredential.user.updateProfile({
       displayName: username,
       photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
     })
-    optionalFunction(onSuccess)(userCredential.user);
+    optionalFunction(onComplete)(null);
   } catch (error) {
-    optionalFunction(onError)(error);
+    optionalFunction(onComplete)(error);
   }
 }
 
-export const signOut = async (onSuccess, onError) => {
+export const signOut = async (onComplete) => {
   try {
     await auth.signOut();
-    optionalFunction(onSuccess)();
+    optionalFunction(onComplete)(null);
   } catch (error) {
-    optionalFunction(onError)(error);
+    optionalFunction(onComplete)(error);
   }
 }
 
-export const sendPasswordResetEmail = async (email, onSuccess, onError) => {
+export const sendPasswordResetEmail = async (email, onComplete) => {
   try {
     await auth.sendPasswordResetEmail(email);
-    optionalFunction(onSuccess)();
+    optionalFunction(onComplete)(null);
   } catch (error) {
-    optionalFunction(onError)(error);
+    optionalFunction(onComplete)(error);
   }
 }
 
-export const getCurrentUserId = () => auth.currentUser ? auth.currentUser.uid : null;
-
-export const getCurrentUserDisplayName = () => auth.currentUser ? auth.currentUser.displayName : null;
-
-const defaultUserConfig = (user) => {
-  user.updateProfile({
-    displayName: "Anonymous",
-    photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
-  })
+export const updateProfile = async ({ displayName, photoURL }, onComplete) => {
+  try {
+    auth.currentUser.updateProfile(
+      { displayName, photoURL }
+    );
+    optionalFunction(onComplete)(null);
+  } catch (error) {
+    optionalFunction(onComplete)(error);
+  }
 }
+
+export const getUserId = () => auth.currentUser ? auth.currentUser.uid : null;
+
+export const getDisplayName = () => auth.currentUser ? auth.currentUser.displayName : null;
+
+export const getPhotoURL = () => auth.currentUser ? auth.currentUser.photoURL : null;

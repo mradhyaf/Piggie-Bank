@@ -5,13 +5,20 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import Screen from '../components/Screen';
-import PieChart from '../components/PieChart'
-import BarChart from '../components/BarChart'
-import LineChart from '../components/LineChart'
+import Screen from '../../../components/Screen';
+import PieChart from '../../../components/PieChart'
+import BarChart from '../../../components/BarChart'
+import LineChart from '../../../components/LineChart'
+import { useSelector } from 'react-redux';
+import { selectExpenses } from '../../../../store/expensesSlice';
+import { groupByCategory, priceTotal } from '../../../../functions/expenses';
+import CATEGORIES from '../../../constants/CATEGORIES';
 
 export default function ExpensesScreen({ navigation }) {
-  const expenses = useExpenses('category');
+  const expenses = useSelector(selectExpenses);
+  const expensesByCategory = groupByCategory(expenses);
+  console.log(expensesByCategory)
+  
   const categories = CATEGORIES;
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -35,12 +42,11 @@ export default function ExpensesScreen({ navigation }) {
         left={({ size }) => <Icon style={styles.icon} name={item.icon} size={size} />}
         right={({ size }) => (
           <Text style={[{ fontSize: size }, styles.total]}>
-            ${priceTotal(expenses[item.title])}
+            ${priceTotal  (expensesByCategory[item.title])}
           </Text>)}
       />
     </Card>
   )
-
 
   return (
     <Screen title="Expenses" enableAppbar={true}>

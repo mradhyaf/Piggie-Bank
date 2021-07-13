@@ -3,15 +3,15 @@ import { StyleSheet, ScrollView } from 'react-native'
 import { Avatar, Card, Text } from "react-native-paper";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-import ExpenseForm from '../components/ExpenseForm';
-import BudgetTracker from '../components/BudgetTracker';
-import Screen from '../components/Screen';
-import { getCurrentUserDisplayName } from '../../api/auth';
+import ExpenseForm from '../../components/ExpenseForm';
+import BudgetTracker from '../../components/BudgetTracker';
+import Screen from '../../components/Screen';
+import { getDisplayName } from '../../../api/auth';
 
 
 
 export default function HomeScreen({ navigation }) {
-  const displayName = getCurrentUserDisplayName()
+  const displayName = getDisplayName();
 
   return (
     <Screen style={styles.container} title="Home" enableAppbar={true}>

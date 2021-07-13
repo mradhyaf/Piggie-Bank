@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
-import ExpenseList from '../components/ExpenseList';
+import ExpenseList from '../../../components/ExpenseList';
 
 export default function CategoryScreen({ navigation, category }) {
   return (

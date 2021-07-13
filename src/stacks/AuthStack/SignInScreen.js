@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Headline, Text, TextInput } from 'react-native-paper';
-import { signInWithEmailAndPassword } from '../../api/auth';
 
-import Screen from '../components/Screen';
+import { signInWithEmailAndPassword } from '../../../api/auth';
+import Screen from '../../components/Screen';
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation }) { 
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,8 +14,7 @@ export default function LoginScreen({ navigation }) {
   const handleSignIn = () => {
     signInWithEmailAndPassword(
       { email, password },
-      () => {},
-      (error) => setError(error.message)      
+      (error) => { if (error) setError(error.message) }
     )
   }
 

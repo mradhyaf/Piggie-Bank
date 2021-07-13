@@ -1,9 +1,10 @@
 import React from 'react'
 import { StyleSheet, Dimensions, SafeAreaView } from 'react-native'
 import { BarChart } from 'react-native-chart-kit'
+import { useSelector } from 'react-redux';
 
-import { priceTotal } from '../../functions/expenses';
-import useExpenses from '../../hooks/useExpenses';
+import { groupByCategory, priceTotal } from '../../functions/expenses';
+import { selectExpenses } from '../../store/expensesSlice';
 
 export default function () {
   const screenWidth = Dimensions.get('window').width;

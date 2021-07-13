@@ -1,15 +1,14 @@
 import 'react-native-get-random-values'
 import { groupBy } from 'lodash';
 
-// export function newExpense(title, price, date, category) {
-//   return {
-//     key: generateKey(),
-//     title,
-//     price,
-//     date,
-//     category,
-//   }
-// }
+export function newExpense(title, price, date, category) {
+  return {
+    title,
+    price,
+    date,
+    category,
+  }
+}
 
 // Accumulates the price property of an array of expenses
 export function priceTotal(data) {
@@ -20,8 +19,6 @@ export function priceTotal(data) {
 export function groupByCategory(data) {
   return groupBy(data, 'category');
 }
-
-
 
 export function inTheMonthOf(month, year, data) {
    function equalMonth(el) {

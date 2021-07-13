@@ -24,12 +24,8 @@ export default function Navigation () {
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     const unsubscribe = authSubscriber(
-      () => {
-        setIsAuthorized(true);
-        setIsLoading(false);
-      },
-      () => {
-        setIsAuthorized(false);
+      (user) => {
+        user ? setIsAuthorized(true) : setIsAuthorized(false);
         setIsLoading(false);
       }
     )
