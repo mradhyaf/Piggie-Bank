@@ -15,7 +15,7 @@ export const expensesSlice = createSlice({
       state.history = action.payload;      
     },
     clear: state => {
-      state.history = {};
+      state.history = [];
     }
   }
 });
@@ -26,7 +26,7 @@ export const addExpense = (expense, onComplete) => {
     try {
       const newExpense = expensesRef(uid).push();
       await newExpense.set({ ...expense, key: newExpense.key });
-      await dispatch(success());
+      await dispatch(getExpenses());
       optionalFunction(onComplete)(null);
     } catch (error) {
       optionalFunction(onComplete)(error);
@@ -39,7 +39,7 @@ export const deleteExpense = (expenseKey, onComplete) => {
     const uid = getUserId();
     try {
       await expensesRef(uid).child(expenseKey).remove();
-      await dispatch(success());
+      await dispatch(getExpenses());
       optionalFunction(onComplete)(null);
     } catch (error) {
       optionalFunction(onComplete)(error);
@@ -47,12 +47,13 @@ export const deleteExpense = (expenseKey, onComplete) => {
   }
 }
 
-export const success = () => {
+export const getExpenses = () => {
   return async (dispatch, getState) => {
     const uid = getUserId();
     try {
       const expenses = await expensesRef(uid).once('value');
-      dispatch(update(Object.values(expenses.val())));
+      const up = expenses.val() != null ? Object.values(expenses.val()) : [];
+      dispatch(update(up));
     } catch (error) {
       console.error(error);
     }

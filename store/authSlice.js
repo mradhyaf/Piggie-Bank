@@ -31,8 +31,10 @@ export const signInWithEmailAndPassword = ({ email, password }, onComplete) => {
   return async (dispatch) => {
     try {
       const userCredential = await firebaseAuth.signInWithEmailAndPassword(email, password);  
+      userCredential.then(() => {
       dispatch(success(userCredential.user));
       optionalFunction(onComplete)(userCredential.user);
+      });
     } catch (error) {
       dispatch(fail(error.message));
       optionalFunction(onComplete)(error);
@@ -44,12 +46,13 @@ export const signUpWithEmailAndPassword = ({ username = "Anonymous", email, pass
   return async (dispatch) => {
     try {
       const userCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-      await userCredential.user.updateProfile({
+      userCredential.user.updateProfile({
         displayName: username,
         photoURL: "https://image.freepik.com/free-vector/piggy-bank_53876-25494.jpg"
-      });
+      }).then(() => {
       dispatch(success(userCredential.user));
       optionalFunction(onComplete)(userCredential.user);
+      });
     } catch (error) {
       dispatch(fail(error.message));
       optionalFunction(onComplete)(error);
@@ -60,10 +63,11 @@ export const signUpWithEmailAndPassword = ({ username = "Anonymous", email, pass
 export const signOut = (onComplete) => {
   return async (dispatch) => {
     try {
-      await firebaseAuth.signOut();
+      firebaseAuth.signOut().then(() => {
       dispatch(success(null));
       dispatch(clearExpense());
       optionalFunction(onComplete)(null);
+      });
     } catch (error) {
       dispatch(fail(error.message));
       optionalFunction(onComplete)(error);
@@ -74,8 +78,9 @@ export const signOut = (onComplete) => {
 export const sendPasswordResetEmail = (email, onComplete) => {
   return async () => {
     try {
-      await firebaseAuth.sendPasswordResetEmail(email);
+      firebaseAuth.sendPasswordResetEmail(email).then(() => {
       optionalFunction(onComplete)(null);
+      });
     } catch (error) {
       dispatch(fail(error.message));
       optionalFunction(onComplete)(error);
@@ -86,10 +91,12 @@ export const sendPasswordResetEmail = (email, onComplete) => {
 export const updateProfile = ({ displayName, photoURL }, onComplete) => {
   return async (dispatch) => {
     try {
-      await firebaseAuth.currentUser.updateProfile(
+      firebaseAuth.currentUser.updateProfile(
         { displayName, photoURL }
-      );
+      ).then(() => {
+      dispatch(success(firebaseAuth.currentUser));
       optionalFunction(onComplete)(null);
+      });
     } catch (error) {
       dispatch(fail(error.message));
       optionalFunction(onComplete)(error);
