@@ -1,68 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, View, StyleSheet, ScrollView} from 'react-native';
-import { List, Button, Paragraph, Dialog, Portal, Divider} from 'react-native-paper';
-import { readExpense,deleteExpense } from '../../api/expenses';
-import PriceTag from './PriceTag';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
+import { Card, Dialog, Portal, Divider, List, Text, Button, Paragraph } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import { useDispatch, useSelector } from 'react-redux';
 
-export default () => {
-  const [expenses, setExpenses] = useState([]);
-  const [visible, setVisible] = React.useState(false);
-  const [item, setItem] = React.useState('');
+import { deleteExpense } from '../../store/expensesSlice';
+import { format as formatDate } from '../../functions/date';
+import { groupByCategory, priceTotal } from '../../functions/expenses';
+import { selectExpenses } from '../../store/expensesSlice';
 
-  useEffect(() => {
-    readExpense(
-      val => {if (val) setExpenses(Object.values(val))},
-      console.error
-    )
-  }, [visible])
+export default function ExpenseList({ category }) {
+  const dispatch = useDispatch();
+  
+  // User expenses  
+  const expenses = groupByCategory(useSelector(selectExpenses))[category];
 
-  const categories = ['1', '2', '3', '4', '5', '6'];
-  const totalPrice = (data) => data.reduce((accumulator, data) => accumulator + Number(data.price), 0);
-  const getCategory = (data, category) => data.filter(el => el.category === category);
+  const [visible, setVisible] = useState(false);
+  const [item, setItem] = useState('');
 
+  // Expense deletion
   const handleDelete = (expenseKey) => {
-    deleteExpense(
-      expenseKey,
-      () => console.log("Deleted expense"),
-      console.error
-    )
+    dispatch(deleteExpense(expenseKey));
   }
 
-  const categoryList = (category, data) => (
-    <List.Accordion
-      left={() => <List.Icon icon='folder' />}
-      title={category}
-      id={category}
-      right={() => <PriceTag value={totalPrice(data)}/>}>
-      {data.map((expense) => {
-        return renderItem(expense);
-      })}
-    </List.Accordion>
+  const DeleteBox = ({ expense }) => (
+    <Icon name="trash" style={styles.deleteBox} onPress={() => {setVisible(true); setItem(expense); }} />
   )
 
-  const renderItem = (item) => (
-    <View>
+  // List render item
+  const renderItem = ({ item }) => (
+    <Swipeable renderRightActions={() => <DeleteBox expense={item} />}>
       <List.Item
-        style={styles.item}
+        style={styles.listItem}
         title={item.title}
-        description={item.description}
-        right={() =>
-        <View style={{flexDirection: 'row'}}>
-          <PriceTag value={item.price} />
-          <Button icon={'trash-can-outline'} onPress={() => {setVisible(true); setItem(item); }} />
-        </View>}
+        description={formatDate(item.date)}
+        right={() => <Text style={styles.center}>{'$' + item.price}</Text>}
       />
-      <Divider />
-    </View>
-  );
-  
+    </Swipeable>
+  )
+
   return (
-    <ScrollView>
-      <List.AccordionGroup>
-        {categories.map((category) => {
-          return categoryList(category, getCategory(expenses, category))
-        })}
-      </List.AccordionGroup>
+    <SafeAreaView style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Title 
+          style={styles.cardTitle} 
+          right={({ size }) => <Text style={{fontSize: size}}>{'$' + priceTotal(expenses)} </Text>}
+          title={category}
+          
+        />
+      </Card>
+      <FlatList
+        style={styles.list}
+        data={expenses}
+        renderItem={renderItem}
+        ItemSeparatorComponent={Divider}
+      />
+
+      {/* Confirmation dialogs */}
       <Portal>
         <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
           <Dialog.Title>Alert</Dialog.Title>
@@ -70,17 +65,42 @@ export default () => {
             <Paragraph>'Are you sure you want to delete?'</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => { setVisible(false); handleDelete(item.key); }}>Yes</Button>
+            <Button onPress={() => { setVisible(false); handleDelete(item.key) }}>Yes</Button>
             <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   list: {
-    margin: 20
+    // borderColor: 'black',
+    // borderWidth: StyleSheet.hairlineWidth,
+  },
+  listItem: {
+    // fontWeight: 'bold'
+    backgroundColor: '#FFF'
+  },
+  card: {
+    marginTop: '1%',
+    marginHorizontal: '1%',
+  },
+  cardTitle: {
+    fontWeight: 'bold'
+  },
+  center: {
+    paddingTop: 15,
+    fontWeight: 'bold'
+  },
+  deleteBox: {
+    padding: 27,
+    backgroundColor: 'red',
+    color: 'white'
+  },
+  container: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   }
 })

@@ -2,10 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-import ExpensesScreen from '../screens/ExpensesScreen';
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import StatisticsScreen from '../screens/StatisticsScreen';
+import HomeScreen from './HomeScreen';
+import SettingsScreen from './SettingsScreen';
+import StatisticsScreen from '../../screens/StatisticsScreen';
+import ExpensesStack from './ExpensesStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +30,7 @@ export default () => {
       />
       <Tab.Screen
         name="Expenses"
-        component={ExpensesScreen}
+        component={ExpensesStack}
         options={{
           title: "Expenses",
           tabBarLabel: "Expenses",
@@ -39,7 +39,7 @@ export default () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
         options={{
@@ -49,7 +49,7 @@ export default () => {
             <Icon name='chart-line' color={color} size={24} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}

@@ -4,15 +4,15 @@ import { Appbar } from 'react-native-paper';
 import Screen from '../components/Screen';
 import { BarChart, PieChart, LineChart } from 'react-native-chart-kit';
 import { useSelector } from "react-redux";
-import { selectExpenses } from '../store/expensesSlice';
-import { readExpense } from '../../api/expenses'
+import { selectExpenses } from '../../store/expensesSlice';
+// import { readExpense } from '../../api/expenses'
 import { Dimensions} from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 export default function StatisticsScreen({ navigation }) {
   const screenWidth = Dimensions.get('window').width
   const [expenses, setExpenses] = useState([])
-  readExpense(val => {if (val) setExpenses(Object.values(val))}, console.error)
+  // readExpense(val => {if (val) setExpenses(Object.values(val))}, console.error)
   const reducer = (accumulator, data) => accumulator + Number(data.price);
   const c = (category) => expenses.filter(expense => expense.category === category).reduce(reducer, 0);
   const data = {
@@ -67,8 +67,7 @@ export default function StatisticsScreen({ navigation }) {
         <SafeAreaView>
           <BarChart
             data={data}
-            yAxisLabel="$"
-            width={screenWidth*0.9}
+            width={screenWidth*0.98}
             height={256}
             yAxisLabel="$"
             chartConfig={chartConfig}
@@ -78,7 +77,7 @@ export default function StatisticsScreen({ navigation }) {
           <PieChart
             data={pieChartData}
             height={256}
-            width={screenWidth*0.9}
+            width={screenWidth*0.98}
             paddingLeft={25}
             chartConfig={chartConfig2}
             accessor="population"
@@ -97,4 +96,3 @@ export default function StatisticsScreen({ navigation }) {
     </Screen>
   )
 }
-
