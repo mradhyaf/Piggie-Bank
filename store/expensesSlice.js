@@ -1,24 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { db } from '../api/firebase';
-import { getUserId  } from '../api/auth'; 
-import optionalFunction from '../functions/optionalFunction';
-
-const expensesRef = (uid) => db.ref('expenses/' + uid);
+import { createSlice } from "@reduxjs/toolkit";
+import { db } from "../api/firebase";
+import { getUserId } from "../api/auth";
+import optionalFunction from "../functions/optionalFunction";
 
 export const expensesSlice = createSlice({
-  name: 'expenses',
+  name: "expenses",
   initialState: {
-    history: []
+    history: [],
   },
   reducers: {
     update: (state, action) => {
-      state.history = action.payload;      
+      state.history = action.payload;
     },
-    clear: state => {
+    clear: (state) => {
       state.history = [];
-    }
-  }
+    },
+  },
 });
+
+const expensesRef = (uid) => db.ref("expenses/" + uid);
 
 export const addExpense = (expense, onComplete) => {
   return async (dispatch, getState) => {
@@ -31,8 +31,8 @@ export const addExpense = (expense, onComplete) => {
     } catch (error) {
       optionalFunction(onComplete)(error);
     }
-  }
-}
+  };
+};
 
 export const deleteExpense = (expenseKey, onComplete) => {
   return async (dispatch, getState) => {
@@ -44,26 +44,24 @@ export const deleteExpense = (expenseKey, onComplete) => {
     } catch (error) {
       optionalFunction(onComplete)(error);
     }
-  }
-}
+  };
+};
 
-export const getExpenses = () => {
+export const getExpenses = (onComplete) => {
   return async (dispatch, getState) => {
     const uid = getUserId();
     try {
-      const expenses = await expensesRef(uid).once('value');
+      const expenses = await expensesRef(uid).once("value");
       const up = expenses.val() != null ? Object.values(expenses.val()) : [];
       dispatch(update(up));
+      optionalFunction(onComplete)(null);
     } catch (error) {
-      console.error(error);
+      optionalFunction(onComplete)(error);
     }
-  }
-}
+  };
+};
 
-export const { 
-  update, 
-  clear
-} = expensesSlice.actions;
+export const { update, clear } = expensesSlice.actions;
 
 export const selectExpenses = (state) => state.expenses.history;
 

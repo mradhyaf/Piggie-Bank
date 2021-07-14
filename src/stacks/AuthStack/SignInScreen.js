@@ -3,9 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { Button, Headline, Text, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import { signInWithEmailAndPassword, getDisplayName } from "../../../api/auth";
+import { signInWithEmailAndPassword } from "../../../api/auth";
 import { getExpenses } from "../../../store/expensesSlice";
-import { getBudget, getDisplayName } from '../../../store/userSlice';
+import { getBudget, getDisplayName } from "../../../store/userSlice";
 import Screen from "../../components/Screen";
 
 export default function LoginScreen({ navigation }) {
@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
     setIsLoading(true);
     signInWithEmailAndPassword({ email, password }, (error) => {
       if (error) {
-        setError(error)
+        setError(error);
       } else {
         dispatch(getBudget());
         dispatch(getExpenses());
