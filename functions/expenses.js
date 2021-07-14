@@ -25,5 +25,5 @@ export function inTheMonthOf(month, year, data) {
      const dat = new Date(el.date);
      return dat.getMonth() === month && dat.getFullYear() === year;
    }
-   return data.filter(equalMonth);
+   return data == null ? null : data.filter(equalMonth);
 }

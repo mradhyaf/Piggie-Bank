@@ -42,7 +42,7 @@ export default function BudgetTracker() {
 
   return (
     <View>
-      <Pressable style={styles.container} onPress={() => setShow(!show)}>
+      {budget ? (
         <View>
           <Text style={styles.text}>Your Budget: ${budget}</Text>
           {percentage >= 1 && (
@@ -69,7 +69,10 @@ export default function BudgetTracker() {
             />
           </View>
         </View>
-      </Pressable>
+      ) : (
+        <Text style={styles.text}>You haven't set a budget</Text>
+      )}
+
       {!show && (
         <Button onPress={() => setShow(true)} mode="text">
           Set Budget
@@ -81,14 +84,11 @@ export default function BudgetTracker() {
             placeholder={"Budget"}
             value={newBudget}
             maxLength={13}
-            onChangeText={setNewBudget(newBudget)}
+            onChangeText={setNewBudget}
             mode="outlined"
             style={styles.input}
           />
-          <Button
-            onPress={handleSetBudget}
-            mode="contained"
-          >
+          <Button onPress={handleSetBudget} mode="contained">
             Set Budget
           </Button>
         </View>

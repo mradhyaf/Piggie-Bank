@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { deleteExpense } from '../../store/expensesSlice';
 import { format as formatDate } from '../../functions/date';
-import { groupByCategory, priceTotal } from '../../functions/expenses';
+import { groupByCategory, priceTotal, inTheMonthOf } from '../../functions/expenses';
 import { selectExpenses } from '../../store/expensesSlice';
 
-export default function ExpenseList({ category }) {
+export default function ExpenseList({ category, month, year }) {
   const dispatch = useDispatch();
   
   // User expenses  
-  const expenses = groupByCategory(useSelector(selectExpenses))[category];
+  const expenses = inTheMonthOf(month, year, groupByCategory(useSelector(selectExpenses))[category]);
 
   const [visible, setVisible] = useState(false);
   const [item, setItem] = useState('');

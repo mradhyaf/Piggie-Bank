@@ -3,11 +3,12 @@ import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import ExpenseList from '../../../components/ExpenseList';
 
-export default function CategoryScreen({ navigation, category }) {
+export default function CategoryScreen({ route, navigation, category}) {
+  const { month, year } = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <Button onPress={() => navigation.goBack()}>GO BACK</Button>
-      <ExpenseList category={category} />
+      <ExpenseList category={category} month={month} year={year} />
     </SafeAreaView>
   )
 }

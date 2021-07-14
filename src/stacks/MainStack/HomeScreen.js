@@ -21,7 +21,11 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.avatarName}>{displayName}</Text>
           </Card.Content>
         </Card>
-        <Card style={styles.card}>{/* <BudgetTracker /> */}</Card>
+        <Card style={styles.card}>
+          <Card.Content style={{ alignItems: "center" }}>
+            <BudgetTracker />
+          </Card.Content>
+        </Card>
         <Card style={styles.card}>
           <ExpenseForm />
         </Card>
