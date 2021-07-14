@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { priceTotal } from "../../functions/expenses";
 import { selectExpenses } from "../../store/expensesSlice";
-import { selectBudget, setNewBudget } from "../../store/userSlice";
+import { selectBudget, setBudget } from "../../store/userSlice";
 import NumericInput from "./NumericInput";
 
 export default function BudgetTracker() {
@@ -20,6 +20,13 @@ export default function BudgetTracker() {
 
   const [show, setShow] = useState(false);
   const [newBudget, setNewBudget] = useState(0);
+
+  const handleSetBudget = () => {
+    Number(newBudget)
+      ? dispatch(setBudget(Number(newBudget)))
+      : alert("Invalid input");
+    setShow(false);
+  };
 
   const chartConfig = {
     backgroundGradientFrom: "#000000",
@@ -74,17 +81,12 @@ export default function BudgetTracker() {
             placeholder={"Budget"}
             value={newBudget}
             maxLength={13}
-            onChangeText={(newBudget) => setNewBudget(newBudget)}
+            onChangeText={setNewBudget(newBudget)}
             mode="outlined"
             style={styles.input}
           />
           <Button
-            onPress={() => {
-              Number(newBudget)
-                ? dispatch(setNewBudget(Number(newBudget)))
-                : alert("Invalid input");
-              setShow(false);
-            }}
+            onPress={handleSetBudget}
             mode="contained"
           >
             Set Budget

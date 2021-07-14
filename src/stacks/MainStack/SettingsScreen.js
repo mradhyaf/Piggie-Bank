@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Screen from "../../components/Screen";
 import { signOut } from "../../../api/auth";
 import { clear as clearExpenses } from "../../../store/expensesSlice";
-import { setNewDisplayName } from "../../../store/userSlice";
+import { setDisplayName } from "../../../store/userSlice";
 
 export default function SettingsScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function SettingsScreen({ navigation }) {
   const hideDialog = () => setVisible(false);
   const handleSetUsername = () => {
     dispatch(
-      setNewDisplayName(name, (error) =>
+      setDisplayName(name, (error) =>
         error ? alert(error.message) : hideDialog()
       )
     );

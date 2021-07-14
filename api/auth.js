@@ -79,10 +79,9 @@ export const updateDisplayName = async (displayName, onComplete) => {
     });
 };
 
-export const getUserId = () => (auth.currentUser ? auth.currentUser.uid : null);
+export const getUser = () => auth.currentUser;
 
-export const getDisplayName = () =>
-  auth.currentUser ? auth.currentUser.displayName : null;
+export const getUserId = () => (auth.currentUser ? auth.currentUser.uid : null);
 
 export const getPhotoURL = () =>
   auth.currentUser ? auth.currentUser.photoURL : null;

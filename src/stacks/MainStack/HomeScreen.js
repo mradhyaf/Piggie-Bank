@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import ExpenseForm from "../../components/ExpenseForm";
 import BudgetTracker from "../../components/BudgetTracker";
 import Screen from "../../components/Screen";
-import { getDisplayName } from "../../../api/auth";
-import { selectDisplayName } from "../../../store/authSlice";
+import { selectDisplayName } from "../../../store/userSlice";
 
 export default function HomeScreen({ navigation }) {
   const displayName = useSelector(selectDisplayName);
@@ -22,9 +21,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.avatarName}>{displayName}</Text>
           </Card.Content>
         </Card>
-        <Card style={styles.card}>
-          <BudgetTracker />
-        </Card>
+        <Card style={styles.card}>{/* <BudgetTracker /> */}</Card>
         <Card style={styles.card}>
           <ExpenseForm />
         </Card>

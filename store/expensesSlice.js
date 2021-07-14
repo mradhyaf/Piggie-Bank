@@ -47,15 +47,16 @@ export const deleteExpense = (expenseKey, onComplete) => {
   };
 };
 
-export const getExpenses = () => {
+export const getExpenses = (onComplete) => {
   return async (dispatch, getState) => {
     const uid = getUserId();
     try {
       const expenses = await expensesRef(uid).once("value");
       const up = expenses.val() != null ? Object.values(expenses.val()) : [];
       dispatch(update(up));
+      optionalFunction(onComplete)(null);
     } catch (error) {
-      console.error(error);
+      optionalFunction(onComplete)(error);
     }
   };
 };

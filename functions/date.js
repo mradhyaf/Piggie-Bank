@@ -3,9 +3,11 @@ export function format(dateString, style) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  
+
   switch (style) {
-    case 'DDMMYYYY':
+    case "MM/YYYY":
+      return `${month}/${year}`;
+    case "DD/MM/YYYY":
     default:
       return `${day}/${month}/${year}`;
   }

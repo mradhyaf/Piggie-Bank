@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { signInWithEmailAndPassword } from "../../../api/auth";
 import { getExpenses } from "../../../store/expensesSlice";
+import { getBudget, getDisplayName } from "../../../store/userSlice";
 import Screen from "../../components/Screen";
 
 export default function LoginScreen({ navigation }) {
@@ -20,7 +21,13 @@ export default function LoginScreen({ navigation }) {
   const handleSignIn = () => {
     setIsLoading(true);
     signInWithEmailAndPassword({ email, password }, (error) => {
-      error ? setError(error) : dispatch(getExpenses());
+      if (error) {
+        setError(error);
+      } else {
+        dispatch(getBudget());
+        dispatch(getExpenses());
+        dispatch(getDisplayName());
+      }
       setIsLoading(false);
     });
   };
