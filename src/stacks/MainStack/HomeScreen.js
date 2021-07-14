@@ -8,7 +8,7 @@ import ExpenseForm from '../../components/ExpenseForm';
 import BudgetTracker from '../../components/BudgetTracker';
 import Screen from '../../components/Screen';
 import { getDisplayName } from '../../../api/auth';
-import { selectDisplayName } from '../../../store/authSlice';
+import { selectDisplayName } from '../../../store/userSlice';
 
 
 

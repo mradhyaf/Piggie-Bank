@@ -50,16 +50,16 @@ export const sendPasswordResetEmail = async (email, onComplete) => {
   }
 }
 
-export const updateProfile = async ({ displayName, photoURL }, onComplete) => {
-  try {
-    auth.currentUser.updateProfile(
-      { displayName, photoURL }
-    );
-    optionalFunction(onComplete)(null);
-  } catch (error) {
-    optionalFunction(onComplete)(error);
-  }
-}
+export const updateDisplayName = async (displayName, onComplete) => {
+  auth.currentUser
+    .updateProfile({ displayName })
+    .then(() => {
+      optionalFunction(onComplete)(null);
+    })
+    .catch((error) => {
+      optionalFunction(onComplete)(error);
+    });
+};
 
 export const getUserId = () => auth.currentUser ? auth.currentUser.uid : null;
 

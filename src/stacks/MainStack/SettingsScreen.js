@@ -1,32 +1,34 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { Button, Dialog, Portal, TextInput } from 'react-native-paper'
-import { useDispatch } from 'react-redux'
+import React, { useState } from "react";
+import { View } from "react-native";
+import { Button, Dialog, Portal, TextInput } from "react-native-paper";
+import { useDispatch } from "react-redux";
 
-import Screen from '../../components/Screen'
-import { signOut, updateProfile } from '../../../api/auth'
-import { clear as clearExpenses } from '../../../store/expensesSlice'
+import Screen from "../../components/Screen";
+import { signOut } from "../../../api/auth";
+import { clear as clearExpenses } from "../../../store/expensesSlice";
+import { setDisplayName } from "../../../store/userSlice";
 
 export default function SettingsScreen({ navigation }) {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  
+
   // Set user displayName
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
   const handleSetUsername = () => {
-    updateProfile(
-      { displayName: name },
-      (error) => error ? alert(error) : hideDialog()
+    dispatch(
+      setDisplayName(name, (error) =>
+        error ? alert(error.message) : hideDialog()
+      )
     );
-  }
+  };
 
   const handleSignOut = () => {
-    signOut(
-      error => { if (!error) dispatch(clearExpenses()); }
-    );
-  }
+    signOut((error) => {
+      if (!error) dispatch(clearExpenses());
+    });
+  };
 
   return (
     <Screen title="Settings" enableAppbar="true">
@@ -36,10 +38,12 @@ export default function SettingsScreen({ navigation }) {
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>New Username</Dialog.Title>
             <Dialog.Content>
-              <TextInput placeholder={'Username'}
+              <TextInput
+                placeholder={"Username"}
                 value={name}
-                mode='outlined'
-                onChangeText={(name) => setName(name)}/>
+                mode="outlined"
+                onChangeText={(name) => setName(name)}
+              />
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={handleSetUsername}>Done</Button>
@@ -48,9 +52,7 @@ export default function SettingsScreen({ navigation }) {
           </Dialog>
         </Portal>
       </View>
-      <Button
-        onPress={handleSignOut}
-      >LOG OUT</Button>
+      <Button onPress={handleSignOut}>LOG OUT</Button>
     </Screen>
-  )
+  );
 }

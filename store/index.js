@@ -14,7 +14,7 @@ import {
 
 import authReducer from "./authSlice";
 import expensesReducer from "./expensesSlice";
-import settingsReducer from "./settingsSlice";
+import userReducer from "./userSlice";
 
 const rootPersistConfig = {
   key: 'root',
@@ -31,7 +31,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   expenses: expensesReducer,
-  settings: settingsReducer,
+  user: userReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
