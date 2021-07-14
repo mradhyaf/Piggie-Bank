@@ -43,7 +43,7 @@ export default function ({year}) {
       <LineChart
         data={data}
         width={screenWidth*0.98}
-        height={220}
+        height={200}
         yAxisLabel='$'
         chartConfig={chartConfig}
         style={chartConfig.style}

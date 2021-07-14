@@ -52,8 +52,8 @@ export const getExpenses = () => {
     const uid = getUserId();
     try {
       const expenses = await expensesRef(uid).once("value");
-      console.log(expense);
-      dispatch(update(Object.values(expenses.val())));
+      const up = expenses.val() != null ? Object.values(expenses.val()) : [];
+      dispatch(update(up));
     } catch (error) {
       console.error(error);
     }

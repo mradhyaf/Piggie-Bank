@@ -38,7 +38,7 @@ export default function () {
       <BarChart
         data={data}
         width={screenWidth*0.98}
-        height={220}
+        height={200}
         yAxisLabel="$"
         chartConfig={chartConfig}
         showValuesOnTopOfBars={true}
