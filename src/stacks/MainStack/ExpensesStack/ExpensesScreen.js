@@ -4,12 +4,13 @@ import { Card, Divider, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useSelector } from 'react-redux';
 
 import Screen from '../../../components/Screen';
 import PieChart from '../../../components/PieChart'
 import BarChart from '../../../components/BarChart'
+
 import LineChart from '../../../components/LineChart'
-import { useSelector } from 'react-redux';
 import { selectExpenses } from '../../../../store/expensesSlice';
 import { groupByCategory, priceTotal } from '../../../../functions/expenses';
 import CATEGORIES from '../../../constants/CATEGORIES';
@@ -73,7 +74,7 @@ export default function ExpensesScreen({ navigation }) {
         style={styles.list}
         data={categories}
         renderItem={renderItem}
-        extractData={categories}
+        extraData={categories}
         keyExtractor={(item) => item.title}
       />
     </Screen>

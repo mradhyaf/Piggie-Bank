@@ -1,16 +1,16 @@
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Card, Text } from "react-native-paper";
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Camera } from 'expo-camera';
 
 import ExpenseForm from '../../components/ExpenseForm';
 import BudgetTracker from '../../components/BudgetTracker';
 import Screen from '../../components/Screen';
 import { getDisplayName } from '../../../api/auth';
 
-
-
 export default function HomeScreen({ navigation }) {
+  // Profile
   const displayName = getDisplayName();
 
   return (
