@@ -28,7 +28,7 @@ export default function ({ month, year }) {
   };
 
   const data = {
-    labels: ["Food", "Transportation", "Utilities", "Personal", "Others"],
+    labels: ["Food", "Transportation", "   Utilities", "Personal", "Others"],
     datasets: [
       {
         data: [
@@ -47,7 +47,7 @@ export default function ({ month, year }) {
       <BarChart
         data={data}
         width={screenWidth * 0.98}
-        height={200}
+        height={180}
         yAxisLabel="$"
         chartConfig={chartConfig}
         showValuesOnTopOfBars={true}
