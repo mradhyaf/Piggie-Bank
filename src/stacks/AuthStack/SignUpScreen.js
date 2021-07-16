@@ -104,25 +104,27 @@ const styles = StyleSheet.create({
   },
   error: {
     color: "red",
-    margin: "2%",
+    marginHorizontal: "2%",
+    marginVertical: 2,
   },
   form: {
     flex: 16,
     paddingHorizontal: "10%",
   },
   input: {
-    marginVertical: "1.5%",
+    marginVertical: 5,
     height: 56,
   },
   reset: {
     color: "#3498db",
     textAlign: "right",
-    margin: "2%",
+    marginHorizontal: "2%",
+    marginVertical: 2,
   },
   button: {
     justifyContent: "center",
     marginHorizontal: "10%",
-    marginVertical: "3%",
+    marginVertical: 5,
     borderRadius: 28,
   },
   buttonContent: {
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     paddingHorizontal: "20%",
-    paddingVertical: "0%",
+    paddingVertical: 0,
   },
   bottomText: {
     flex: 2,

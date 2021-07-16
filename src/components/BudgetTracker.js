@@ -49,7 +49,7 @@ export default function BudgetTracker() {
     <View>
       {budget ? (
         <View>
-          <Text style={styles.text}>Your Budget: ${budget}</Text>
+          <Text style={styles.text}>Your Budget for this month: ${budget}</Text>
           {percentage >= 1 && (
             <View style={styles.text}>
               <Text style={{ color: "red" }}>Exceeded by ${exceed}</Text>

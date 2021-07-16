@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { Button, Headline, Text, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import Screen from "../../components/Screen";
 import { signInWithEmailAndPassword } from "../../../api/auth";
 import { getExpenses } from "../../../store/expensesSlice";
 import { getBudget, getDisplayName } from "../../../store/userSlice";
-import Screen from "../../components/Screen";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <Headline style={styles.headline}>
+        <Image source={require("../../../assets/app-logo.svg")} />
         Get insights from your monthly expenses
       </Headline>
 
@@ -51,6 +52,7 @@ export default function LoginScreen({ navigation }) {
           textContentType={"emailAddress"}
           value={email}
           onChangeText={setEmail}
+          mode="outlined"
         />
 
         <TextInput
@@ -60,6 +62,7 @@ export default function LoginScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry={visible}
+          mode="outlined"
           right={
             <TextInput.Icon
               style={styles.eyecon}
@@ -106,25 +109,26 @@ const styles = StyleSheet.create({
   },
   error: {
     color: "red",
-    margin: "2%",
+    marginHorizontal: "2%",
+    marginVertical: 2,
   },
   form: {
     flex: 16,
     paddingHorizontal: "10%",
   },
   input: {
-    marginVertical: "1.5%",
-    height: 56,
+    marginVertical: 5,
   },
   reset: {
     color: "#3498db",
     textAlign: "right",
-    margin: "2%",
+    marginHorizontal: "2%",
+    marginVertical: 2,
   },
   button: {
     justifyContent: "center",
     marginHorizontal: "10%",
-    marginVertical: "3%",
+    marginVertical: 5,
     borderRadius: 28,
   },
   buttonContent: {
@@ -132,7 +136,10 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     paddingHorizontal: "20%",
-    paddingVertical: "0%",
+    paddingVertical: 0,
+    fontWeight: "bold",
+    color: "#FFEEF2",
+    fontSize: 20,
   },
   bottomText: {
     flex: 2,
