@@ -4,7 +4,7 @@ import { ProgressChart } from "react-native-chart-kit";
 import { Button, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
-import { priceTotal } from "../../functions/expenses";
+import { priceTotal, inTheMonthOf } from "../../functions/expenses";
 import { selectExpenses } from "../../store/expensesSlice";
 import { selectBudget, setBudget } from "../../store/userSlice";
 import NumericInput from "./NumericInput";
@@ -14,7 +14,12 @@ export default function BudgetTracker() {
 
   const budget = useSelector(selectBudget);
 
-  const expenses = useSelector(selectExpenses);
+  const expenseRaw = useSelector(selectExpenses);
+  const expenses = inTheMonthOf(
+    new Date().getMonth(),
+    new Date().getFullYear(),
+    expenseRaw
+  );
   const percentage = priceTotal(expenses) / budget;
   const exceed = Math.abs(budget - priceTotal(expenses));
 
@@ -42,7 +47,7 @@ export default function BudgetTracker() {
 
   return (
     <View>
-      <Pressable style={styles.container} onPress={() => setShow(!show)}>
+      {budget ? (
         <View>
           <Text style={styles.text}>Your Budget: ${budget}</Text>
           {percentage >= 1 && (
@@ -69,7 +74,10 @@ export default function BudgetTracker() {
             />
           </View>
         </View>
-      </Pressable>
+      ) : (
+        <Text style={styles.text}>You haven't set a budget</Text>
+      )}
+
       {!show && (
         <Button onPress={() => setShow(true)} mode="text">
           Set Budget
@@ -81,14 +89,11 @@ export default function BudgetTracker() {
             placeholder={"Budget"}
             value={newBudget}
             maxLength={13}
-            onChangeText={setNewBudget(newBudget)}
+            onChangeText={setNewBudget}
             mode="outlined"
             style={styles.input}
           />
-          <Button
-            onPress={handleSetBudget}
-            mode="contained"
-          >
+          <Button onPress={handleSetBudget} mode="contained">
             Set Budget
           </Button>
         </View>

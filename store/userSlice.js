@@ -23,8 +23,10 @@ const budgetRef = (uid) => db.ref("budget/" + uid);
 
 export const setBudget = (budget, onComplete) => {
   return async (dispatch) => {
+    const updates = {};
+    updates[getUserId()] = budget;
     try {
-      await db.ref("budget/" + getUserId()).update(budget);
+      await budgetRef("").update(updates);
       dispatch(setBudgetState(budget));
       optionalFunction(onComplete)(null);
     } catch (error) {

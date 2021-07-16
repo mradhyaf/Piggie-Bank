@@ -21,7 +21,13 @@ export default function SignUp({ navigation }) {
   const handleSignUp = () => {
     setIsLoading(true);
     signUpWithEmailAndPassword({ username, email, password }, (error) => {
-      error ? setError(error) : dispatch(getExpenses());
+      if (error) {
+        setError(error);
+      } else {
+        dispatch(getBudget());
+        dispatch(getExpenses());
+        dispatch(setDisplayName(username));
+      }
       setIsLoading(false);
     });
   };
