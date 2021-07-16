@@ -7,6 +7,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     budget: null,
+    categories: ["Food", "Transportation", "Others"],
     displayName: null,
   },
   reducers: {
@@ -15,6 +16,14 @@ export const userSlice = createSlice({
     },
     setDisplayNameState: (state, action) => {
       state.displayName = action.payload;
+    },
+    addCategory: (state, action) => {
+      state.categories = [...state.categories, action.payload];
+    },
+    deleteCategory: (state, action) => {
+      state.categories = state.categories.filter(
+        (category) => category !== action.payload
+      );
     },
   },
 });

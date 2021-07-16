@@ -3,14 +3,20 @@ import { StyleSheet, Dimensions, SafeAreaView } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { useSelector } from "react-redux";
 
-import { groupByCategory, priceTotal } from "../../functions/expenses";
+import {
+  groupByCategory,
+  priceTotal,
+  inTheMonthOf,
+} from "../../functions/expenses";
 import { selectExpenses } from "../../store/expensesSlice";
 
-export default function () {
+export default function ({ month, year }) {
   const screenWidth = Dimensions.get("window").width;
   const expenses = useSelector(selectExpenses);
   const expensesByCategory = (cat) =>
-    Math.ceil(priceTotal(groupByCategory(expenses)[cat]));
+    Math.ceil(
+      priceTotal(inTheMonthOf(month, year, groupByCategory(expenses)[cat]))
+    );
 
   const chartConfig = {
     backgroundColor: "#ffffff",

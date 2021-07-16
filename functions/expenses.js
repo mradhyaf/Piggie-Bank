@@ -1,5 +1,5 @@
-import 'react-native-get-random-values'
-import { groupBy } from 'lodash';
+import "react-native-get-random-values";
+import { groupBy } from "lodash";
 
 export function newExpense(title, price, date, category) {
   return {
@@ -7,23 +7,24 @@ export function newExpense(title, price, date, category) {
     price,
     date,
     category,
-  }
+  };
 }
 
 // Accumulates the price property of an array of expenses
 export function priceTotal(data) {
-  const reducer = (accumulator, currentExpense) => accumulator + currentExpense.price;
+  const reducer = (accumulator, currentExpense) =>
+    accumulator + currentExpense.price;
   return data ? data.reduce(reducer, 0) : 0;
 }
 
 export function groupByCategory(data) {
-  return groupBy(data, 'category');
+  return groupBy(data, "category");
 }
 
 export function inTheMonthOf(month, year, data) {
-   function equalMonth(el) {
-     const dat = new Date(el.date);
-     return dat.getMonth() === month && dat.getFullYear() === year;
-   }
-   return data == null ? null : data.filter(equalMonth);
+  function equalMonth(el) {
+    const date = new Date(el.date);
+    return date.getMonth() === month && date.getFullYear() === year;
+  }
+  return data ? data.filter(equalMonth) : null;
 }

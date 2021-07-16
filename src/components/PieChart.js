@@ -3,12 +3,21 @@ import { StyleSheet, Dimensions, SafeAreaView } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { useSelector } from "react-redux";
 
-import { groupByCategory, priceTotal } from "../../functions/expenses";
+import {
+  groupByCategory,
+  inTheMonthOf,
+  priceTotal,
+} from "../../functions/expenses";
 import { selectExpenses } from "../../store/expensesSlice";
 
 export default function ({ month, year }) {
   const screenWidth = Dimensions.get("window").width;
-  const expenses = groupByCategory(useSelector(selectExpenses));
+  const expenses = (cat) =>
+    inTheMonthOf(
+      month,
+      year,
+      groupByCategory(useSelector(selectExpenses))[cat]
+    );
 
   const chartConfig = {
     backgroundColor: "#26872a",
@@ -23,35 +32,35 @@ export default function ({ month, year }) {
   const pieChartData = [
     {
       name: "Food",
-      category: priceTotal(expenses["Food"]),
+      category: priceTotal(expenses("Food")),
       color: "#89023E",
       legendFontColor: "#7F7F7F",
       legendFontSize: 10,
     },
     {
       name: "Transportation",
-      category: priceTotal(expenses["Transportation"]),
+      category: priceTotal(expenses("Transportation")),
       color: "#CC7178",
       legendFontColor: "#7F7F7F",
       legendFontSize: 10,
     },
     {
       name: "Utilities",
-      category: priceTotal(expenses["Utilities"]),
+      category: priceTotal(expenses("Utilities")),
       color: "#FFD9DA",
       legendFontColor: "#7F7F7F",
       legendFontSize: 10,
     },
     {
       name: "Personal",
-      category: priceTotal(expenses["Personal"]),
+      category: priceTotal(expenses("Personal")),
       color: "#F3E1DD",
       legendFontColor: "#7F7F7F",
       legendFontSize: 10,
     },
     {
       name: "Others",
-      category: priceTotal(expenses["Others"]),
+      category: priceTotal(expenses("Others")),
       color: "#C7D9B7",
       legendFontColor: "#7F7F7F",
       legendFontSize: 10,
