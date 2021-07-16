@@ -72,8 +72,8 @@ export default function ExpensesScreen({ navigation }) {
         />
       )}
       <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
-        <PieChart month={month} />
-        <BarChart month={month} />
+        <PieChart month={month} year={year} />
+        <BarChart month={month} year={year} />
         <LineChart year={year} />
       </SwiperFlatList>
       <FlatList
