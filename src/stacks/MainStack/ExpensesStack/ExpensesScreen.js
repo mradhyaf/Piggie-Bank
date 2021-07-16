@@ -11,7 +11,12 @@ import PieChart from "../../../components/PieChart";
 import BarChart from "../../../components/BarChart";
 import LineChart from "../../../components/LineChart";
 import { selectExpenses } from "../../../../store/expensesSlice";
-import { groupByCategory, priceTotal, inTheMonthOf } from "../../../../functions/expenses";
+import {
+  groupByCategory,
+  priceTotal,
+  inTheMonthOf,
+  inTheYearOf,
+} from "../../../../functions/expenses";
 import CATEGORIES from "../../../constants/CATEGORIES";
 import { format } from "../../../../functions/date";
 
@@ -37,8 +42,15 @@ export default function ExpensesScreen({ navigation }) {
   };
 
   const renderItem = ({ item }) => (
-    <Card style={styles.card} onPress={() => navigation.navigate(item.title, {
-      month: month, year: year })}>
+    <Card
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate(item.title, {
+          month: month,
+          year: year,
+        })
+      }
+    >
       <Card.Title
         title={item.title}
         left={({ size }) => (
@@ -71,11 +83,18 @@ export default function ExpensesScreen({ navigation }) {
           onChange={handleConfirm}
         />
       )}
+      <Text>Swipeable Charts for the Month</Text>
       <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
         <PieChart month={month} year={year} />
         <BarChart month={month} year={year} />
         <LineChart year={year} />
       </SwiperFlatList>
+      <Text>
+        Total Monthly Expenses: $`
+        {priceTotal(inTheMonthOf(month, year, useSelector(selectExpenses)))}`
+        Total Yearly Expenses: $`
+        {priceTotal(inTheYearOf(year, useSelector(selectExpenses)))}`
+      </Text>
       <FlatList
         style={styles.list}
         data={categories}

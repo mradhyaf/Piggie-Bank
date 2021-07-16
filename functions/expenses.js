@@ -28,3 +28,9 @@ export function inTheMonthOf(month, year, data) {
   }
   return data ? data.filter(equalMonth) : null;
 }
+
+export function inTheYearOf(year, data) {
+  return data
+    ? data.filter((el) => new Date(el.date).getFullYear() === year)
+    : null;
+}
