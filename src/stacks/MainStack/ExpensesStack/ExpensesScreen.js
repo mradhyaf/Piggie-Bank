@@ -84,7 +84,13 @@ export default function ExpensesScreen({ navigation }) {
         />
       )}
       <Text>Swipeable Charts for the Month</Text>
-      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
+      <SwiperFlatList
+        autoplay
+        autoplayDelay={5}
+        autoplayLoop
+        index={2}
+        showPagination
+      >
         <PieChart month={month} year={year} />
         <BarChart month={month} year={year} />
         <LineChart year={year} />
