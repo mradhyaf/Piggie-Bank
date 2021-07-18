@@ -71,7 +71,7 @@ export default function ({ month, year }) {
     <SafeAreaView>
       <PieChart
         data={pieChartData}
-        height={220}
+        height={200}
         width={screenWidth * 0.98}
         paddingLeft={25}
         chartConfig={chartConfig}

@@ -66,11 +66,16 @@ export default function ExpensesScreen({ navigation }) {
   );
 
   return (
-    <Screen title="Expenses" enableAppbar={true}>
+    <Screen
+      title={`Monthly Expenses: $${priceTotal(
+        inTheMonthOf(month, year, useSelector(selectExpenses))
+      )}`}
+      enableAppbar={true}
+    >
       <Pressable onPress={() => setShow(true)}>
         <TextInput
           style={styles.input}
-          value={dateString}
+          value={`Charts and Expenses for ${dateString}`}
           editable={false}
           mode="outlined"
         />
@@ -83,24 +88,15 @@ export default function ExpensesScreen({ navigation }) {
           onChange={handleConfirm}
         />
       )}
-      <Text>Swipeable Charts for the Month</Text>
-      <SwiperFlatList
-        autoplay
-        autoplayDelay={5}
-        autoplayLoop
-        index={2}
-        showPagination
-      >
+      <Text style={{ textAlign: "right" }}>
+        Yearly Total: $
+        {priceTotal(inTheYearOf(year, useSelector(selectExpenses)))}
+      </Text>
+      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
         <PieChart month={month} year={year} />
         <BarChart month={month} year={year} />
         <LineChart year={year} />
       </SwiperFlatList>
-      <Text>
-        Total Monthly Expenses: $`
-        {priceTotal(inTheMonthOf(month, year, useSelector(selectExpenses)))}`
-        Total Yearly Expenses: $`
-        {priceTotal(inTheYearOf(year, useSelector(selectExpenses)))}`
-      </Text>
       <FlatList
         style={styles.list}
         data={categories}
@@ -126,5 +122,9 @@ const styles = StyleSheet.create({
   },
   total: {
     padding: 15,
+  },
+  input: {
+    textAlign: "center",
+    backgroundColor: "orange",
   },
 });
