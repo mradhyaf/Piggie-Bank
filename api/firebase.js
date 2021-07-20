@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/auth";
-import { 
+import {
   API_KEY,
   AUTH_DOMAIN,
   DATABASE_URL,
@@ -9,8 +9,11 @@ import {
   STORAGE_BUCKET,
   MESSAGING_SENDER_ID,
   APP_ID,
-  MEASUREMENT_ID
- } from "@env";
+  MEASUREMENT_ID,
+  GOOGLE_CLOUD_VISION_API_KEY,
+} from "@env";
+
+const googleCloudVisionApiKey = GOOGLE_CLOUD_VISION_API_KEY;
 
 const firebaseConfig = {
   apiKey: API_KEY,
@@ -20,13 +23,13 @@ const firebaseConfig = {
   storageBucket: STORAGE_BUCKET,
   messagingSenderId: MESSAGING_SENDER_ID,
   appId: APP_ID,
-  measurementId: MEASUREMENT_ID
+  measurementId: MEASUREMENT_ID,
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export default firebaseApp;
 
-export const auth = firebaseApp.auth()
+export const auth = firebaseApp.auth();
 
 export const db = firebaseApp.database();
