@@ -10,15 +10,8 @@ import {
   MESSAGING_SENDER_ID,
   APP_ID,
   MEASUREMENT_ID,
-<<<<<<< HEAD
   GOOGLE_CLOUD_VISION_API_KEY,
 } from "@env";
-
-const googleCloudVisionApiKey = GOOGLE_CLOUD_VISION_API_KEY;
-=======
-  GOOGLE_CLOUD_VISION_API_KEY
- } from "@env";
->>>>>>> 088201891845d1ad8f6fed006f4ed84ff6f6cbfc
 
 const googleCloudVisionApiKey = GOOGLE_CLOUD_VISION_API_KEY;
 
