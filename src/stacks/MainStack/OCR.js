@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Image, View, Platform } from "react-native";
+import { Button, Image, View, Platform, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GOOGLE_CLOUD_VISION_API_KEY } from '@env'
+import { useDispatch, useSelector } from 'react-redux';
+import { setTextState, selectText } from '../../../store/userSlice'
 
 export default function OCR() {
   const [image, setImage] = useState(null);
-  const [googleVision, setGoogleVision] = useState(null);
+  const [google, setGoogle] = useState(undefined);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -47,10 +50,10 @@ export default function OCR() {
 
     await googleVisionRes.json()
       .then(googleVisionRes => {
-        console.log(googleVisionRes)
+        console.log(googleVisionRes);
         if (googleVisionRes) {
-          setGoogleVision(googleVisionRes.responses[0]);
-          console.log('this.is response', googleVision);
+          setGoogle(googleVisionRes);
+          dispatch(setTextState(googleVisionRes.responses[0].fullTextAnnotation.text));
         }
       }).catch((error) => { console.log(error) })
   }
@@ -64,7 +67,7 @@ export default function OCR() {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpg);base64,/, ""));
+      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
 
@@ -80,9 +83,27 @@ export default function OCR() {
     if (!result.cancelled) {
       console.log(result);
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpg);base64,/, ""));
+      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
+
+  const t = useSelector(selectText).split('\n');
+  const val = [];
+  const nam = [];
+  console.log(t);
+  t.forEach((str) => { if (str.startsWith('SGD')||str.startsWith('S$')||str.startsWith('$')||Number(str)) {
+    val.push(str.match(/^[+-]?(\d*\.)?\d+$/g)[0]);
+  } else if (str != ''){
+    nam.push(str);
+  }})
+  console.log(nam);
+  console.log(val);
+  const length = val.length < nam.length ? val.length : nam.length;
+  const arr= [];
+  for (let i = 0; i < length; i++) {
+    arr.push({ title: nam[i], price: Number(val[i]) });
+  }
+  console.log(arr);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -91,6 +112,11 @@ export default function OCR() {
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
+      {google && (
+        <Text>{google.responses[0].fullTextAnnotation.text}</Text>
+      )}
     </View>
   );
 }
+
+
