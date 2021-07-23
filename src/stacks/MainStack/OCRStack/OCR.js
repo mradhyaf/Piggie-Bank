@@ -1,34 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Image, View, Platform } from "react-native";
-import { GOOGLE_CLOUD_VISION_API_KEY } from "@env";
+import { Button, Image, View, Platform, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-
-async function uploadImageAsync(uri) {
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
-
-  const ref = firebase.storage().ref().child(uuid.v4());
-  const snapshot = await ref.put(blob);
-
-  blob.close();
-
-  return await snapshot.ref.getDownloadURL();
-}
+import { GOOGLE_CLOUD_VISION_API_KEY } from '@env'
+import { useDispatch, useSelector } from 'react-redux';
+import { setTextState, selectText } from '../../../store/userSlice'
 
 export default function OCR() {
   const [image, setImage] = useState(null);
-  const [googleVision, setGoogleVision] = useState(null);
+  const [google, setGoogle] = useState(undefined);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -43,66 +23,41 @@ export default function OCR() {
   }, []);
 
   const sendGoogle = async (base64) => {
-    let googleVisionRes = await fetch(
-      "https://vision.googleapis.com/v1/images:annotate?key=" +
-        GOOGLE_CLOUD_VISION_API_KEY,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          requests: [
-            {
-              image: {
-                content: base64,
-              },
-              features: [
-                {
-                  /*type: "LABEL_DETECTION", maxResults: 10 */
-                },
-                {
-                  /*type: "LANDMARK_DETECTION", maxResults: 5 */
-                },
-                {
-                  /*type: "FACE_DETECTION", maxResults: 5 */
-                },
-                {
-                  /*type: "LOGO_DETECTION", maxResults: 5 */
-                },
-                { type: "TEXT_DETECTION", maxResults: 30 },
-                {
-                  /*type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 */
-                },
-                {
-                  /*type: "SAFE_SEARCH_DETECTION", maxResults: 5 */
-                },
-                {
-                  /*type: "IMAGE_PROPERTIES", maxResults: 5 */
-                },
-                {
-                  /*type: "CROP_HINTS", maxResults: 5 */
-                },
-                {
-                  /*type: "WEB_DETECTION", maxResults: 5 */
-                },
-              ],
-            },
+    let googleVisionRes = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_CLOUD_VISION_API_KEY, {
+      method: 'POST',
+      body: JSON.stringify({
+        "requests": [
+        {
+          "image": {
+            "content": base64
+          },
+          features: [
+            { /*type: "LABEL_DETECTION", maxResults: 10 */},
+            { /*type: "LANDMARK_DETECTION", maxResults: 5 */},
+            { /*type: "FACE_DETECTION", maxResults: 5 */},
+            { /*type: "LOGO_DETECTION", maxResults: 5 */},
+            { type: "TEXT_DETECTION", maxResults: 30 },
+            { /*type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 */},
+            { /*type: "SAFE_SEARCH_DETECTION", maxResults: 5 */},
+            { /*type: "IMAGE_PROPERTIES", maxResults: 5 */},
+            { /*type: "CROP_HINTS", maxResults: 5 */},
+            { /*type: "WEB_DETECTION", maxResults: 5 */}
           ],
-        }),
-      }
-    );
+        }
+        ]
+      })
+    });
 
-    await googleVisionRes
-      .json()
-      .then((googleVisionRes) => {
+    await googleVisionRes.json()
+      .then(googleVisionRes => {
         console.log(googleVisionRes);
         if (googleVisionRes) {
-          setGoogleVision(googleVisionRes.responses[0]);
-          console.log("this.is response", googleVision);
+          setGoogle(googleVisionRes);
+          dispatch(setTextState(googleVisionRes.responses[0].fullTextAnnotation.text));
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      }).catch((error) => { console.log(error) })
+  }
+
 
   const launchCamera = async () => {
     const result = await ImagePicker.launchCameraAsync({
@@ -112,7 +67,7 @@ export default function OCR() {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpg);base64,/, ""));
+      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
 
@@ -126,11 +81,29 @@ export default function OCR() {
     });
 
     if (!result.cancelled) {
-      console.log("result uri: " + result.uri);
+      console.log(result);
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpg);base64,/, ""));
+      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
+
+  const t = useSelector(selectText).split('\n');
+  const val = [];
+  const nam = [];
+  console.log(t);
+  t.forEach((str) => { if (str.startsWith('SGD')||str.startsWith('S$')||str.startsWith('$')||Number(str)) {
+    val.push(str.match(/^[+-]?(\d*\.)?\d+$/g)[0]);
+  } else if (str != ''){
+    nam.push(str);
+  }})
+  console.log(nam);
+  console.log(val);
+  const length = val.length < nam.length ? val.length : nam.length;
+  const arr= [];
+  for (let i = 0; i < length; i++) {
+    arr.push({ title: nam[i], price: Number(val[i]) });
+  }
+  console.log(arr);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -139,6 +112,11 @@ export default function OCR() {
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
+      {google && (
+        <Text>{google.responses[0].fullTextAnnotation.text}</Text>
+      )}
     </View>
   );
 }
+
+

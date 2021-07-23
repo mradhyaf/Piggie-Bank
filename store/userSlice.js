@@ -9,6 +9,7 @@ export const userSlice = createSlice({
     budget: null,
     categories: ["Food", "Transportation", "Others"],
     displayName: null,
+    text: null,
   },
   reducers: {
     setBudgetState: (state, action) => {
@@ -16,6 +17,9 @@ export const userSlice = createSlice({
     },
     setDisplayNameState: (state, action) => {
       state.displayName = action.payload;
+    },
+    setTextState: (state, action) => {
+      state.text = action.payload;
     },
     addCategory: (state, action) => {
       state.categories = [...state.categories, action.payload];
@@ -79,10 +83,12 @@ export const getDisplayName = (onComplete) => {
   };
 };
 
-export const { setBudgetState, setDisplayNameState } = userSlice.actions;
+export const { setBudgetState, setDisplayNameState, setTextState } = userSlice.actions;
 
 export const selectBudget = (state) => state.user.budget;
 
 export const selectDisplayName = (state) => state.user.displayName;
+
+export const selectText = (state) => state.user.text;
 
 export default userSlice.reducer;
