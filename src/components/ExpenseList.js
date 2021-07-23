@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
-import { Card, Dialog, Portal, Divider, List, Text, Button, Paragraph } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
+import {
+  Dialog,
+  Portal,
+  Divider,
+  List,
+  Text,
+  Button,
+  Paragraph,
+} from "react-native-paper";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
-import { deleteExpense } from '../../store/expensesSlice';
-import { format as formatDate } from '../../functions/date';
-import { groupByCategory, priceTotal, inTheMonthOf } from '../../functions/expenses';
-import { selectExpenses } from '../../store/expensesSlice';
+import { format as formatDate } from "../../functions/date";
 
-export default function ExpenseList({ category, month, year }) {
-  const dispatch = useDispatch();
-  
-  // User expenses  
-  const expenses = inTheMonthOf(month, year, groupByCategory(useSelector(selectExpenses))[category]);
-
+export default function ExpenseList({ data, handleDelete }) {
   const [visible, setVisible] = useState(false);
-  const [item, setItem] = useState('');
-
-  // Expense deletion
-  const handleDelete = (expenseKey) => {
-    dispatch(deleteExpense(expenseKey));
-  }
+  const [item, setItem] = useState("");
 
   const DeleteBox = ({ expense }) => (
-    <Icon name="trash" style={styles.deleteBox} onPress={() => {setVisible(true); setItem(expense); }} />
-  )
+    <Icon
+      name="trash"
+      style={styles.deleteBox}
+      onPress={() => {
+        setVisible(true);
+        setItem(expense);
+      }}
+    />
+  );
 
   // List render item
   const renderItem = ({ item }) => (
@@ -35,43 +36,55 @@ export default function ExpenseList({ category, month, year }) {
         style={styles.listItem}
         title={item.title}
         description={formatDate(item.date)}
-        right={() => <Text style={styles.center}>{'$' + item.price}</Text>}
+        right={() => <Text style={styles.center}>{"$" + item.price}</Text>}
       />
     </Swipeable>
-  )
+  );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Card style={styles.card}>
-        <Card.Title 
-          style={styles.cardTitle} 
-          right={({ size }) => <Text style={{fontSize: size}}>{'$' + priceTotal(expenses)} </Text>}
-          title={category}
-          
-        />
-      </Card>
+    <View>
       <FlatList
         style={styles.list}
-        data={expenses}
+        data={data}
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
       />
 
       {/* Confirmation dialogs */}
       <Portal>
-        <Dialog visible={visible} onDismiss={() => { setVisible(false); setItem(''); }}>
+        <Dialog
+          visible={visible}
+          onDismiss={() => {
+            setVisible(false);
+            setItem("");
+          }}
+        >
           <Dialog.Title>Alert</Dialog.Title>
           <Dialog.Content>
-            <Paragraph>'Are you sure you want to delete?'</Paragraph>
+            <Paragraph>Are you sure you want to delete?</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => { setVisible(false); handleDelete(item.key) }}>Yes</Button>
-            <Button onPress={() => { setVisible(false); setItem(''); }}>No</Button>
+            <Button
+              onPress={() => {
+                setVisible(false);
+                handleDelete(item);
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              onPress={() => {
+                setVisible(false);
+                setItem("");
+              }}
+            >
+              No
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
-    </SafeAreaView>
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -81,26 +94,15 @@ const styles = StyleSheet.create({
   },
   listItem: {
     // fontWeight: 'bold'
-    backgroundColor: '#FFF'
-  },
-  card: {
-    marginTop: '1%',
-    marginHorizontal: '1%',
-  },
-  cardTitle: {
-    fontWeight: 'bold'
+    backgroundColor: "#FFF",
   },
   center: {
     paddingTop: 15,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   deleteBox: {
     padding: 27,
-    backgroundColor: 'red',
-    color: 'white'
+    backgroundColor: "red",
+    color: "white",
   },
-  container: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    flex: 1,
-  }
-})
+});

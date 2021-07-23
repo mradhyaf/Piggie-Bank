@@ -22,7 +22,6 @@ import { format } from "../../../../functions/date";
 
 export default function ExpensesScreen({ navigation }) {
   const expenses = groupByCategory(useSelector(selectExpenses));
-  console.log(expenses);
 
   const categories = CATEGORIES;
   const [show, setShow] = useState(false);

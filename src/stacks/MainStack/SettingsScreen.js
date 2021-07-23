@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
@@ -31,7 +31,7 @@ export default function SettingsScreen({ navigation }) {
   };
 
   return (
-    <Screen title="Settings" enableAppbar="true">
+    <Screen title="Settings" enableAppbar="true" style={styles.container}>
       <View>
         <Button onPress={showDialog}>Change Username</Button>
         <Portal>
@@ -52,7 +52,33 @@ export default function SettingsScreen({ navigation }) {
           </Dialog>
         </Portal>
       </View>
-      <Button onPress={handleSignOut}>LOG OUT</Button>
+      <Button
+        mode="contained"
+        style={styles.logout}
+        contentStyle={styles.logoutButtonContent}
+        labelStyle={styles.logoutButtonLabel}
+        onPress={handleSignOut}
+      >
+        LOG OUT
+      </Button>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "space-between",
+  },
+  logout: {
+    borderRadius: 5,
+    marginVertical: 5,
+    marginHorizontal: "10%",
+  },
+  logoutButtonContent: {
+    backgroundColor: "#ef233c",
+  },
+  logoutButtonLabel: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+  },
+});

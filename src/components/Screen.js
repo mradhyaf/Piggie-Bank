@@ -1,22 +1,32 @@
-import React from 'react'
-import { Platform, SafeAreaView, View, StatusBar, StyleSheet } from 'react-native'
-import { Appbar } from 'react-native-paper'
+import React from "react";
+import {
+  Platform,
+  SafeAreaView,
+  View,
+  StatusBar,
+  StyleSheet,
+} from "react-native";
+import { Appbar } from "react-native-paper";
 
-export default function Screen({ children, title, enableAppbar, style, ...props }) {
+export default function Screen({
+  children,
+  title,
+  enableAppbar,
+  style,
+  ...props
+}) {
   return (
     <SafeAreaView style={styles.container}>
       {enableAppbar && (
         <Appbar>
-        <Appbar.Content
-          title={title}
-        />
+          <Appbar.Content title={title ? title : "Piggie-Bank"} />
         </Appbar>
       )}
       <View style={[styles.content, style]} {...props}>
-          {children}
+        {children}
       </View>
     </SafeAreaView>
-  )
+  );
 }
 
 export function ScreenWrapper(Component) {
@@ -24,18 +34,19 @@ export function ScreenWrapper(Component) {
     return (
       <Screen>
         <Component {...props} />
-      </Screen> 
-    )
-  }
+      </Screen>
+    );
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
+    backgroundColor: "#F3F5F7",
   },
   content: {
     flex: 1,
-    margin: '1%',
-  }
-})
+    margin: "1%",
+  },
+});

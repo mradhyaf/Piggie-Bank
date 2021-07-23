@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import OCR from "./OCR";
+import OCR from "./OCRStack";
 import HomeScreen from "./HomeScreen";
 import SettingsScreen from "./SettingsScreen";
 import ExpensesStack from "./ExpensesStack";

@@ -21,7 +21,7 @@ export const expensesSlice = createSlice({
 const expensesRef = (uid) => db.ref("expenses/" + uid);
 
 export const addExpense = (expense, onComplete) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     const uid = getUserId();
     try {
       const newExpense = expensesRef(uid).push();
@@ -35,7 +35,7 @@ export const addExpense = (expense, onComplete) => {
 };
 
 export const deleteExpense = (expenseKey, onComplete) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     const uid = getUserId();
     try {
       await expensesRef(uid).child(expenseKey).remove();
@@ -48,7 +48,7 @@ export const deleteExpense = (expenseKey, onComplete) => {
 };
 
 export const getExpenses = (onComplete) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     const uid = getUserId();
     try {
       const expenses = await expensesRef(uid).once("value");

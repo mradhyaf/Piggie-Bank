@@ -10,10 +10,7 @@ import {
   MESSAGING_SENDER_ID,
   APP_ID,
   MEASUREMENT_ID,
-  GOOGLE_CLOUD_VISION_API_KEY,
 } from "@env";
-
-const googleCloudVisionApiKey = GOOGLE_CLOUD_VISION_API_KEY;
 
 const firebaseConfig = {
   apiKey: API_KEY,
