@@ -1,56 +1,70 @@
 import React from "react";
 import { StyleSheet, Dimensions, SafeAreaView } from "react-native";
-import { BarChart } from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
 import { useSelector } from "react-redux";
 
+import { selectExpenses } from "../../store/expensesSlice";
 import {
   groupByCategory,
   priceTotal,
   inTheMonthOf,
 } from "../../functions/expenses";
-import { selectExpenses } from "../../store/expensesSlice";
 
-export default function ({ month, year }) {
+export default function ({ year }) {
   const screenWidth = Dimensions.get("window").width;
   const expenses = useSelector(selectExpenses);
   const expensesByCategory = (cat) =>
-    Math.ceil(
-      priceTotal(inTheMonthOf(month, year, groupByCategory(expenses)[cat]))
-    );
+    Math.ceil(priceTotal(groupByCategory(expenses)[cat]));
 
   const chartConfig = {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#b90602",
     backgroundGradientFrom: "#ffffff",
     backgroundGradientTo: "#ffffff",
-    fillShadowGradient: "black",
-    fillShadowGradientOpacity: 0.5,
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
   };
 
+  function dataGet() {
+    const a = [];
+    for (let i = 0; i < 12; i++) {
+      a[i] = priceTotal(inTheMonthOf(i, year, expenses));
+    }
+    return a;
+  }
+
   const data = {
-    labels: ["Food", "Transportation", "   Utilities", "Personal", "Others"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
-        data: [
-          expensesByCategory("Food"),
-          expensesByCategory("Transportation"),
-          expensesByCategory("Utilities"),
-          expensesByCategory("Personal"),
-          expensesByCategory("Others"),
-        ],
+        data: dataGet(),
       },
     ],
   };
 
   return (
     <SafeAreaView>
-      <BarChart
+      <LineChart
         data={data}
         width={screenWidth * 0.98}
         height={180}
         yAxisLabel="$"
         chartConfig={chartConfig}
-        showValuesOnTopOfBars={true}
+        style={chartConfig.style}
       />
     </SafeAreaView>
   );

@@ -1,41 +1,44 @@
-import React from 'react'
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 
-import AuthStack from './stacks/AuthStack';
-import MainStack from './stacks/MainStack';
-import LoadingScreen from './screens/LoadingScreen';
-import { selectLoading, selectUserId } from './store/authSlice';
+import AuthStack from "./stacks/AuthStack";
+import MainStack from "./stacks/MainStack";
+import LoadingScreen from "./screens/LoadingScreen";
+import { authSubscriber } from "../api/auth";
 
-const theme = {
+const navigatorTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#084C61',
-    background: '#FFF',
-    card: '#FFD685',
-    border: '#FFD685',
-    text: '#323031',
-  }
-}
+    primary: "#FF92C2",
+    background: "#FFFFFF",
+    card: "#FFFFFF",
+    border: "#FFEEF2",
+    text: "#595758",
+  },
+};
 
-export default function Navigation () {
-  let uid = useSelector(selectUserId);
-  const isLoading = useSelector(selectLoading);
+export default function Navigation() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  useEffect(() => {
+    const unsubscribe = authSubscriber((user) => {
+      user ? setIsAuthorized(true) : setIsAuthorized(false);
+      setIsLoading(false);
+    });
+    return () => {
+      unsubscribe();
+    };
+  });
 
   if (isLoading) {
-    return (
-      <LoadingScreen />
-    )
+    return <LoadingScreen />;
   }
 
   return (
-    <NavigationContainer theme={theme}>
-      {uid ? (
-        <MainStack />
-      ) : (
-        <AuthStack />
-      )}
+    <NavigationContainer theme={navigatorTheme}>
+      {isAuthorized ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
-  )
+  );
 }

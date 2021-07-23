@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button, Headline } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
 
-import Screen from '../components/Screen';
-import { passwordRecovery} from '../store/authSlice';
+import { sendPasswordResetEmail } from '../../../api/auth';
+import Screen from '../../components/Screen';
 
 export default function SignUp({ navigation }) {
-  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
 
   const handleRecovery = () => {
-    dispatch(
-      passwordRecovery(
-        email,
-        () => console.log('Email sent!'),
-        setError));
+    sendPasswordResetEmail(
+      email,
+      (error) => { if (error) setError(error.message) }
+    )
   }
 
   return (
