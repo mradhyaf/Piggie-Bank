@@ -14,6 +14,8 @@ import { format } from "../../../../functions/date";
 export default function ({ navigation, expenses, deleteExpense }) {
   const dispatch = useDispatch();
 
+  console.log(expenses);
+
   const [category, setCategory] = useState(CATEGORIES[0].title);
   const [date, setDate] = useState(new Date());
   const [dateString, setDateString] = useState(format(date));
@@ -30,14 +32,27 @@ export default function ({ navigation, expenses, deleteExpense }) {
 
   const handleConfirm = () => {
     expenses.forEach((element) => {
-      dispatch(addExpense(element));
+      dispatch(
+        addExpense({ ...element, category, date: date.toString() }),
+        (error) => (error ? alert(error.message) : alert("Submitted"))
+      );
     });
+    navigation.goBack();
   };
 
   return (
     <Screen>
       <Text>These items will be added to your expenses</Text>
-      <ExpenseList data={expenses} handleDelete={deleteExpense} />
+      <ExpenseList
+        data={expenses}
+        handleDelete={deleteExpense}
+        listProps={{
+          keyExtractor: (item, index) => index + item.title,
+        }}
+        listItemProps={{
+          description: "",
+        }}
+      />
       <Pressable onPress={() => setShow(true)}>
         <TextInput
           style={styles.input}

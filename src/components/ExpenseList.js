@@ -14,7 +14,12 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { format as formatDate } from "../../functions/date";
 
-export default function ExpenseList({ data, handleDelete }) {
+export default function ExpenseList({
+  data,
+  handleDelete,
+  listProps,
+  listItemProps,
+}) {
   const [visible, setVisible] = useState(false);
   const [item, setItem] = useState("");
 
@@ -37,6 +42,7 @@ export default function ExpenseList({ data, handleDelete }) {
         title={item.title}
         description={formatDate(item.date)}
         right={() => <Text style={styles.center}>{"$" + item.price}</Text>}
+        {...listItemProps}
       />
     </Swipeable>
   );
@@ -48,6 +54,7 @@ export default function ExpenseList({ data, handleDelete }) {
         data={data}
         renderItem={renderItem}
         ItemSeparatorComponent={Divider}
+        {...listProps}
       />
 
       {/* Confirmation dialogs */}
