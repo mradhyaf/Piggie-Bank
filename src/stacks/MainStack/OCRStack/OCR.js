@@ -149,7 +149,7 @@ export default function OCR({ navigation, setExpenses }) {
         Launch Camera
       </Button>
       {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        <Image source={{ uri: image }} style={{ flex: 0.3, width: '100%', height: '100%', resizeMode: 'contain'}} />
       )}
       {google && (
         <View>
