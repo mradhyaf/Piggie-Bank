@@ -14,7 +14,7 @@ export function newExpense(title, price, date, category) {
 export function priceTotal(data) {
   const reducer = (accumulator, currentExpense) =>
     accumulator + currentExpense.price;
-  return data ? data.reduce(reducer, 0).toFixed(2) : 0;
+  return data ? Number(data.reduce(reducer, 0).toFixed(2)) : 0;
 }
 
 export function groupByCategory(data) {
