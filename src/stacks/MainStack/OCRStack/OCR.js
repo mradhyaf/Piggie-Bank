@@ -96,7 +96,7 @@ export default function OCR({ navigation, setExpenses }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
+      sendGoogle(Platform.OS !== "web" ? result.base64 : result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
 
@@ -112,11 +112,12 @@ export default function OCR({ navigation, setExpenses }) {
     if (!result.cancelled) {
       console.log(result);
       setImage(result.uri);
-      sendGoogle(result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
+      sendGoogle(Platform.OS !== "web" ? result.base64 : result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
     }
   };
 
   const divideTextArray = (t) => {
+    console.log(t);
     const val = [];
     const nam = [];
     t.forEach((str) => {
@@ -126,7 +127,7 @@ export default function OCR({ navigation, setExpenses }) {
         str.startsWith("$") ||
         Number(str)
       ) {
-        val.push(str.match(/^[+-]?(\d*\.)?\d+$/g)[0]);
+        val.push((str.match(/^[+-]?(\d*\.)?\d+$/g) || str.match(/\d+/))[0]);
       } else if (str != "") {
         nam.push(str);
       }
