@@ -39,7 +39,7 @@ export default function SignUp({ navigation }) {
   return (
     <Screen style={styles.container}>
       <Headline style={styles.headline}>
-        Get insights from your monthly expenses
+        Start tracking your expenses today
       </Headline>
       <View style={styles.form}>
         {error && <Text style={styles.error}>{error.message}</Text>}
@@ -49,6 +49,7 @@ export default function SignUp({ navigation }) {
           textContentType={"name"}
           value={username}
           onChangeText={setUsername}
+          mode="outlined"
         />
         <TextInput
           style={styles.input}
@@ -56,6 +57,7 @@ export default function SignUp({ navigation }) {
           textContentType={"emailAddress"}
           value={email}
           onChangeText={setEmail}
+          mode="outlined"
         />
         <TextInput
           style={styles.input}
@@ -64,6 +66,7 @@ export default function SignUp({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry={visible}
+          mode="outlined"
           right={
             <TextInput.Icon
               style={styles.eyecon}
@@ -101,6 +104,8 @@ const styles = StyleSheet.create({
   },
   headline: {
     flex: 6,
+    paddingLeft: 20,
+    paddingTop: 20,
   },
   error: {
     color: "red",
@@ -113,7 +118,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 5,
-    height: 56,
   },
   reset: {
     color: "#3498db",
@@ -133,6 +137,9 @@ const styles = StyleSheet.create({
   buttonLabel: {
     paddingHorizontal: "20%",
     paddingVertical: 0,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    fontSize: 20,
   },
   bottomText: {
     flex: 2,

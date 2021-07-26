@@ -8,20 +8,32 @@ import {
 } from "react-native";
 import { Appbar } from "react-native-paper";
 
+import Logo from "../../assets/app-logo.svg";
+
 export default function Screen({
   children,
-  title,
-  enableAppbar,
+  backAction,
+  appbarContentProps,
   style,
+  icon,
   ...props
 }) {
   return (
     <SafeAreaView style={styles.container}>
-      {enableAppbar && (
-        <Appbar>
-          <Appbar.Content title={title ? title : "Piggie-Bank"} />
-        </Appbar>
-      )}
+      <Appbar.Header style={styles.appbar}>
+        {backAction && <Appbar.BackAction onPress={backAction} />}
+        {icon ? (
+          icon()
+        ) : (
+          <Logo style={{ marginLeft: 17 }} width={30} height={30} />
+        )}
+        <Appbar.Content
+          color="black"
+          title="Piggie Bank"
+          titleStyle={styles.appbarTitle}
+          {...appbarContentProps}
+        />
+      </Appbar.Header>
       <View style={[styles.content, style]} {...props}>
         {children}
       </View>
@@ -41,9 +53,16 @@ export function ScreenWrapper(Component) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
-    backgroundColor: "#F3F5F7",
+    backgroundColor: "white",
+  },
+  appbar: {
+    backgroundColor: "white",
+  },
+  appbarTitle: {
+    fontFamily: "sans-serif-condensed",
+    fontWeight: "bold",
   },
   content: {
     flex: 1,

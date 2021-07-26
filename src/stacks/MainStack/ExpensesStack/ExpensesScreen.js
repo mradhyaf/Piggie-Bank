@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Pressable } from "react-native";
-import { Card, Divider, Text, TextInput } from "react-native-paper";
+import { FlatList, StyleSheet, Pressable, View } from "react-native";
+import {
+  Button,
+  Caption,
+  Card,
+  Divider,
+  Headline,
+  Text,
+} from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -28,12 +35,12 @@ export default function ExpensesScreen({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [year, setYear] = React.useState(date.getFullYear());
   const [month, setMonth] = React.useState(date.getMonth());
-  const [dateString, setDateString] = useState(`${month + 1}/${year}`);
+  const [dateString, setDateString] = useState(format(date, "Month YYYY"));
 
   const handleConfirm = (event, selectedDate) => {
     setShow(false);
     const newDate = selectedDate || date;
-    const newDateString = format(newDate, "MM/YYYY");
+    const newDateString = format(newDate, "Month YYYY");
     setDate(newDate);
     setMonth(newDate.getMonth());
     setYear(newDate.getFullYear());
@@ -42,6 +49,7 @@ export default function ExpensesScreen({ navigation }) {
 
   const renderItem = ({ item }) => (
     <Card
+      elevation={0}
       style={styles.card}
       onPress={() =>
         navigation.navigate(item.title, {
@@ -53,32 +61,35 @@ export default function ExpensesScreen({ navigation }) {
       <Card.Title
         title={item.title}
         left={({ size }) => (
-          <Icon style={styles.icon} name={item.icon} size={size} />
+          <Icon name={item.icon} size={size} color={item.color} />
         )}
         right={({ size }) => (
-          <Text style={[{ fontSize: size }, styles.total]}>
-            ${priceTotal(inTheMonthOf(month, year, expenses[item.title]))}
-          </Text>
+          <View style={styles.priceTotalContainer}>
+            <Caption style={{ fontSize: size / 2 }}>SGD</Caption>
+            <Headline style={[styles.priceTotalHeadline, { fontSize: size }]}>
+              {priceTotal(inTheMonthOf(month, year, expenses[item.title]))}
+            </Headline>
+          </View>
         )}
       />
     </Card>
   );
 
   return (
-    <Screen
-      title={`Monthly Expenses: $${priceTotal(
-        inTheMonthOf(month, year, useSelector(selectExpenses))
-      )}`}
-      enableAppbar={true}
-    >
-      <Pressable onPress={() => setShow(true)}>
-        <TextInput
-          style={styles.input}
-          value={`Charts and Expenses for ${dateString}`}
-          editable={false}
-          mode="outlined"
-        />
-      </Pressable>
+    <Screen>
+      <Text style={{ textAlign: "right" }}>
+        Yearly Total: SGD
+        {priceTotal(inTheYearOf(year, useSelector(selectExpenses)))}
+      </Text>
+      <Button
+        onPress={() => setShow(true)}
+        style={styles.dateButton}
+        labelStyle={styles.dateLabel}
+        mode="text"
+        icon="chevron-down"
+      >
+        {dateString}
+      </Button>
       {show && (
         <DateTimePicker
           display="spinner"
@@ -87,43 +98,72 @@ export default function ExpensesScreen({ navigation }) {
           onChange={handleConfirm}
         />
       )}
-      <Text style={{ textAlign: "right" }}>
-        Yearly Total: $
-        {priceTotal(inTheYearOf(year, useSelector(selectExpenses)))}
-      </Text>
-      <SwiperFlatList autoplay autoplayDelay={5} autoplayLoop index={2}>
-        <PieChart month={month} year={year} />
-        <BarChart month={month} year={year} />
-        <LineChart year={year} />
-      </SwiperFlatList>
+      <View style={styles.priceTotalContainer}>
+        <Caption style={{ fontSize: 20 }}>SGD</Caption>
+        <Headline
+          style={[styles.priceTotalHeadline, { fontSize: 40, paddingTop: 7 }]}
+        >
+          {priceTotal(inTheMonthOf(month, year, useSelector(selectExpenses)))}
+        </Headline>
+      </View>
+      <View style={styles.chartContainer}>
+        <SwiperFlatList
+          // autoplay
+          // autoplayDelay={5}
+          // autoplayLoop
+          // index={2}
+          showPagination={true}
+          paginationStyleItem={{ height: 10, width: 10 }}
+          paginationDefaultColor="lightgray"
+          paginationActiveColor="darkgray"
+        >
+          <PieChart month={month} year={year} />
+          <BarChart month={month} year={year} />
+          <LineChart year={year} />
+        </SwiperFlatList>
+      </View>
+      <Divider />
       <FlatList
         style={styles.list}
         data={categories}
         renderItem={renderItem}
         extraData={categories}
         keyExtractor={(item) => item.title}
+        ItemSeparatorComponent={() => <Divider />}
       />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  dateButton: {
+    alignItems: "center",
+  },
+  dateLabel: {
+    fontWeight: "bold",
+  },
+  priceTotalContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
+    marginHorizontal: 15,
+  },
+  priceTotalHeadline: {
+    paddingHorizontal: 5,
+    fontWeight: "bold",
+  },
+  chartContainer: {
+    paddingBottom: 35,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+  },
   list: {
     // borderColor: 'black',
     // borderWidth: StyleSheet.hairlineWidth,
   },
-  icon: {
-    color: "#084C61",
-  },
   card: {
     marginTop: "1%",
     marginHorizontal: "1%",
-  },
-  total: {
-    padding: 15,
-  },
-  input: {
-    textAlign: "center",
-    backgroundColor: "orange",
   },
 });

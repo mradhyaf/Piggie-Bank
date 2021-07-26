@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, ScrollView } from "react-native";
-import { Avatar, Card, Text } from "react-native-paper";
+import { Avatar, Card, Divider, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useSelector } from "react-redux";
 
@@ -13,22 +13,21 @@ export default function HomeScreen({ navigation }) {
   const displayName = useSelector(selectDisplayName);
 
   return (
-    <Screen style={styles.container} title="Home" enableAppbar={true}>
+    <Screen
+      style={styles.container}
+      appbarConfig={{ contentProps: { title: "Home" } }}
+    >
       <ScrollView>
-        <Card style={styles.card}>
-          <Card.Content style={{ alignItems: "center" }}>
-            <Icon style={styles.icon} name="user-alt" size={72} />
-            <Text style={styles.avatarName}>{displayName}</Text>
-          </Card.Content>
-        </Card>
-        <Card style={styles.card}>
-          <Card.Content style={{ alignItems: "center" }}>
-            <BudgetTracker />
-          </Card.Content>
-        </Card>
-        <Card style={styles.card}>
-          <ExpenseForm />
-        </Card>
+        <Card.Content style={styles.card}>
+          <Icon style={styles.icon} name="user-alt" size={72} />
+          <Text style={styles.avatarName}>{displayName}</Text>
+        </Card.Content>
+        <Divider />
+        <Card.Content style={styles.card}>
+          <BudgetTracker />
+        </Card.Content>
+        <Divider />
+        <ExpenseForm />
       </ScrollView>
     </Screen>
   );
@@ -40,6 +39,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     paddingHorizontal: "2%",
     paddingVertical: 15,
+    alignItems: "center",
   },
   icon: {
     color: "#323031",
