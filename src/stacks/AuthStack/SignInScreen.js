@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { Button, Headline, Text, TextInput } from "react-native-paper";
+import {
+  Button,
+  Headline,
+  HelperText,
+  Text,
+  TextInput,
+} from "react-native-paper";
 import { useDispatch } from "react-redux";
 
 import Screen from "../../components/Screen";
@@ -106,6 +112,8 @@ const styles = StyleSheet.create({
   },
   headline: {
     flex: 6,
+    paddingLeft: 20,
+    paddingTop: 20,
   },
   error: {
     color: "red",
@@ -138,7 +146,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "20%",
     paddingVertical: 0,
     fontWeight: "bold",
-    color: "#FFEEF2",
+    color: "#FFFFFF",
     fontSize: 20,
   },
   bottomText: {

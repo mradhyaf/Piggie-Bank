@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, SafeAreaView, StatusBar, Platform } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import {
   groupByCategory,
@@ -11,6 +12,7 @@ import {
 import { deleteExpense, selectExpenses } from "../../../../store/expensesSlice";
 import ExpenseList from "../../../components/ExpenseList";
 import Screen from "../../../components/Screen";
+import CATEGORIES from "../../../constants/CATEGORIES";
 
 export default function CategoryScreen({ route, navigation, category }) {
   const dispatch = useDispatch();
@@ -25,9 +27,22 @@ export default function CategoryScreen({ route, navigation, category }) {
   );
 
   return (
-    <Screen style={styles.container}>
-      <Button onPress={() => navigation.goBack()}>GO BACK</Button>
-      <Card style={styles.card}>
+    <Screen
+      style={styles.container}
+      backAction={navigation.goBack}
+      appbarContentProps={{
+        title: category,
+        subtitle: "SGD " + priceTotal(expenses),
+      }}
+      icon={() => (
+        <Icon
+          name={iconMap[category].icon}
+          color={iconMap[category].color}
+          size={30}
+        />
+      )}
+    >
+      {/* <Card style={styles.card}>
         <Card.Title
           style={styles.cardTitle}
           right={({ size }) => (
@@ -37,7 +52,7 @@ export default function CategoryScreen({ route, navigation, category }) {
           )}
           title={category}
         />
-      </Card>
+      </Card> */}
       <ExpenseList
         data={expenses}
         handleDelete={(item) => dispatch(deleteExpense(item.key))}
@@ -58,3 +73,26 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+const iconMap = {
+  Food: {
+    icon: "apple-alt",
+    color: "#89023E",
+  },
+  Transportation: {
+    icon: "bus",
+    color: "#34bdc2",
+  },
+  Utilities: {
+    icon: "toolbox",
+    color: "#faf737",
+  },
+  Personal: {
+    icon: "book",
+    color: "#b6e090",
+  },
+  Others: {
+    icon: "shopping-bag",
+    color: "#ffd9da",
+  },
+};

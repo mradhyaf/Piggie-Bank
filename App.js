@@ -9,14 +9,14 @@ import LoadingScreen from "./src/screens/LoadingScreen";
 
 const paperTheme = {
   ...DefaultTheme,
-  roundness: 20,
+  roundness: 10,
   colors: {
     ...DefaultTheme.colors,
     primary: "#FF92C2",
     accent: "#177E89",
     background: "#FFFFFF",
     surface: "#FFFFFF",
-    text: "#595758",
+    text: "#0A0A0D",
   },
 };
 

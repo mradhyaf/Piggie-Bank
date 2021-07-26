@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import { GOOGLE_CLOUD_VISION_API_KEY } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import { setTextState, selectText } from "../../../../store/userSlice";
+import Screen from "../../../components/Screen";
 
 export default function OCR({ navigation, setExpenses }) {
   const [image, setImage] = useState(null);
@@ -96,7 +97,11 @@ export default function OCR({ navigation, setExpenses }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      sendGoogle(Platform.OS !== "web" ? result.base64 : result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
+      sendGoogle(
+        Platform.OS !== "web"
+          ? result.base64
+          : result.uri.replace(/^data:image\/(png|jpeg);base64,/, "")
+      );
     }
   };
 
@@ -112,7 +117,11 @@ export default function OCR({ navigation, setExpenses }) {
     if (!result.cancelled) {
       console.log(result);
       setImage(result.uri);
-      sendGoogle(Platform.OS !== "web" ? result.base64 : result.uri.replace(/^data:image\/(png|jpeg);base64,/, ""));
+      sendGoogle(
+        Platform.OS !== "web"
+          ? result.base64
+          : result.uri.replace(/^data:image\/(png|jpeg);base64,/, "")
+      );
     }
   };
 
@@ -142,7 +151,7 @@ export default function OCR({ navigation, setExpenses }) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <Screen style={styles.container}>
       <Button style={styles.button} mode="contained" onPress={pickImage}>
         Pick an image from camera roll
       </Button>
@@ -150,7 +159,15 @@ export default function OCR({ navigation, setExpenses }) {
         Launch Camera
       </Button>
       {image && (
-        <Image source={{ uri: image }} style={{ flex: 0.3, width: '100%', height: '100%', resizeMode: 'contain'}} />
+        <Image
+          source={{ uri: image }}
+          style={{
+            flex: 0.3,
+            width: "100%",
+            height: "100%",
+            resizeMode: "contain",
+          }}
+        />
       )}
       {google && (
         <View>
@@ -164,11 +181,15 @@ export default function OCR({ navigation, setExpenses }) {
           </Button>
         </View>
       )}
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   button: {
     marginVertical: 5,
   },
